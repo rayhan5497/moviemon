@@ -5,7 +5,7 @@ import MainScrollContext from '../../context/MainScrollContext';
 const scrollMemory = {};
 
 export default function LinkWithScrollSave({ to, children, ...props }) {
-  const mainRef = useContext(MainScrollContext);
+  const { mainRef } = useContext(MainScrollContext);
 
   const handleClick = () => {
     if (mainRef.current) {
