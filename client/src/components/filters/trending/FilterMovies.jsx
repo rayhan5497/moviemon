@@ -150,7 +150,7 @@ const FilterMovies = () => {
     };
   }, [isMd]);
 
-  const mainRef = useContext(MainScrollContext);
+  const { mainRef } = useContext(MainScrollContext);
 
   useEffect(() => {
     const container = mainRef.current;

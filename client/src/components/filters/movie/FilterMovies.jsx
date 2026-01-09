@@ -21,7 +21,7 @@ export default function FilterMovies() {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const mainRef = useContext(MainScrollContext);
+  const { mainRef } = useContext(MainScrollContext);
   const isMd = useIsMd();
 
   // ----------------------

@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useRef, useContext } from 'react';
 
 import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
@@ -9,6 +9,7 @@ import FilterMovies from '../components/filters/discover/FilterMovies';
 import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';
 import ShowError from '@/components/ui/ShowError';
+import useInfiniteObserver from '../hooks/useInfiniteObserver';
 
 const Tv = () => {
   const [searchParams] = useSearchParams();
@@ -35,38 +36,27 @@ const Tv = () => {
     ).values(),
   ];
 
-  const mainRef = useContext(MainScrollContext);
+  const { mainRef, sentinelRef } = useContext(MainScrollContext);
 
-  // infinite scroll listener
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
+  const fetchLock = useRef(false);
 
-    const checkScroll = () => {
-      if (
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 500
-      ) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  useInfiniteObserver({
+    targetRef: sentinelRef,
+    rootRef: mainRef,
+    rootMargin: '200px',
+    threshold: 0,
+    onIntersect: async () => {
+      if (fetchLock.current) return;
+      if (!hasNextPage || isFetchingNextPage) return;
+
+      fetchLock.current = true;
+      try {
+        await fetchNextPage();
+      } finally {
+        fetchLock.current = false;
       }
-    };
-
-    container.addEventListener('scroll', checkScroll);
-
-    const tryFill = () => {
-      if (container.scrollHeight <= container.clientHeight) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-      }
-    };
-
-    tryFill(); // check immediately
-    const interval = setInterval(tryFill, 200); // keep trying until scrollable
-
-    return () => {
-      container.removeEventListener('scroll', checkScroll);
-      clearInterval(interval);
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+    },
+  });
 
   if (isError)
     return <ShowError type={type} code={error.code} message={error.message} />;

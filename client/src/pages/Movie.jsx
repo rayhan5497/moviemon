@@ -1,5 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useRef, useContext } from 'react';
 
 import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
@@ -9,6 +9,7 @@ import FilterMovies from '../components/filters/movie/FilterMovies';
 import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';
 import ShowError from '@/components/ui/ShowError';
+import useInfiniteObserver from '../hooks/useInfiniteObserver';
 
 const Popular = () => {
   const [searchParams] = useSearchParams();
@@ -36,41 +37,27 @@ const Popular = () => {
     ).values(),
   ];
 
-  const mainRef = useContext(MainScrollContext);
+  const { mainRef, sentinelRef } = useContext(MainScrollContext);
 
-  // 1. Attach infinite scroll listener
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
+  const fetchLock = useRef(false);
 
-    const checkScroll = () => {
-      if (
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 500
-      ) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  useInfiniteObserver({
+    targetRef: sentinelRef,
+    rootRef: mainRef,
+    rootMargin: '200px',
+    threshold: 0,
+    onIntersect: async () => {
+      if (fetchLock.current) return;
+      if (!hasNextPage || isFetchingNextPage) return;
+
+      fetchLock.current = true;
+      try {
+        await fetchNextPage();
+      } finally {
+        fetchLock.current = false;
       }
-    };
-
-    container.addEventListener('scroll', checkScroll);
-    return () => container.removeEventListener('scroll', checkScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, mainRef]);
-
-  // 2. Auto-load until container becomes scrollable
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
-
-    const tryFill = () => {
-      if (container.scrollHeight <= container.clientHeight) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-      }
-    };
-
-    tryFill();
-    const interval = setInterval(tryFill, 200);
-    return () => clearInterval(interval);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, mainRef]);
+    },
+  });
 
   if (isError)
     return <ShowError type={type} code={error.code} message={error.message} />;

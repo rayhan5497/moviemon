@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 
 import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
@@ -20,6 +20,7 @@ import DetailsSection from '../features/MediaPlayer/DetailsSection';
 import CastSection from '../features/MediaPlayer/CastSection';
 import ShowError from '@/components/ui/ShowError';
 import SimilarAndRecommendationSection from '../features/MediaPlayer/SimilarAndRecommendationSection';
+import useInfiniteObserver from '../hooks/useInfiniteObserver';
 
 const MediaPlayer = () => {
   const { mediaType, id } = useParams();
@@ -41,24 +42,27 @@ const MediaPlayer = () => {
 
   const media = data?.pages[0];
 
-  const mainRef = useContext(MainScrollContext);
+ const { mainRef, sentinelRef } = useContext(MainScrollContext);
 
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
+ const fetchLock = useRef(false);
 
-    const checkScroll = () => {
-      if (
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 500
-      ) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-      }
-    };
+ useInfiniteObserver({
+   targetRef: sentinelRef,
+   rootRef: mainRef,
+   rootMargin: '200px',
+   threshold: 0,
+   onIntersect: async () => {
+     if (fetchLock.current) return;
+     if (!hasNextPage || isFetchingNextPage) return;
 
-    container.addEventListener('scroll', checkScroll);
-    return () => container.removeEventListener('scroll', checkScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, mainRef]);
+     fetchLock.current = true;
+     try {
+       await fetchNextPage();
+     } finally {
+       fetchLock.current = false;
+     }
+   },
+ });
 
   const { setIsPlayerPage, setNowPlayingId } = useContext(NowPlayingContext);
   useEffect(() => {

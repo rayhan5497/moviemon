@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useContext, useRef } from 'react';
 
 import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
@@ -9,6 +9,8 @@ import FilterMovies from '../components/filters/discover/FilterMovies';
 import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';
 import ShowError from '@/components/ui/ShowError';
+import useInfiniteObserver from '../hooks/useInfiniteObserver';
+
 
 const Movies = () => {
   const [searchParams] = useSearchParams();
@@ -25,6 +27,7 @@ const Movies = () => {
     isLoading,
   } = useMovies(queryString, type);
 
+  // Remove duplicates
   const allMovies = [
     ...new Map(
       (data?.pages || [])
@@ -34,44 +37,28 @@ const Movies = () => {
     ).values(),
   ];
 
-  const mainRef = useContext(MainScrollContext);
+const { mainRef, sentinelRef } = useContext(MainScrollContext);
 
-  // infinite scroll listener
-  // 1. Attach infinite scroll listener
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
+const fetchLock = useRef(false);
 
-    const checkScroll = () => {
-      if (
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 500
-      ) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-      }
-    };
+// Observer setup — run once per mount
+useInfiniteObserver({
+  targetRef: sentinelRef, // this div from Layout
+  rootRef: mainRef,
+  rootMargin: '200px', // trigger a bit before reaching bottom
+  threshold: 0,
+  onIntersect: async () => {
+    if (fetchLock.current) return;
+    if (!hasNextPage || isFetchingNextPage) return;
 
-    container.addEventListener('scroll', checkScroll);
-    return () => container.removeEventListener('scroll', checkScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, mainRef]);
-
-  // 2. Auto-load until container becomes scrollable
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
-
-    const tryFill = () => {
-      if (container.scrollHeight <= container.clientHeight) {
-        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-      }
-    };
-
-    tryFill();
-    const interval = setInterval(tryFill, 200);
-    return () => clearInterval(interval);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage, mainRef]);
-
-  console.log('data in discover', data);
+    fetchLock.current = true;
+    try {
+      await fetchNextPage();
+    } finally {
+      fetchLock.current = false;
+    }
+  },
+});
 
   if (isError)
     return <ShowError type={type} code={error.code} message={error.message} />;
@@ -79,6 +66,7 @@ const Movies = () => {
   return (
     <>
       <FilterMovies />
+
       <div className="movies">
         <div
           className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
@@ -90,28 +78,24 @@ const Movies = () => {
             <MovieCard key={media.id} media={media} />
           ))}
         </div>
+
+        {/* Loader / sentinel area */}
+        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
+            <span className="text-secondary">
+              {isLoading ? 'Loading Movies' : 'Loading More Movies'}
+            </span>
+            <div className="invert-on-dark">
+              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
+            </div>
+          </div>
+        ) : null}
+
+        {/* No more movies */}
         {!isLoading && !hasNextPage && (
           <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
             <span className="text-secondary">No More Movies</span>
-
             <div className="w-5 h-5 invert-on-dark">🎬</div>
-          </div>
-        )}
-
-        {isLoading && allMovies.length === 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">Loading Movies</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
-        )}
-        {isFetchingNextPage && allMovies.length > 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">Loading More Movies</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
           </div>
         )}
       </div>

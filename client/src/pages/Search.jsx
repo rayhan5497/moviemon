@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 import meme from '@/assets/image/meme.webp';
@@ -14,6 +14,7 @@ import verifyAdultQuery from '../utils/verifyAdultQuery';
 import SearchBox from '../components/ui/SearchBox';
 import { useSnackbar } from '../context/SnackbarProvider';
 import ShowError from '@/components/ui/ShowError';
+import useInfiniteObserver from '../hooks/useInfiniteObserver';
 
 const Search = () => {
   const { showSnackbar } = useSnackbar();
@@ -46,49 +47,33 @@ const Search = () => {
     ).values(),
   ];
 
-  const mainRef = useContext(MainScrollContext);
+  const { mainRef, sentinelRef } = useContext(MainScrollContext);
+
+  const fetchLock = useRef(false);
+
+    // Observer setup — run once per mount
+  useInfiniteObserver({
+    targetRef: sentinelRef, // this div from Layout
+    rootRef: mainRef,
+    rootMargin: '200px', // trigger a bit before reaching bottom
+    threshold: 0,
+    onIntersect: async () => {
+      if (fetchLock.current) return;
+      if (!hasNextPage || isFetchingNextPage) return;
+
+      fetchLock.current = true;
+      try {
+        await fetchNextPage();
+      } finally {
+        fetchLock.current = false;
+      }
+    },
+  });
 
   // 1. Reset scroll on new query ---------------------------------------------
   useEffect(() => {
     if (mainRef.current) mainRef.current.scrollTop = 0;
   }, [queryString]);
-
-  // 2. Scroll listener --------------------------------------------------------
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
-
-    const checkBottom = () => {
-      const atBottom =
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 500;
-
-      if (atBottom && hasNextPage && !isFetchingNextPage && !isAdultQuery) {
-        fetchNextPage();
-      }
-    };
-
-    container.addEventListener('scroll', checkBottom);
-
-    // Run once immediately (handles initial load case)
-    checkBottom();
-
-    return () => container.removeEventListener('scroll', checkBottom);
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  // 3. Re-check bottom whenever new data is added -----------------------------
-  useEffect(() => {
-    const container = mainRef.current;
-    if (!container) return;
-
-    const stillAtBottom =
-      container.scrollTop + container.clientHeight >=
-      container.scrollHeight - 500;
-
-    if (stillAtBottom && hasNextPage && !isFetchingNextPage && !isAdultQuery) {
-      fetchNextPage();
-    }
-  }, [data, hasNextPage, isFetchingNextPage]);
 
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));

@@ -15,6 +15,8 @@ import { getSidebarState, saveSidebarState } from '@/utils/userState';
 const Layout = () => {
   const mainRef = useRef(null);
 
+  const sentinelRef = useRef(null)
+
   useScrollRestoration(mainRef);
 
   const [nowPlayingId, setNowPlayingId] = useState(null);
@@ -40,7 +42,7 @@ const Layout = () => {
   }, [isLg]);
 
   return (
-    <MainScrollContext.Provider value={mainRef}>
+    <MainScrollContext.Provider value={{mainRef, sentinelRef}}>
       <NowPlayingContext.Provider
         value={{
           isPlayerPage,
@@ -69,6 +71,7 @@ const Layout = () => {
           ${isSidebarOpen ? 'md:ml-0' : 'md:-ml-60'}`}
           >
             <Outlet />
+            <div ref={sentinelRef} className="sentinel" />
             <Footer />
           </div>
 
