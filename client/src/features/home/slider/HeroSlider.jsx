@@ -19,7 +19,7 @@ const HeroSlider = ({ items = [] }) => {
       autoplay={{ delay: 5000 }}
       navigation
       pagination={{ clickable: true }}
-      className="md:h-[70vh] h-[40vh]"
+      className="md:h-[50vh] h-[40vh]"
     >
       {items.map((item) => (
         <SwiperSlide key={`${item.media_type}-${item.id}`}>

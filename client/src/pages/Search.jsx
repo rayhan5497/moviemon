@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 
 import meme from '@/assets/image/meme.webp';
 
-import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import MovieCard from '../components/cards/MovieCard';
@@ -15,6 +14,7 @@ import SearchBox from '../components/ui/SearchBox';
 import { useSnackbar } from '../context/SnackbarProvider';
 import ShowError from '@/components/ui/ShowError';
 import useInfiniteObserver from '../hooks/useInfiniteObserver';
+import Message from '../components/ui/Message';
 
 const Search = () => {
   const { showSnackbar } = useSnackbar();
@@ -51,7 +51,7 @@ const Search = () => {
 
   const fetchLock = useRef(false);
 
-    // Observer setup — run once per mount
+  // Observer setup — run once per mount
   useInfiniteObserver({
     targetRef: sentinelRef, // this div from Layout
     rootRef: mainRef,
@@ -146,33 +146,18 @@ const Search = () => {
           )}
         </div>
         {!isLoading && !hasNextPage && allMovies.length <= 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">No Media Found</span>
-            <div className="w-5 h-5 invert-on-dark">🎬</div>
-          </div>
+          <Message icon="🎬" message="No Media Found!" />
         )}
-        {!isLoading && !hasNextPage && allMovies.length > 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">No More Media</span>
-            <div className="w-5 h-5 invert-on-dark">🎬</div>
-          </div>
-        )}
+        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+          <Message
+            lottie={loadingSpinner}
+            message={isLoading ? 'Loading Media' : 'Loading More Media'}
+            className="w-[1.4em]"
+          />
+        ) : null}
 
-        {isLoading && allMovies.length === 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">Loading Media</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
-        )}
-        {isFetchingNextPage && allMovies.length > 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">Loading More Media</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
+        {!isLoading && !hasNextPage && allMovies.length > 0 && (
+          <Message icon="🎬" message="No More Media" />
         )}
       </div>
     </>

@@ -1,7 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 
-import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import MovieCard from '../components/cards/MovieCard';
@@ -10,7 +9,7 @@ import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';
 import ShowError from '@/components/ui/ShowError';
 import useInfiniteObserver from '../hooks/useInfiniteObserver';
-
+import Message from '../components/ui/Message';
 
 const Movies = () => {
   const [searchParams] = useSearchParams();
@@ -37,28 +36,28 @@ const Movies = () => {
     ).values(),
   ];
 
-const { mainRef, sentinelRef } = useContext(MainScrollContext);
+  const { mainRef, sentinelRef } = useContext(MainScrollContext);
 
-const fetchLock = useRef(false);
+  const fetchLock = useRef(false);
 
-// Observer setup — run once per mount
-useInfiniteObserver({
-  targetRef: sentinelRef, // this div from Layout
-  rootRef: mainRef,
-  rootMargin: '200px', // trigger a bit before reaching bottom
-  threshold: 0,
-  onIntersect: async () => {
-    if (fetchLock.current) return;
-    if (!hasNextPage || isFetchingNextPage) return;
+  // Observer setup — run once per mount
+  useInfiniteObserver({
+    targetRef: sentinelRef, // this div from Layout
+    rootRef: mainRef,
+    rootMargin: '200px', // trigger a bit before reaching bottom
+    threshold: 0,
+    onIntersect: async () => {
+      if (fetchLock.current) return;
+      if (!hasNextPage || isFetchingNextPage) return;
 
-    fetchLock.current = true;
-    try {
-      await fetchNextPage();
-    } finally {
-      fetchLock.current = false;
-    }
-  },
-});
+      fetchLock.current = true;
+      try {
+        await fetchNextPage();
+      } finally {
+        fetchLock.current = false;
+      }
+    },
+  });
 
   if (isError)
     return <ShowError type={type} code={error.code} message={error.message} />;
@@ -79,24 +78,16 @@ useInfiniteObserver({
           ))}
         </div>
 
-        {/* Loader / sentinel area */}
         {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">
-              {isLoading ? 'Loading Movies' : 'Loading More Movies'}
-            </span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
+          <Message
+            lottie={loadingSpinner}
+            message={isLoading ? 'Loading Movies' : 'Loading More Movies'}
+            className="w-[1.4em]"
+          />
         ) : null}
 
-        {/* No more movies */}
         {!isLoading && !hasNextPage && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">No More Movies</span>
-            <div className="w-5 h-5 invert-on-dark">🎬</div>
-          </div>
+          <Message icon="🎬" message="No More Movies" />
         )}
       </div>
     </>

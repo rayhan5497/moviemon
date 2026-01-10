@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useRef, useContext } from 'react';
 
-import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import MovieCard from '../components/cards/MovieCard';
@@ -10,7 +9,7 @@ import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';
 import ShowError from '@/components/ui/ShowError';
 import useInfiniteObserver from '../hooks/useInfiniteObserver';
-
+import Message from '../components/ui/Message';
 
 const Movies = () => {
   const { mediaType, timeWindow } = useParams();
@@ -78,46 +77,38 @@ const Movies = () => {
               )
           )}
         </div>
-        {!isLoading && !hasNextPage && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">
-              {mediaType === 'movie'
-                ? 'No More Movies'
-                : mediaType === 'tv'
-                ? 'No More Shows'
-                : 'No More Media'}
-            </span>
-            <div className="w-5 h-5 invert-on-dark">🎬</div>
-          </div>
-        )}
 
-        {isLoading && allMovies.length === 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">
-              {mediaType === 'movie'
-                ? 'Loading Movies'
-                : mediaType === 'tv'
-                ? 'Loading TV Shows'
-                : 'Loading! please wait'}
-            </span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
-        )}
-        {isFetchingNextPage && allMovies.length > 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">
-              {mediaType === 'movie'
+        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+          <Message
+            lottie={loadingSpinner}
+            message={
+              isLoading
+                ? mediaType === 'movie'
+                  ? 'Loading Movies'
+                  : mediaType === 'tv'
+                  ? 'Loading TV Shows'
+                  : 'Loading Media'
+                : mediaType === 'movie'
                 ? 'Loading More Movies'
                 : mediaType === 'tv'
                 ? 'Loading More Shows'
-                : 'Loading More Media'}
-            </span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
+                : 'Loading More Media'
+            }
+            className="w-[1.4em]"
+          />
+        ) : null}
+
+        {!isLoading && !hasNextPage && (
+          <Message
+            icon="🎬"
+            message={
+              mediaType === 'movie'
+                ? 'No More Movies'
+                : mediaType === 'tv'
+                ? 'No More Shows'
+                : 'No More Media'
+            }
+          />
         )}
       </div>
     </>

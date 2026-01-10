@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from './Button';
-import crossImage from '@/assets/icons/cross.png';
-import searchImage from '@/assets/icons/search.png';
 import { useIsMd } from '@hooks/useIsMd.js';
+import { X } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
   const inputRef = useRef(null);
@@ -52,10 +52,15 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
 
               <button
                 to={'/search'}
-                className="absolute right-0 p-[0.9em] pl-[1.2em] hover:border-l-1 border-accent-secondary invert opacity-70 hover:opacity-90 cursor-pointer hover:bg-black/10 rounded-xl"
+                className="absolute right-0 p-[0.9em] pl-[1.2em] hover:border-l-1 border-accent-secondary opacity-70 hover:opacity-90 cursor-pointer hover:bg-black/10 rounded-xl"
                 type="submit"
               >
-                <img className="w-6" src={searchImage} alt="" />
+                <Search
+                  className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+                  size={24}
+                  strokeWidth={3}
+                  role="button"
+                />
               </button>
             </div>
           </form>
@@ -69,24 +74,29 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
             }}
             className={`${
               isSearchOpen ? 'block' : 'hidden'
-            } z-50 rounded-xl fixed right-0 p-2 px-5 max-w-120 top-15 w-[90vw] m-5 bg-accent-secondary`}
+            } z-50 rounded-xl fixed right-0 p-2 px-5 max-w-120 top-15 w-[90vw] m-5 bg-gray-700`}
           >
             <div className="search-input-btn-wrapper flex items-center mr-[30px]">
               <input
                 ref={inputRef}
                 type="text"
                 id="searchInput"
-                className="outline-0 w-full h-11 text-xl md:text-2xl rounded text-primary"
+                className="outline-0 w-full h-11 text-xl md:text-2xl rounded text-white"
                 placeholder="What you like to watch..."
                 aria-label="Search for movies"
               />
 
               <button
                 to={'/search'}
-                className="absolute right-0 p-[1.1em] pl-[1.4em] hover:border-l-1 border-accent-secondary invert-on-dark opacity-70 hover:opacity-90 cursor-pointer hover:bg-black/10 rounded-xl"
+                className="absolute right-0 p-[1.1em] pl-[1.4em] hover:border-l-1 border-accent-secondary opacity-70 hover:opacity-90 cursor-pointer hover:bg-black/10 rounded-xl"
                 type="submit"
               >
-                <img className="w-6" src={searchImage} alt="" />
+                <Search
+                  className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+                  size={24}
+                  strokeWidth={3}
+                  role="button"
+                />
               </button>
             </div>
           </form>
@@ -96,11 +106,21 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
               isSearchOpen ? 'z-50' : 'z-0'
             }`}
           >
-            {' '}
-            <img
-              className={`invert w-7`}
-              src={isSearchOpen ? crossImage : searchImage}
-            />{' '}
+            {isSearchOpen ? (
+              <X
+                className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+                size={24}
+                strokeWidth={3}
+                role="button"
+              />
+            ) : (
+              <Search
+                className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+                size={24}
+                strokeWidth={3}
+                role="button"
+              />
+            )}
           </Button>
         </div>
       )}
