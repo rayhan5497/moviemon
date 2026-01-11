@@ -6,6 +6,7 @@ import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 import { useMovies } from '@/hooks/useMovies';
 import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
 import ShowError from '@/components/ui/ShowError';
+import Message from '../../components/ui/Message';
 
 const TrendingSection = ({ setMovies }) => {
   const queryString = `all/day`;
@@ -33,7 +34,12 @@ const TrendingSection = ({ setMovies }) => {
   }, [allMovies]);
 
   const getLottiePlayer = () => {
-    return <LottiePlayer lottie={fireAnimation} className="w-[1.5em]" />;
+    return (
+      <LottiePlayer
+        lottie={!isLoading ? fireAnimation : loadingSpinner}
+        className={`w-[1.5em] ${isLoading ? 'invert-on-dark' : ''}`}
+      />
+    );
   };
 
   return (
@@ -51,12 +57,7 @@ const TrendingSection = ({ setMovies }) => {
       )}
 
       {isLoading && allMovies.length === 0 && (
-        <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-          <span className="text-secondary">Loading Media</span>
-          <div className="invert-on-dark">
-            <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-          </div>
-        </div>
+        <Message message="Loading, Please wait..." className="w-[1.4em]" />
       )}
     </div>
   );

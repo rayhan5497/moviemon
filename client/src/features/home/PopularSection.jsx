@@ -7,8 +7,9 @@ import { useMovies } from '@/hooks/useMovies';
 import randomizeArray from '@/utils/randomizeArray';
 import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
 import ShowError from '@/components/ui/ShowError';
+import Message from '../../components/ui/Message';
 
-const PopularSection = ({setMovies}) => {
+const PopularSection = ({ setMovies }) => {
   const queryString = `popular`;
   const type = 'movie/tv';
 
@@ -28,15 +29,18 @@ const PopularSection = ({setMovies}) => {
     return randomizeArray(combined).slice(0, 20);
   }, [combined]);
 
-
   useEffect(() => {
     setMovies(allMovies);
   }, [allMovies]);
 
   const getLottiePlayer = () => {
-    return <LottiePlayer lottie={popularAnimation} className="w-[1.5em]" />;
+    return (
+      <LottiePlayer
+        lottie={!isLoading ? popularAnimation : loadingSpinner}
+        className={`w-[1.5em] ${isLoading ? 'invert-on-dark' : ''}`}
+      />
+    );
   };
-
 
   return (
     <div className="m-2 md:m4">
@@ -53,14 +57,8 @@ const PopularSection = ({setMovies}) => {
       )}
 
       {isLoading && allMovies.length === 0 && (
-        <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-          <span className="text-secondary">Loading Media</span>
-          <div className="invert-on-dark">
-            <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-          </div>
-        </div>
+        <Message message="Loading, Please wait..." className="w-[1.4em]" />
       )}
-
     </div>
   );
 };

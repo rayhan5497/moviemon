@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 
-import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import { useMovies } from '../hooks/useMovies';
@@ -12,11 +11,14 @@ import HeadingSection from '../features/person/HeadingSection';
 import DetailsSection from '../features/person/DetailsSection';
 import MovieCard from '../components/cards/MovieCard';
 import ShowError from '../components/ui/ShowError';
+import MainScrollContext from '../context/MainScrollContext';
+import Message from '../components/ui/Message';
 
 export default function Person() {
   const { id } = useParams();
   const queryString = `${id}&append_to_response=combined_credits,images,external_ids,tagged_images`;
   const type = 'person';
+  const { mainRef } = useContext(MainScrollContext);
 
   const { data, isError, error, isLoading } = useMovies(queryString, type);
 
@@ -28,6 +30,23 @@ export default function Person() {
   const [mediaType, setMediaType] = useState('movie');
 
   const [imgLoaded, setImgLoaded] = useState(false);
+
+  const hasScrolledRef = useRef(false);
+
+  useEffect(() => {
+    const hasData = !!person;
+
+    if (!isLoading && hasData && !hasScrolledRef.current && mainRef.current) {
+      requestAnimationFrame(() => {
+        mainRef.current.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
+
+      hasScrolledRef.current = true;
+    }
+  }, [isLoading, person]);
 
   if (isError)
     return <ShowError type={type} code={error.code} message={error.message} />;
@@ -177,21 +196,20 @@ export default function Person() {
             </>
           ) : (
             !isLoading && (
-              <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded absolute w-full h-full top-1/2 left-1/2 -translate-1/2">
-                No details available associated with this person ⓘ
-              </div>
+              <Message
+                icon="🎬"
+                message=" No details available associated with this person ⓘ"
+              />
             )
           )}
         </div>
 
         {isLoading && (
-          <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded absolute w-full h-full top-1/2 left-1/2 -translate-1/2">
-            {console.log('loading movie')}
-            <span className="text-secondary">Loading! Please Wait</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
+          <Message
+            lottie={loadingSpinner}
+            message="Loading... please wait !"
+            className="w-[1.4em]"
+          />
         )}
       </div>
     </>

@@ -247,7 +247,7 @@ export default function FilterMovies() {
         />
       )}
 
-      <div className="filters bg-primary text-primary p-2 pt-0 px-3 md:px-4 rounded-lg space-y-4 sticky top-0 z-40">
+      <div className="filters bg-primary text-primary p-2 px-3 md:px-4 rounded-lg space-y-4 sticky top-0 z-40">
         <h1
           className={`filter-heading w-fit bg-accent-secondary p-2 rounded m-0 cursor-pointer`}
           onClick={handleFilterHeadingClick}

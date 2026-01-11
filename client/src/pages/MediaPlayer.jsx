@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useContext, useRef } from 'react';
 
-import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import { useMovies } from '../hooks/useMovies';
@@ -21,6 +20,7 @@ import CastSection from '../features/MediaPlayer/CastSection';
 import ShowError from '@/components/ui/ShowError';
 import SimilarAndRecommendationSection from '../features/MediaPlayer/SimilarAndRecommendationSection';
 import useInfiniteObserver from '../hooks/useInfiniteObserver';
+import Message from '../components/ui/Message';
 
 const MediaPlayer = () => {
   const { mediaType, id } = useParams();
@@ -42,27 +42,39 @@ const MediaPlayer = () => {
 
   const media = data?.pages[0];
 
- const { mainRef, sentinelRef } = useContext(MainScrollContext);
+  const { mainRef, sentinelRef } = useContext(MainScrollContext);
 
- const fetchLock = useRef(false);
+  const fetchLock = useRef(false);
 
- useInfiniteObserver({
-   targetRef: sentinelRef,
-   rootRef: mainRef,
-   rootMargin: '200px',
-   threshold: 0,
-   onIntersect: async () => {
-     if (fetchLock.current) return;
-     if (!hasNextPage || isFetchingNextPage) return;
+  useInfiniteObserver({
+    targetRef: sentinelRef,
+    rootRef: mainRef,
+    rootMargin: '200px',
+    threshold: 0,
+    onIntersect: async () => {
+      if (fetchLock.current) return;
+      if (!hasNextPage || isFetchingNextPage) return;
 
-     fetchLock.current = true;
-     try {
-       await fetchNextPage();
-     } finally {
-       fetchLock.current = false;
-     }
-   },
- });
+      fetchLock.current = true;
+      try {
+        await fetchNextPage();
+      } finally {
+        fetchLock.current = false;
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (!isLoading && !hasNextPage && mainRef.current) {
+      requestAnimationFrame(() => {
+        mainRef.current.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
+    }
+    console.log('media', media);
+  }, [isLoading, hasNextPage, media]);
 
   const { setIsPlayerPage, setNowPlayingId } = useContext(NowPlayingContext);
   useEffect(() => {
@@ -150,13 +162,11 @@ const MediaPlayer = () => {
           )}
         </div>
         {isLoading && (
-          <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded absolute w-full h-full top-1/2 left-1/2 -translate-1/2 z-10">
-            {console.log('loading movie')}
-            <span className="text-secondary">Loading! Please Wait</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
+          <Message
+            lottie={loadingSpinner}
+            message="Loading... please wait !"
+            className="w-[1.4em]"
+          />
         )}
       </div>
     </>

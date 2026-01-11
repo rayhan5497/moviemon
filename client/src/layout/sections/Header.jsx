@@ -6,10 +6,11 @@ import { useState } from 'react';
 
 import { useLocation, useSearchParams } from 'react-router-dom';
 
+import { Menu } from 'lucide-react';
+import { X } from 'lucide-react';
+
 import Backdrop from '../../components/ui/Backdrop';
 
-import menuImage from '@/assets/icons/menu.png';
-import crossImage from '@/assets/icons/cross.png';
 import { saveSidebarState } from '@/utils/userState';
 import SearchBox from '@/components/ui/SearchBox';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -39,13 +40,24 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
     >
       <div className="headerElContainer flex justify-between items-center md:mx-5 m-3">
         <div className="sidebar-button-and-logo-wrapper flex items-center gap-10">
-          <img
-            onClick={handleSidebarClick}
-            className={`invert opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
-            src={isSidebarOpen ? crossImage : menuImage}
-            alt="Menu"
-            role="button"
-          />
+          {isSidebarOpen ? (
+            <X
+              onClick={handleSidebarClick}
+              className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+              size={32}
+              strokeWidth={3}
+              role="button"
+            />
+          ) : (
+            <Menu
+              onClick={handleSidebarClick}
+              className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+              size={32}
+              strokeWidth={3}
+              role="button"
+            />
+          )}
+
           {isSidebarOpen && (
             <Backdrop
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}

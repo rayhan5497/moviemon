@@ -1,7 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useRef, useContext } from 'react';
 
-import LottiePlayer from '../components/ui/LottiePlayer';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import MovieCard from '../components/cards/MovieCard';
@@ -10,6 +9,7 @@ import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';
 import ShowError from '@/components/ui/ShowError';
 import useInfiniteObserver from '../hooks/useInfiniteObserver';
+import Message from '../components/ui/Message';
 
 const Tv = () => {
   const [searchParams] = useSearchParams();
@@ -76,28 +76,16 @@ const Tv = () => {
           ))}
         </div>
 
-        {!isLoading && !hasNextPage && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">No More Shows</span>
-            <div className="w-5 h-5 invert-on-dark">🎬</div>
-          </div>
-        )}
+        {(isLoading && allTv.length === 0) || isFetchingNextPage ? (
+          <Message
+            lottie={loadingSpinner}
+            message={isLoading ? 'Loading TV Shows' : 'Loading More Shows'}
+            className="w-[1.4em]"
+          />
+        ) : null}
 
-        {isLoading && allTv.length === 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">Loading Tv Shows</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
-        )}
-        {isFetchingNextPage && allTv.length > 0 && (
-          <div className="flex items-center justify-center gap-2 m-auto w-fit p-2 text-primary bg-accent-secondary rounded">
-            <span className="text-secondary">Loading More Shows</span>
-            <div className="invert-on-dark">
-              <LottiePlayer lottie={loadingSpinner} className="w-[1.4em]" />
-            </div>
-          </div>
+        {!isLoading && !hasNextPage && (
+          <Message icon="🎬" message="No More Shows" />
         )}
       </div>
     </>
