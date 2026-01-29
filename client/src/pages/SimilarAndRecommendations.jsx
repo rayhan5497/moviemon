@@ -10,6 +10,10 @@ import ShowError from '@/components/ui/ShowError';
 import useInfiniteObserver from '../hooks/useInfiniteObserver';
 import Message from '../components/ui/Message';
 import NowPlayingContext from '../context/NowPlayingContext';
+import { useIsMd } from '../hooks/useIsMd';
+import HeadingSection from '../features/MediaPlayer/HeadingSection';
+import DetailsSection from '../features/MediaPlayer/DetailsSection';
+import HighLightSection from '../components/sections/HighLight';
 
 const Similar = () => {
   const { mediaType, sort, id } = useParams();
@@ -81,9 +85,9 @@ const Similar = () => {
   useEffect(() => {
     document.title = `${
       nowPlayingMedia?.title
-        ? 'Similar Movies For: ' + nowPlayingMedia?.title
+        ? sort + ' Movies For: ' + nowPlayingMedia?.title
         : nowPlayingMedia?.name
-        ? 'Similar TV Series For: ' + nowPlayingMedia?.name
+        ? sort + ' TV Series For: ' + nowPlayingMedia?.name
         : 'Unknown'
     }`;
   }, [nowPlayingMedia]);
@@ -91,6 +95,8 @@ const Similar = () => {
   useEffect(() => {
     setNowPlayingMedia(media);
   }, [media]);
+
+  const isMd = useIsMd();
 
   if (isError || (mediaIsError && allMovies.length === 0))
     return (
@@ -100,6 +106,51 @@ const Similar = () => {
   return (
     <>
       <div className="movies">
+        {!isLoading && (
+          <h1 className="heading inset-0 m-4 text-2xl md:text-3xl font-normal text-accent">
+            <strong>{data?.pages[0]?.total_results} </strong>
+            <strong>
+              {sort === 'recommendations' ? 'recommendad' : sort}{' '}
+              {mediaType === 'movie' ? 'Movie' : 'TV Show'} {'available for:'}
+            </strong>
+          </h1>
+        )}
+        {nowPlayingMedia && (
+          <>
+            {isMd ? (
+              <div className="details-container relative gap-4 flex flex-col m-2 my-5">
+                <div className="main-details flex gap-4">
+                  <div className="w-full h-full max-w-60 relative rounded-lg">
+                    <MovieCard media={nowPlayingMedia} />
+                  </div>
+                  <div className="heading-and-details flex flex-col gap-3">
+                    <HeadingSection
+                      media={nowPlayingMedia}
+                      className="text-primary"
+                    />
+                    <DetailsSection
+                      media={nowPlayingMedia}
+                      className="text-primary"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="details-container relative gap-4 flex flex-col mx-2">
+                <div className="poster-and-highlight flex gap-2">
+                  <div className="w-full max-w-40 relative rounded-lg">
+                    <MovieCard media={nowPlayingMedia} />
+                  </div>
+                  <HighLightSection
+                    media={nowPlayingMedia}
+                    className="text-primary"
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
         <div
           className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
           grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
