@@ -3,7 +3,7 @@ import { BiTv } from 'react-icons/bi';
 import { CountryFlag, CountryName } from '../ui/Country';
 import isValidCountryCode from '../../utils/checkCountryCode';
 
-const HeadingSection = ({ media }) => {
+const HeadingSection = ({ media, className }) => {
   const mediaType = media?.title ? 'movie' : 'tv';
 
   const rating = media?.vote_average;
@@ -34,7 +34,7 @@ const HeadingSection = ({ media }) => {
         </>
       )}
 
-      <span className="text-amber-300 font-semibold">
+      <span className={`text-amber-300 font-semibold ${className}`}>
         <span>★ </span>
         {rating ? rating.toFixed(1) : 'N/A'}
       </span>

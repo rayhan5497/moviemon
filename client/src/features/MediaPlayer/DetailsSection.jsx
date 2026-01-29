@@ -1,6 +1,6 @@
 import filtersData from '@data/filters';
 
-const DetailsSection = ({ media }) => {
+const DetailsSection = ({ media, className }) => {
   const description = media?.overview;
   const genre = filtersData.genres
     .filter((g) => media?.genres?.some((mg) => mg.id === g.id))
@@ -12,7 +12,7 @@ const DetailsSection = ({ media }) => {
   const status = media?.status;
 
   return (
-    <div className="details relative flex flex-col gap-1 font-light">
+    <div className={`details relative flex flex-col gap-1 font-light ${className}`}>
       <p
         className={`description leading-5 ${
           description ? 'opacity-80' : 'opacity-60'
