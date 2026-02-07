@@ -17,6 +17,7 @@ const Layout = () => {
   const [nowPlayingMedia, setNowPlayingMedia] = useState(null);
 
   const sentinelRef = useRef(null);
+  const sentinelRef = useRef(null);
 
   useScrollRestoration(mainRef);
 
@@ -44,6 +45,7 @@ const Layout = () => {
 
   return (
     <MainScrollContext.Provider value={{ mainRef, sentinelRef }}>
+    <MainScrollContext.Provider value={{ mainRef, sentinelRef }}>
       <NowPlayingContext.Provider
         value={{
           isPlayerPage,
@@ -59,6 +61,7 @@ const Layout = () => {
           nowPlayingSId,
           setNowPlayingSId,
           nowPlayingMedia,
+          setNowPlayingMedia,
           setNowPlayingMedia,
         }}
       >
