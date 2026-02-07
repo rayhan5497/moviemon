@@ -70,7 +70,7 @@ const Layout = () => {
           <Sidebar isSidebarOpen={isSidebarOpen} />
           <div
             ref={mainRef}
-            className={`main min-w-dvw min-h-max flex-1 relative flex flex-col transition-all duration-300 overflow-auto md:w-auto
+            className={`main min-w-dvw md:min-w-auto flex-1 relative flex flex-col transition-all duration-300 overflow-auto md:w-auto
           ${isSidebarOpen ? 'md:ml-0' : 'md:-ml-60'}`}
           >
             <Outlet />
