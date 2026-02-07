@@ -10,7 +10,7 @@ const Home = () => {
 
   //Change document title
   useEffect(() => {
-    document.title = `Moviemon — Discover Movies Instantly`;
+    document.title = `Moviemon - Discover Movies Instantly`;
   }, []);
 
   return (
