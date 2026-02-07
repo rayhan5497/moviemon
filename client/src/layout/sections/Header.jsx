@@ -38,8 +38,8 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
     <header
       className={`col-span-2 w-full z-100 top-0 backdrop-brightness-75 border-b-gray-500/40 border-1 bg-black/80 backdrop-blur-md rounded-b-md md:rounded-bl-none`}
     >
-      <div className="headerElContainer flex justify-between items-center md:mx-5 m-3">
-        <div className="sidebar-button-and-logo-wrapper flex items-center gap-10">
+      <div className="headerElContainer flex justify-between items-center md:mx-5 m-3 min-w-0">
+        <div className="sidebar-button-and-logo-wrapper flex items-center gap-10 min-w-0">
           {isSidebarOpen ? (
             <X
               onClick={handleSidebarClick}
@@ -67,20 +67,18 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
 
           {isSearchOpen && (
             <>
-              {console.log('waht', isSearchOpen)}
               <Backdrop
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className="z-49"
               />
             </>
           )}
-
           <LinkWithScrollSave
-            to={'/'}
-            className="site-name-and-log flex items-center gap-2"
+            to="/"
+            className="site-name-and-log flex items-center gap-2 min-w-0"
           >
             <img src="/siteLogo.png" className="w-12" alt="" />
-            <h1 className="text-red-400 font-bold text-2xl z-10 mr-5 truncate">
+            <h1 className="text-red-400 font-bold text-2xl z-10 mr-5 truncate min-w-0">
               Moviemon
             </h1>
           </LinkWithScrollSave>

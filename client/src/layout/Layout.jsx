@@ -16,7 +16,7 @@ const Layout = () => {
   const mainRef = useRef(null);
   const [nowPlayingMedia, setNowPlayingMedia] = useState(null);
 
-  const sentinelRef = useRef(null)
+  const sentinelRef = useRef(null);
 
   useScrollRestoration(mainRef);
 
@@ -43,7 +43,7 @@ const Layout = () => {
   }, [isLg]);
 
   return (
-    <MainScrollContext.Provider value={{mainRef, sentinelRef}}>
+    <MainScrollContext.Provider value={{ mainRef, sentinelRef }}>
       <NowPlayingContext.Provider
         value={{
           isPlayerPage,
@@ -59,7 +59,7 @@ const Layout = () => {
           nowPlayingSId,
           setNowPlayingSId,
           nowPlayingMedia,
-          setNowPlayingMedia
+          setNowPlayingMedia,
         }}
       >
         <div className="layout grid grid-rows-[auto_1fr_auto] grid-cols-[240px_1fr] h-screen">
@@ -70,7 +70,7 @@ const Layout = () => {
           <Sidebar isSidebarOpen={isSidebarOpen} />
           <div
             ref={mainRef}
-            className={`main w-dvw flex-1 relative flex flex-col transition-all duration-300 overflow-auto md:w-auto
+            className={`main min-w-dvw min-h-max flex-1 relative flex flex-col transition-all duration-300 overflow-auto md:w-auto
           ${isSidebarOpen ? 'md:ml-0' : 'md:-ml-60'}`}
           >
             <Outlet />

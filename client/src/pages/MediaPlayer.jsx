@@ -76,7 +76,8 @@ const MediaPlayer = () => {
     console.log('media', media);
   }, [isLoading, hasNextPage, media]);
 
-  const { setIsPlayerPage, setNowPlayingId, setNowPlayingMedia } = useContext(NowPlayingContext);
+  const { setIsPlayerPage, setNowPlayingId, setNowPlayingMedia } =
+    useContext(NowPlayingContext);
   useEffect(() => {
     setNowPlayingId(media?.id);
   }, [setNowPlayingId, media]);
@@ -95,8 +96,10 @@ const MediaPlayer = () => {
 
   //Change document title
   useEffect(() => {
-    setNowPlayingMedia(media)
-    document.title = `Watch: ${media?.name || media?.title || 'Unknown Media'} - Moviemon`;
+    setNowPlayingMedia(media);
+    document.title = `Watch: ${
+      media?.name || media?.title || 'Unknown Media'
+    } - Moviemon`;
   }, [media]);
 
   if (isError)
@@ -126,7 +129,7 @@ const MediaPlayer = () => {
                     <div className="main-details flex gap-4">
                       <img
                         id="poster"
-                        className="w-full h-full max-w-60 relative rounded-lg"
+                        className="w-full h-max max-w-60 relative rounded-lg min-w-0 flex-shrink"
                         src={`https://image.tmdb.org/t/p/w780${poster}`}
                       />
                       <div className="heading-and-details flex flex-col gap-3">
@@ -146,12 +149,13 @@ const MediaPlayer = () => {
                   <div className="details-container relative gap-4 flex flex-col mx-2">
                     <HeadingSection media={media} />
                     {mediaType === 'tv' && <FilterSeason tv={media} />}
-                    <div className="poster-and-highlight flex gap-2">
+                    <div className="poster-and-highlight flex gap-2 min-w-0">
                       <img
                         id="poster"
-                        className="w-full max-w-40 relative rounded-lg"
+                        className="w-full max-w-40 min-w-0 flex-shrink rounded-lg"
                         src={`https://image.tmdb.org/t/p/w780${poster}`}
                       />
+
                       <HighLightSection media={media} />
                     </div>
 
