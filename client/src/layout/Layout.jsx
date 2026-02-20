@@ -11,6 +11,7 @@ import Footer from './sections/Footer';
 import NavbarBottom from './sections/NavbarBottom';
 import { useIsLg } from '@/hooks/useIsLg';
 import { getSidebarState, saveSidebarState } from '@/utils/userState';
+import AuthModalController from '../features/auth/AuthModalController';
 
 const Layout = () => {
   const mainRef = useRef(null);
@@ -63,6 +64,7 @@ const Layout = () => {
         }}
       >
         <div className="layout grid grid-rows-[auto_1fr_auto] grid-cols-[240px_1fr] h-screen">
+          <AuthModalController />
           <Header
             setIsSidebarOpen={setIsSidebarOpen}
             isSidebarOpen={isSidebarOpen}
@@ -71,7 +73,7 @@ const Layout = () => {
           <div
             ref={mainRef}
             className={`main min-w-dvw md:min-w-auto flex-1 relative flex flex-col transition-all duration-300 overflow-auto md:w-auto
-          ${isSidebarOpen ? 'md:ml-0' : 'md:-ml-60'}`}
+              ${isSidebarOpen ? 'md:ml-0' : 'md:-ml-60'}`}
           >
             <Outlet />
             <div ref={sentinelRef} className="sentinel" />

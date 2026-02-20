@@ -14,12 +14,12 @@ import SimilarAndRecommendationsPage from './pages/SimilarAndRecommendations';
 import PersonPage from './pages/Person';
 import { useState, useEffect } from 'react';
 
-// App.js
 import { SnackbarProvider } from './context/SnackbarProvider.jsx';
 
 const queryClient = new QueryClient();
 
 import { lazy, Suspense } from 'react';
+import { ModalProvider } from './context/ModalContext.jsx';
 
 const DevPanel = import.meta.env.DEV
   ? lazy(() => import('./dev/DevPanel'))
@@ -42,6 +42,7 @@ const App = () => {
   }, []);
 
   return (
+    <ModalProvider>
     <SnackbarProvider>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
@@ -97,6 +98,7 @@ const App = () => {
         </QueryClientProvider>
       </BrowserRouter>
     </SnackbarProvider>
+    </ModalProvider>
   );
 };
 

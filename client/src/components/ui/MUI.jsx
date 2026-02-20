@@ -1,21 +1,43 @@
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import Tooltip from '@mui/material/Tooltip';
 import { Share2 } from 'lucide-react';
 import { Github } from 'lucide-react';
+import { forwardRef, useState, useEffect } from 'react';
 
 import { useSnackbar } from '../../context/SnackbarProvider';
 
-const AvatarComponent = ({ style }) => {
+const AvatarComponent = forwardRef(({ tooltip, style, onClick, src }, ref) => {
+  const [avatar, setAvatar] = useState('');
+  const stored = JSON.parse(localStorage.getItem('userInfo'));
+  useEffect(() => {
+    if (src) {
+      setAvatar(src);
+      return;
+    }
+
+    if (!stored) {
+      setAvatar('');
+      return;
+    }
+
+    try {
+      setAvatar(stored?.user?.avatar || '');
+    } catch {
+      setAvatar('');
+    }
+  }, [stored, src]);
   return (
-    <Tooltip title="Profile">
-      <IconButton>
-        <Avatar src="/profile.jpg" sx={style} />
+    <Tooltip title={tooltip}>
+      <IconButton onClick={onClick} ref={ref}>
+        <Avatar src={avatar || '/profile.jpg'} sx={style} />
       </IconButton>
     </Tooltip>
   );
-};
+});
 
 const ShareButton = ({ style }) => {
   const { showSnackbar } = useSnackbar();
@@ -59,4 +81,32 @@ const GithubButton = ({ style }) => {
   );
 };
 
-export { AvatarComponent, ShareButton, GithubButton };
+const Toast = ({
+  open,
+  message,
+  onClose,
+  severity = 'info',
+  autoHideDuration = 2500,
+  anchorOrigin = { vertical: 'bottom', horizontal: 'right' },
+  sx,
+}) => {
+  return (
+    <Snackbar
+      open={open}
+      autoHideDuration={autoHideDuration}
+      onClose={onClose}
+      anchorOrigin={anchorOrigin}
+    >
+      <Alert
+        onClose={onClose}
+        severity={severity}
+        variant="filled"
+        sx={{ width: '100%', ...sx }}
+      >
+        {message}
+      </Alert>
+    </Snackbar>
+  );
+};
+
+export { AvatarComponent, ShareButton, GithubButton, Toast };
