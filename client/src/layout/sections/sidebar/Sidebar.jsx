@@ -1,15 +1,20 @@
 import { GoHome, GoHomeFill } from 'react-icons/go';
 import { RiMovie2AiLine, RiMovie2AiFill } from 'react-icons/ri';
 import { BiTv, BiSolidTv } from 'react-icons/bi';
-import { RiFolderCloudLine, RiFolderCloudFill } from 'react-icons/ri';
 
 import { useMatch } from 'react-router-dom';
 
 import NavSection from './NavSection';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useIsMd } from '@/hooks/useIsMd';
-import { AvatarComponent, GithubButton, ShareButton } from '@/components/ui/MUI';
-import { color } from 'framer-motion';
+import {
+  AvatarComponent,
+  GithubButton,
+  ShareButton,
+} from '@/components/ui/MUI';
+import { useModal } from '../../../context/ModalContext';
+import { useRef } from 'react';
+import UserMenuModal from '../../../features/user/UserProfileModal';
 
 const Sidebar = ({ isSidebarOpen }) => {
   const isHomeActive = useMatch('/');
@@ -18,6 +23,12 @@ const Sidebar = ({ isSidebarOpen }) => {
 
   const isMd = useIsMd();
 
+  const { modal, openModal, closeModal } = useModal();
+
+  const isUserLoggedIn = localStorage.getItem('userInfo');
+
+  const avatarRef = useRef();
+
   return (
     <aside
       className={`sidebar fixed md:static transition duration-300 text-white z-49 bg-gray-800 top-0 left-0 pb-5 px-5 min-[450px]:w-60 w-[70%] min-[350px]:w-[50%] h-full pt-24 md:pt-5 overflow-auto
@@ -25,13 +36,25 @@ const Sidebar = ({ isSidebarOpen }) => {
     >
       {!isMd && (
         <div className="flex items-center flex-col gap-4 mb-8">
-          <AvatarComponent
-            style={{
-              width: '100px',
-              height: '100px',
-              border: '1px solid gray',
-            }}
-          />
+          <div className="relative">
+            <AvatarComponent
+              tooltip="Profile"
+              ref={avatarRef}
+              onClick={() =>
+                isUserLoggedIn
+                  ? modal === 'user'
+                    ? closeModal()
+                    : openModal('user')
+                  : openModal('auth')
+              }
+              style={{
+                width: '50px',
+                height: '50px',
+                border: '1px solid gray',
+              }}
+            />
+            <UserMenuModal anchorRef={avatarRef} />
+          </div>
           <div className="flex flex-wrap items-center gap-2">
             <ThemeToggle />
             <ShareButton

@@ -53,8 +53,8 @@ const Player = ({ media }) => {
     try {
       const url =
         mediaType === 'tv'
-          ? `${BASE_URL}/retrieve-video-src?query=${mediaType}/${id}/${season}/${episode}`
-          : `${BASE_URL}/retrieve-video-src?query=${mediaType}/${id}`;
+          ? `${BASE_URL}/api/movies/video-src?query=${mediaType}/${id}/${season}/${episode}`
+          : `${BASE_URL}/api/movies/video-src?query=${mediaType}/${id}`;
 
       const link = await getLink(url);
 

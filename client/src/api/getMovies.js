@@ -1,7 +1,7 @@
 import filterAdult from '../utils/filterAdult';
 
 const SEVER_URL = import.meta.env.VITE_TMDB_PROXY_URL;
-const BASE_URL = `${SEVER_URL}/api/tmdb`;
+const BASE_URL = `${SEVER_URL}/api/movies`;
 
 export async function getMovies(query, type) {
   let fullUrl;

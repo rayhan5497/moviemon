@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import LinkWithScrollSave from '@/components/ui/LinkWithScrollSave';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useLocation, useSearchParams } from 'react-router-dom';
 
@@ -15,7 +15,9 @@ import { saveSidebarState } from '@/utils/userState';
 import SearchBox from '@/components/ui/SearchBox';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useIsMd } from '@/hooks/useIsMd';
-import { AvatarComponent, GithubButton, ShareButton } from '@components/ui/MUI';
+import { AvatarComponent, GithubButton, ShareButton, Toast } from '@components/ui/MUI';
+import { useModal } from '../../context/ModalContext';
+import UserMenuModal from '../../features/user/UserProfileModal';
 
 const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -33,6 +35,34 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
   };
 
   const isMd = useIsMd();
+
+  const { modal, openModal, closeModal } = useModal();
+
+  const stored = JSON.parse(localStorage.getItem('userInfo'));
+
+  const [isUserLoggedIn, setIsUserLoggedIn ] = useState(false);
+  const [toast, setToast] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
+  useEffect(() => {
+    if (stored) {
+      setIsUserLoggedIn(true);
+    } else {
+      setIsUserLoggedIn(false);
+    }
+  }, [stored]);
+
+  const handleLogoutToast = (message) => {
+    setToast({
+      open: true,
+      message: message || 'Logged out',
+      severity: 'success',
+    });
+  };
+  const avatarRef = useRef();
 
   return (
     <header
@@ -60,7 +90,7 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
 
           {isSidebarOpen && (
             <Backdrop
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              onClick={handleSidebarClick}
               className="md:hidden z-40"
             />
           )}
@@ -121,11 +151,31 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
                 />
               </div>
 
-              <AvatarComponent style={{ border: '1px solid gray' }} />
+              <div className="relative">
+                <AvatarComponent
+                  tooltip="Profile"
+                  ref={avatarRef}
+                  onClick={() =>
+                    isUserLoggedIn
+                      ? modal === 'user'
+                        ? closeModal()
+                        : openModal('user')
+                      : openModal('auth')
+                  }
+                  style={{ border: '1px solid gray' }}
+                />
+                <UserMenuModal anchorRef={avatarRef} onLogout={handleLogoutToast} />
+              </div>
             </div>
           )}
         </div>
       </div>
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        severity={toast.severity}
+        onClose={() => setToast((prev) => ({ ...prev, open: false }))}
+      />
     </header>
   );
 };
