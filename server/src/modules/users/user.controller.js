@@ -57,6 +57,12 @@ const addWatchHistory = asyncHandler(async (req, res) => {
   res.json({ watchHistory });
 });
 
+const deleteAccount = asyncHandler(async (req, res) => {
+  const userId = req.user.sub;
+  const result = await userService.deleteAccount(userId);
+  res.json(result);
+});
+
 module.exports = {
   updateProfile,
   getSavedMovies,
@@ -65,4 +71,5 @@ module.exports = {
   setWatchLaterMovie,
   getWatchHistory,
   addWatchHistory,
+  deleteAccount,
 };

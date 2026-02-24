@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-const apiBase = import.meta.env.VITE_TMDB_PROXY_URL;
+import { registerUser } from './api/authApi';
 export default function Signup({ onSuccess }) {
   const [form, setForm] = useState({
     name: '',
@@ -42,24 +41,15 @@ export default function Signup({ onSuccess }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${apiBase}/api/auth/register`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      });
+      const data = await registerUser(form);
+      localStorage.setItem('pendingVerificationEmail', form.email);
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-
-      console.log('Signup data:', form);
-      
       if (onSuccess) {
-        onSuccess('Account created successfully');
+        onSuccess({
+          message: data?.message || 'Check your email to verify your account.',
+          action: 'register',
+          email: form.email,
+        });
       }
     } catch (err) {
       console.log('error:', err.message);

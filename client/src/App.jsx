@@ -16,6 +16,9 @@ import UserPage from './pages/User';
 import SavedPage from './pages/Saved';
 import WatchLaterPage from './pages/WatchLater';
 import WatchHistoryPage from './pages/WatchHistory';
+import AccountPage from './pages/Account';
+import VerifyEmailPage from './pages/VerifyEmail.jsx';
+import EmailChangeApprovalPage from './pages/EmailChangeApproval.jsx';
 import { useState, useEffect } from 'react';
 
 import { SnackbarProvider } from './context/SnackbarProvider.jsx';
@@ -108,7 +111,13 @@ const App = () => {
                     path="/user/watch-history"
                     element={<WatchHistoryPage />}
                   />
+                  <Route path="/user/account" element={<AccountPage />} />
                   <Route path="/saved" element={<SavedPage />} />
+                  <Route path="/verify-email" element={<VerifyEmailPage />} />
+                  <Route
+                    path="/email-change/approve"
+                    element={<EmailChangeApprovalPage />}
+                  />
 
                   <Route path="/person/:id" element={<PersonPage />} />
 

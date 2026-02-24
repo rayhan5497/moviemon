@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useModal } from '../../context/ModalContext';
 import Login from './Login';
@@ -8,7 +9,8 @@ import { Toast } from '../../components/ui/MUI';
 
 export default function AuthModalController() {
   const [action, setAction] = useState('Register');
-  const { modal, closeModal } = useModal();
+  const { modal, closeModal, openModal } = useModal();
+  const navigate = useNavigate();
 
   const [toast, setToast] = useState({
     open: false,
@@ -20,12 +22,27 @@ export default function AuthModalController() {
     setToast((prev) => ({ ...prev, open: false }));
   };
 
-  const handleAuthSuccess = (message) => {
+  const handleAuthSuccess = (payload) => {
+    const message =
+      typeof payload === 'string' ? payload : payload?.message || 'Success';
+
     setToast({
       open: true,
-      message: message || 'Success',
+      message,
       severity: 'success',
     });
+
+    if (payload?.action === 'register') {
+      closeModal();
+      const emailQuery = payload?.email
+        ? `?email=${encodeURIComponent(payload.email)}`
+        : '';
+      navigate(`/verify-email${emailQuery}`);
+      return;
+    }
+
+    closeModal();
+    openModal('user');
   };
 
   return (
@@ -55,7 +72,7 @@ export default function AuthModalController() {
               <p className="text-center text-secondary text-sm mt-6">
                 {action === 'Login'
                   ? 'Have a account? '
-                  : 'Don???t have an account? '}
+                  : `Don't have an account? `}
                 <button
                   onClick={() =>
                     action === 'Login'

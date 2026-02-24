@@ -1,5 +1,9 @@
 const AppError = require('../../shared/errors/AppError');
-const { hashPassword } = require('../../shared/utils/hash');
+const { hashPassword, comparePassword } = require('../../shared/utils/hash');
+const {
+  sendVerificationEmail,
+  sendEmailChangeApprovalEmail,
+} = require('../../shared/utils/mailer');
 const {
   uploadAvatar,
   deleteAvatar,
@@ -7,6 +11,7 @@ const {
   cleanupAvatarsByPrefix,
 } = require('../../shared/utils/cloudinary');
 const userRepository = require('./user.repository');
+const crypto = require('crypto');
 
 function parseState(value, fieldName) {
   if (typeof value === 'boolean') return value;
@@ -25,22 +30,78 @@ function parseMovieId(movieId) {
 
 
 async function updateProfile(userId, data, file) {
+  const currentUser = await userRepository.findById(
+    userId,
+    'email isVerified passwordHash'
+  );
   const updates = {};
+  let requiresVerification = false;
+  let requiresApproval = false;
 
   if (data.name) {
     updates.name = data.name;
   }
 
-  if (data.email) {
-    const existing = await userRepository.findByEmail(data.email);
+  const wantsEmailChange = Boolean(data.email);
+  const wantsPasswordChange = Boolean(data.password);
+
+  if (wantsEmailChange) {
+    const nextEmail = data.email.toLowerCase();
+    const existing = await userRepository.findByEmail(nextEmail);
     if (existing && existing.id !== userId) {
       throw new AppError('Email already in use', 409);
     }
-    updates.email = data.email;
+
+    if (currentUser?.email && currentUser.email !== nextEmail) {
+      if (!data.currentPassword) {
+        throw new AppError('Current password is required to change email', 400);
+      }
+      const passwordMatch = await comparePassword(
+        data.currentPassword,
+        currentUser.passwordHash
+      );
+      if (!passwordMatch) {
+        throw new AppError('Current password is incorrect', 401);
+      }
+
+      const verificationToken = crypto.randomBytes(32).toString('hex');
+      const verificationExpires = new Date(Date.now() + 1000 * 60 * 60 * 24);
+      const approvalToken = crypto.randomBytes(32).toString('hex');
+      const approvalExpires = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
+      updates.pendingEmail = nextEmail;
+      updates.pendingEmailVerified = false;
+      updates.pendingEmailApprovalToken = approvalToken;
+      updates.pendingEmailApprovalExpires = approvalExpires;
+      updates.verificationToken = verificationToken;
+      updates.verificationExpires = verificationExpires;
+      requiresVerification = true;
+      requiresApproval = true;
+    }
   }
 
-  if (data.password) {
-    updates.passwordHash = await hashPassword(data.password);
+  if (wantsPasswordChange) {
+    if (!data.currentPassword) {
+      throw new AppError(
+        'Current password is required to change password',
+        400
+      );
+    }
+    const passwordMatch = await comparePassword(
+      data.currentPassword,
+      currentUser.passwordHash
+    );
+    if (!passwordMatch) {
+      throw new AppError('Current password is incorrect', 401);
+    }
+
+    const pendingPasswordHash = await hashPassword(data.password);
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationExpires = new Date(Date.now() + 1000 * 60 * 60 * 24);
+    updates.pendingPasswordHash = pendingPasswordHash;
+    updates.verificationToken = verificationToken;
+    updates.verificationExpires = verificationExpires;
+    requiresVerification = true;
   }
 
   if (file) {
@@ -73,11 +134,49 @@ async function updateProfile(userId, data, file) {
 
   const user = await userRepository.updateUser(userId, updates);
 
+  if (requiresVerification) {
+    if (user.pendingEmail) {
+      await sendVerificationEmail({
+        to: user.pendingEmail,
+        token: user.verificationToken,
+        purpose: 'email_change',
+      });
+    }
+    if (updates.pendingPasswordHash || user.pendingPasswordHash) {
+      if (!user.pendingEmail) {
+        const targetEmail = currentUser?.email;
+        if (targetEmail) {
+          await sendVerificationEmail({
+            to: targetEmail,
+            token: user.verificationToken,
+            purpose: 'password_change',
+          });
+        }
+      }
+    }
+    if (requiresApproval && currentUser?.email) {
+      await sendEmailChangeApprovalEmail({
+        to: currentUser.email,
+        token: user.pendingEmailApprovalToken,
+        purpose:
+          user.pendingEmail && (updates.pendingPasswordHash || user.pendingPasswordHash)
+            ? 'email_password_change'
+            : 'email_change',
+      });
+    }
+  }
+
   return {
     id: user.id,
     email: user.email,
     name: user.name,
     avatar: user.avatar,
+    requiresVerification,
+    requiresApproval,
+    pendingEmail: user.pendingEmail || '',
+    message: requiresVerification
+      ? 'Verification email sent. Please verify to apply your changes.'
+      : 'Profile updated successfully',
   };
 }
 
@@ -193,6 +292,31 @@ async function addWatchHistory(userId, movieId, data) {
   return updated.watchHistory || [];
 }
 
+async function deleteAccount(userId) {
+  const user = await userRepository.findById(userId, 'avatar');
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  if (user.avatar) {
+    const avatarBasePublicId = `moviemon/avatars/avatar_${userId}`;
+    try {
+      await deleteAvatarsByPrefix([
+        `${avatarBasePublicId}_`,
+        avatarBasePublicId,
+      ]);
+      await deleteAvatar(avatarBasePublicId);
+      await cleanupAvatarsByPrefix(avatarBasePublicId);
+    } catch (err) {
+      // continue even if cleanup fails
+      console.warn('Avatar cleanup failed', err);
+    }
+  }
+
+  await userRepository.deleteUser(userId);
+  return { success: true };
+}
+
 module.exports = {
   updateProfile,
   getSavedMovies,
@@ -201,4 +325,5 @@ module.exports = {
   setWatchLaterMovie,
   getWatchHistory,
   addWatchHistory,
+  deleteAccount,
 };

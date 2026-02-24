@@ -20,9 +20,14 @@ async function updateUserMovieList(userId, listField, movieId, state) {
   return User.findByIdAndUpdate(userId, update, { new: true });
 }
 
+async function deleteUser(userId) {
+  return User.findByIdAndDelete(userId);
+}
+
 module.exports = {
   updateUser,
   findByEmail,
   findById,
   updateUserMovieList,
+  deleteUser,
 };

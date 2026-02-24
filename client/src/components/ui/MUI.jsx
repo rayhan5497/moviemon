@@ -10,34 +10,87 @@ import { forwardRef, useState, useEffect } from 'react';
 
 import { useSnackbar } from '../../context/SnackbarProvider';
 
-const AvatarComponent = forwardRef(({ tooltip, style, onClick, src }, ref) => {
-  const [avatar, setAvatar] = useState('');
-  const stored = JSON.parse(localStorage.getItem('userInfo'));
-  useEffect(() => {
-    if (src) {
-      setAvatar(src);
-      return;
-    }
+/* helper functions */
+function stringToColor(string = '') {
+  let hash = 0;
+  for (let i = 0; i < string.length; i++) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
 
-    if (!stored) {
-      setAvatar('');
-      return;
-    }
+  let color = '#';
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += value.toString(16).padStart(2, '0');
+  }
 
-    try {
-      setAvatar(stored?.user?.avatar || '');
-    } catch {
-      setAvatar('');
-    }
-  }, [stored, src]);
-  return (
-    <Tooltip title={tooltip}>
-      <IconButton onClick={onClick} ref={ref}>
-        <Avatar src={avatar || '/profile.jpg'} sx={style} />
-      </IconButton>
-    </Tooltip>
-  );
-});
+  return color;
+}
+
+function getAvatarProps(name, avatar) {
+  if (avatar) return { src: avatar };
+
+  if (!name) return { src: '/profile' };
+  return {
+    children: name?.charAt(0).toUpperCase() || '?',
+    sx: {
+      bgcolor: stringToColor(name),
+      color: '#fff',
+      fontWeight: 600,
+    },
+  };
+}
+
+const AvatarComponent = forwardRef(
+  ({ tooltip, style = {}, onClick, src }, ref) => {
+    const [avatar, setAvatar] = useState('');
+    const [username, setUsername] = useState('');
+    const [avatarProps, setAvatarProps] = useState({});
+
+    const stored = JSON.parse(localStorage.getItem('userInfo'));
+    useEffect(() => {
+
+      if (src) {
+        setAvatar(src);
+        setUsername(stored?.user?.name || '');
+        return;
+      }
+
+      if (!stored) {
+        setAvatar('');
+        setUsername('');
+        return;
+      }
+
+      try {
+        setAvatar(stored?.user?.avatar || '');
+        setUsername(stored?.user?.name || '');
+      } catch {
+        setAvatar('');
+        setUsername('');
+      }
+    }, [src, stored]);
+
+    // const avatarProps = getAvatarProps(username, avatar);
+
+    useEffect(() => {
+      setAvatarProps(getAvatarProps(username, avatar));
+    }, [username, avatar]);
+
+    return (
+      <Tooltip title={tooltip}>
+        <IconButton onClick={onClick} ref={ref}>
+          <Avatar
+            {...avatarProps}
+            sx={{
+              ...avatarProps.sx,
+              ...style,
+            }}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+);
 
 const ShareButton = ({ style }) => {
   const { showSnackbar } = useSnackbar();

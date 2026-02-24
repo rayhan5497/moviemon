@@ -151,7 +151,7 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
             <ProfileLink to="/user/saved" label="Saved Movies" />
             <ProfileLink to="/user/watch-history" label="Watch History" />
             <ProfileLink to="/user/watch-later" label="Watch Later" />
-            <ProfileLink to="/user/watch-later" label="Account Settings" />
+            <ProfileLink to="/user/account" label="Account Settings" />
 
             <button
               className="px-4 py-2 text-red-500 hover:bg-accent-hover transition text-left w-full cursor-pointer"

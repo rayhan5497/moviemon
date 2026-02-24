@@ -11,7 +11,12 @@ const getAuthHeaders = () => {
   }
 };
 
-export const movieActionApi = async (movieId, actionType, state, mediaType) => {
+export const movieActionApi = async (
+  movieId,
+  actionType,
+  state,
+  mediaType
+) => {
   const res = await fetch(`${API_BASE}/api/user/${actionType}/${movieId}`, {
     method: 'POST',
     headers: {

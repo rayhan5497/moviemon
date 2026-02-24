@@ -4,7 +4,7 @@ import {
   getSavedMovies,
   getWatchLaterMovies,
   getWatchHistory,
-} from '../../../api/userMovies';
+} from '../api/userMoviesApi';
 import { useUserMoviesContext } from '../../../context/UserMoviesContext';
 
 export const useUserMovies = () => {

@@ -8,4 +8,22 @@ async function createUser({ email, name, passwordHash }) {
   return User.create({ email: email.toLowerCase(), name, passwordHash });
 }
 
-module.exports = { findByEmail, createUser };
+async function findByVerificationToken(token) {
+  return User.findOne({ verificationToken: token });
+}
+
+async function findByEmailChangeToken(token) {
+  return User.findOne({ pendingEmailApprovalToken: token });
+}
+
+async function updateUser(userId, updates) {
+  return User.findByIdAndUpdate(userId, updates, { new: true });
+}
+
+module.exports = {
+  findByEmail,
+  createUser,
+  findByVerificationToken,
+  findByEmailChangeToken,
+  updateUser,
+};

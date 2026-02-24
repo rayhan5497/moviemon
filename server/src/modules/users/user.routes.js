@@ -12,6 +12,7 @@ router.patch(
   upload.single('avatar'),
   userController.updateProfile
 );
+router.delete('/me', authMiddleware, userController.deleteAccount);
 
 router.get('/saved', authMiddleware, userController.getSavedMovies);
 router.get('/watchlater', authMiddleware, userController.getWatchLaterMovies);

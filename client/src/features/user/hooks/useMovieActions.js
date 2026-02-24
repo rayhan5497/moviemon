@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { movieActionApi } from '../../../api/movieAction';
+import { movieActionApi } from '../api/movieActionApi';
 import { useSnackbar } from '../../../context/SnackbarProvider';
 
 export function useMovieAction() {

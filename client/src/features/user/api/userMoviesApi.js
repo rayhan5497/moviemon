@@ -38,7 +38,6 @@ export const getWatchHistory = async () => {
   return data.watchHistory || [];
 };
 
-
 const safeJson = async (res) => {
   try {
     return await res.json();

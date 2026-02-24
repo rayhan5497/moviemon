@@ -9,16 +9,30 @@ const env = {
   JWT_SECRET: process.env.JWT_SECRET || '',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
   LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+
   MOVIES_API_PROVIDER: process.env.MOVIES_API_PROVIDER || 'tmdb',
   MOVIES_API_BASE_URL: process.env.MOVIES_API_BASE_URL || '',
   MOVIES_API_KEY: process.env.MOVIES_API_KEY || '',
+
   OPEN_SUBTITLES_API_BASE_URL: process.env.OPEN_SUBTITLES_API_BASE_URL || '',
   OPEN_SUBTITLES_API_KEY: process.env.OPEN_SUBTITLES_API_KEY || '',
   SUBDL_API_BASE_URL: process.env.SUBDL_API_BASE_URL || '',
   SUBDL_API_KEY: process.env.SUBDL_API_KEY || '',
   SUBTITLES_API_KEY_MODE: process.env.SUBTITLES_API_KEY_MODE || 'bearer',
+
   OPEN_SUBTITLE_USERNAME: process.env.OPEN_SUBTITLE_USERNAME || '',
-  OPEN_SUBTITLE_PASSWORD: process.env.OPEN_SUBTITLE_PASSWORD || ''
+  OPEN_SUBTITLE_PASSWORD: process.env.OPEN_SUBTITLE_PASSWORD || '',
+
+  // ======================
+  // EMAIL (SMTP)
+  // ======================
+  SMTP_HOST: process.env.SMTP_HOST || '',
+  SMTP_PORT: Number(process.env.SMTP_PORT || 587),
+  SMTP_SECURE: Number(process.env.SMTP_PORT || 587) === 465,
+  SMTP_USER: process.env.SMTP_USER || '',
+  SMTP_PASS: process.env.SMTP_PASS || '',
+  SMTP_FROM: process.env.SMTP_FROM || '',
+  APP_BASE_URL: process.env.APP_BASE_URL || '',
 };
 
 function ensureEnv() {

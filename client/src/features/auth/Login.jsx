@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useModal } from '../../context/ModalContext';
-
-const apiBase = import.meta.env.VITE_TMDB_PROXY_URL;
+import { loginUser } from './api/authApi';
 export default function Login({ onSuccess }) {
   const [form, setForm] = useState({
     email: '',
@@ -26,25 +25,13 @@ export default function Login({ onSuccess }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${apiBase}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
+      const data = await loginUser(form);
 
       localStorage.setItem('userInfo', JSON.stringify(data));
       
       window.dispatchEvent(new Event('userInfoUpdated'));
       if (onSuccess) {
-        onSuccess('Logged in successfully');
+        onSuccess({ message: 'Logged in successfully', action: 'login' });
       }
       closeModal();
     } catch (err) {

@@ -5,6 +5,14 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true },
     name: { type: String, default: '' },
     passwordHash: { type: String, required: true },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String, default: '' },
+    verificationExpires: { type: Date, default: null },
+    pendingEmail: { type: String, default: '' },
+    pendingEmailVerified: { type: Boolean, default: false },
+    pendingEmailApprovalToken: { type: String, default: '' },
+    pendingEmailApprovalExpires: { type: Date, default: null },
+    pendingPasswordHash: { type: String, default: '' },
 
     avatar: {
       type: String,

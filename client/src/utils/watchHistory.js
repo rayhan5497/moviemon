@@ -1,4 +1,4 @@
-import { saveWatchHistory } from '../api/userMovies';
+import { saveWatchHistory } from '../features/user/api/userMoviesApi';
 
 export const saveWatchProgress = (
   showId,

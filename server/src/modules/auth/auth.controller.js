@@ -11,4 +11,28 @@ const login = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
-module.exports = { register, login };
+const verifyEmail = asyncHandler(async (req, res) => {
+  const result = await authService.verifyEmail(
+    req.query.token,
+    req.query.email
+  );
+  res.json(result);
+});
+
+const resendVerification = asyncHandler(async (req, res) => {
+  const result = await authService.resendVerification(req.body.email);
+  res.json(result);
+});
+
+const approveEmailChange = asyncHandler(async (req, res) => {
+  const result = await authService.approveEmailChange(req.query.token);
+  res.json(result);
+});
+
+module.exports = {
+  register,
+  login,
+  verifyEmail,
+  resendVerification,
+  approveEmailChange,
+};
