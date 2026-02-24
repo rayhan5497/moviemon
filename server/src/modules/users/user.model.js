@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema(
     pendingEmailApprovalToken: { type: String, default: '' },
     pendingEmailApprovalExpires: { type: Date, default: null },
     pendingPasswordHash: { type: String, default: '' },
+    passwordResetToken: { type: String, default: '' },
+    passwordResetExpires: { type: Date, default: null },
 
     avatar: {
       type: String,

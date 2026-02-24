@@ -91,7 +91,11 @@ function getApprovalCopy(purpose) {
   }
 }
 
-async function sendEmailChangeApprovalEmail({ to, token, purpose = 'email_change' }) {
+async function sendEmailChangeApprovalEmail({
+  to,
+  token,
+  purpose = 'email_change',
+}) {
   const transporter = createTransporter();
   const appBase = env.APP_BASE_URL || '';
   const approveUrl = `${appBase}/email-change/approve?token=${encodeURIComponent(
@@ -115,4 +119,31 @@ async function sendEmailChangeApprovalEmail({ to, token, purpose = 'email_change
   await transporter.sendMail({ from, to, subject, text, html });
 }
 
-module.exports = { sendVerificationEmail, sendEmailChangeApprovalEmail };
+async function sendPasswordResetEmail({ to, token }) {
+  const transporter = createTransporter();
+  const appBase = env.APP_BASE_URL || '';
+  const resetUrl = `${appBase}/reset-password?token=${encodeURIComponent(
+    token
+  )}`;
+
+  const from = env.SMTP_FROM || 'no-reply@moviemon.local';
+  const subject = 'Reset your password - Moviemon';
+  const text = `Reset your password: ${resetUrl}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+      <h2>Reset your password</h2>
+      <p>Click the button below to reset your password.</p>
+      <p><a href="${resetUrl}" style="background:#f59e0b;color:#000;padding:10px 16px;border-radius:8px;text-decoration:none;">Reset Password</a></p>
+      <p>If the button doesn't work, paste this link into your browser:</p>
+      <p>${resetUrl}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({ from, to, subject, text, html });
+}
+
+module.exports = {
+  sendVerificationEmail,
+  sendEmailChangeApprovalEmail,
+  sendPasswordResetEmail,
+};

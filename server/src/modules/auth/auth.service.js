@@ -1,7 +1,10 @@
 const AppError = require('../../shared/errors/AppError');
 const { hashPassword, comparePassword } = require('../../shared/utils/hash');
 const { signToken } = require('../../shared/utils/jwt');
-const { sendVerificationEmail } = require('../../shared/utils/mailer');
+const {
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+} = require('../../shared/utils/mailer');
 const authRepository = require('./auth.repository');
 const crypto = require('crypto');
 
@@ -53,11 +56,14 @@ async function login({ email, password }) {
   }
   const user = await authRepository.findByEmail(email);
   if (!user) {
-    throw new AppError('Invalid credentials', 401);
+    throw new AppError('No user found with this Email', 404);
   }
   const match = await comparePassword(password, user.passwordHash);
   if (!match) {
-    throw new AppError('Invalid credentials', 401);
+    throw new AppError('Invalid password', 401);
+  }
+  if (!user.isVerified) {
+    throw new AppError('Please verify your email', 403);
   }
   if (!user.isVerified) {
     throw new AppError('Please verify your email', 403);
@@ -215,10 +221,66 @@ async function approveEmailChange(token) {
   };
 }
 
+async function requestPasswordReset(email) {
+  const normalizedEmail = typeof email === 'string' ? email.trim() : '';
+  if (!normalizedEmail) {
+    throw new AppError('Email is required', 400);
+  }
+  const user = await authRepository.findByEmailOrPendingEmail(normalizedEmail);
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetExpires = new Date(Date.now() + 1000 * 60 * 60); // 1h
+
+  await authRepository.updateUser(user.id, {
+    passwordResetToken: resetToken,
+    passwordResetExpires: resetExpires,
+  });
+
+  const targetEmail =
+    user.pendingEmail &&
+    user.pendingEmail.toLowerCase() === normalizedEmail.toLowerCase()
+      ? user.pendingEmail
+      : user.email;
+  await sendPasswordResetEmail({ to: targetEmail, token: resetToken });
+
+  return { message: 'Reset link sent. Please check your email.' };
+}
+
+async function resetPassword(token, password) {
+  if (!token || !password) {
+    throw new AppError('Token and new password are required', 400);
+  }
+  if (password.length < 6) {
+    throw new AppError('Password must be at least 6 characters', 400);
+  }
+
+  const user = await authRepository.findByPasswordResetToken(token);
+  if (!user) {
+    throw new AppError('Invalid or expired token', 400);
+  }
+  if (user.passwordResetExpires && user.passwordResetExpires < new Date()) {
+    throw new AppError('Invalid or expired token', 400);
+  }
+
+  const passwordHash = await hashPassword(password);
+  await authRepository.updateUser(user.id, {
+    passwordHash,
+    passwordResetToken: '',
+    passwordResetExpires: null,
+  });
+
+  return { message: 'Password reset successfully' };
+}
+
 module.exports = {
   register,
   login,
   verifyEmail,
   resendVerification,
   approveEmailChange,
+  requestPasswordReset,
+  resetPassword,
 };

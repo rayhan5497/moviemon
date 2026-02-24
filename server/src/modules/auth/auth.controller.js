@@ -29,10 +29,25 @@ const approveEmailChange = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
+const requestPasswordReset = asyncHandler(async (req, res) => {
+  const result = await authService.requestPasswordReset(req.body.email);
+  res.json(result);
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+  const result = await authService.resetPassword(
+    req.body.token,
+    req.body.password
+  );
+  res.json(result);
+});
+
 module.exports = {
   register,
   login,
   verifyEmail,
   resendVerification,
   approveEmailChange,
+  requestPasswordReset,
+  resetPassword,
 };
