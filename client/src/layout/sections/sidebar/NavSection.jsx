@@ -9,15 +9,20 @@ const NavSection = ({
   icon: Icon,
   iconFill: IconFill,
   disabled = false,
+  onClick,
 }) => {
   return (
     <div>
-      <h3 className="text-xl bg-gray-700 rounded-lg p-1 px-3 mt-5">
+      <h3
+        onClick={onClick}
+        className="text-xl bg-gray-700 rounded-lg p-1 px-3 mt-5"
+      >
         <QueryNavLink
           disabled={disabled}
           className="flex items-center gap-2"
           isSectionActive={isSectionActive}
           to={title.path}
+          onClick={onClick}
         >
           {!isSectionActive && (
             <>
@@ -45,8 +50,13 @@ const NavSection = ({
                   ? 'opacity-70 cursor-not-allowed'
                   : 'hover:text-gray-400 cursor-pointer'
               }`}
+              onClick={onClick}
             >
-              <QueryNavLink disabled={disabled} to={item.path}>
+              <QueryNavLink
+                onClick={onClick}
+                disabled={disabled}
+                to={item.path}
+              >
                 {item.label}
               </QueryNavLink>
             </li>

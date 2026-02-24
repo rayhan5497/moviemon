@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <footer
-      className={`mt-auto bg-primary text-primary border-t border-accent-secondary mb-16 md:mb-0`}
+      className={`mt-auto bg-primary text-primary border-t border-accent-secondary mb-14 md:mb-0`}
     >
       <div className="max-w-screen-2xl mx-auto px-4 py-10 grid gap-8 md:grid-cols-4 sm:grid-cols-2">
         {/* Brand */}

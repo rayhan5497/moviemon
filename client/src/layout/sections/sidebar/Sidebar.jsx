@@ -17,7 +17,7 @@ import { useModal } from '../../../context/ModalContext';
 import { useRef } from 'react';
 import UserMenuModal from '../../../features/user/UserProfileModal';
 import { useUserMoviesContext } from '../../../context/UserMoviesContext';
-import { Tooltip } from '@mui/material';
+import { useSnackbar } from '../../../context/SnackbarProvider';
 
 const Sidebar = ({ isSidebarOpen }) => {
   const isHomeActive = useMatch('/');
@@ -25,6 +25,7 @@ const Sidebar = ({ isSidebarOpen }) => {
   const isTvActive = useMatch('discover/tv');
   const isLibraryActive = useMatch('/user/*');
   const { isLoggedIn } = useUserMoviesContext();
+  const { showSnackbar } = useSnackbar();
 
   const isMd = useIsMd();
 
@@ -33,6 +34,12 @@ const Sidebar = ({ isSidebarOpen }) => {
   const isUserLoggedIn = localStorage.getItem('userInfo');
 
   const avatarRef = useRef();
+
+  const handleClick = () => {
+    if (!isLoggedIn) {
+      showSnackbar('Login to use this feature', { color: 'white' });
+    }
+  };
 
   return (
     <aside
@@ -124,6 +131,7 @@ const Sidebar = ({ isSidebarOpen }) => {
       />
 
       <NavSection
+        onClick={handleClick}
         icon={RiFolderCloudLine}
         iconFill={RiFolderCloudFill}
         title={{ label: 'Library', path: '/user' }}

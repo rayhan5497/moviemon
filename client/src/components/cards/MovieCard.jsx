@@ -98,7 +98,7 @@ const MovieCard = ({ media, onSave, onWatchLater }) => {
         <div className="absolute left-1 bottom-1 flex gap-1 items-center justify-center">
           {/* Save */}
           <button
-            disabled={!isLoggedIn}
+            disabled={isMd && !isLoggedIn}
             onClick={handleSave}
             className={`flex items-center justify-center p-1 rounded-full transition-colors ${
               isLoggedIn
@@ -133,7 +133,7 @@ const MovieCard = ({ media, onSave, onWatchLater }) => {
 
           {/* Watch Later */}
           <button
-            disabled={!isLoggedIn}
+            disabled={isMd && !isLoggedIn}
             onClick={handleWatchLater}
             className={`flex items-center justify-center p-1 rounded-full transition-colors ${
               isLoggedIn

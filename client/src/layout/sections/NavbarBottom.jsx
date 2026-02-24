@@ -8,6 +8,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import GradientIcon from '@/components/ui/GradientIcon';
 import { useUserMoviesContext } from '../../context/UserMoviesContext';
+import { useSnackbar } from '../../context/SnackbarProvider';
 
 const NavbarBottom = () => {
   const { pathname } = useLocation();
@@ -16,9 +17,16 @@ const NavbarBottom = () => {
   const isTvActive = pathname.startsWith('/discover/tv');
   const isSavedActive = pathname.startsWith('/user');
   const { isLoggedIn } = useUserMoviesContext();
+  const { showSnackbar } = useSnackbar();
+
+  const handleClick = () => {
+    if (!isLoggedIn) {
+      showSnackbar('Login to use this feature', { color: 'white' });
+    }
+  };
 
   return (
-    <div className="nav-bottom md:hidden text-sm fixed bg-black/80 backdrop-blur-md z-10 bottom-0 w-full flex justify-around py-2 rounded-t-md h-16">
+    <div className="nav-bottom md:hidden text-sm fixed bg-black/80 backdrop-blur-md z-10 bottom-0 w-full flex justify-around py-2 rounded-t-md h-14">
       <NavLink
         to={'/'}
         className="home-btn cursor-pointer flex flex-col items-center"
@@ -75,11 +83,11 @@ const NavbarBottom = () => {
       </NavLink>
       <Tooltip title={!isLoggedIn && 'Login to use this feature'}>
         <NavLink
-          to={'/user'}
+          disabled={!isLoggedIn}
+          onClick={handleClick}
+          to={!isLoggedIn ? '#' : '/user'}
           className={`saved-btn cursor-pointer flex flex-col items-center ${
-            !isLoggedIn
-              ? 'pointer-events-none opacity-50 cursor-not-allowed'
-              : ''
+            !isLoggedIn ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
           {!isSavedActive && (
