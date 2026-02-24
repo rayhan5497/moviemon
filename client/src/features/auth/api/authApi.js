@@ -71,3 +71,27 @@ export const approveEmailChange = async (token) => {
 
   return parseResponse(response, 'Unable to approve email change.');
 };
+
+export const requestPasswordReset = async (email) => {
+  const response = await fetch(`${apiBase}/api/auth/password/forgot`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  return parseResponse(response, 'Unable to send reset email.');
+};
+
+export const resetPassword = async ({ token, password }) => {
+  const response = await fetch(`${apiBase}/api/auth/password/reset`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ token, password }),
+  });
+
+  return parseResponse(response, 'Unable to reset password.');
+};

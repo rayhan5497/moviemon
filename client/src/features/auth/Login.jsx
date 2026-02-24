@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { useModal } from '../../context/ModalContext';
 import { loginUser } from './api/authApi';
 export default function Login({ onSuccess }) {
@@ -8,9 +9,11 @@ export default function Login({ onSuccess }) {
   });
 
   const { closeModal } = useModal();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showForgot, setShowForgot] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -22,6 +25,7 @@ export default function Login({ onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setShowForgot(false);
     setLoading(true);
 
     try {
@@ -35,7 +39,9 @@ export default function Login({ onSuccess }) {
       }
       closeModal();
     } catch (err) {
-      setError(err.message || 'Invalid email or password');
+      const message = err.message || 'Invalid email or password';
+      setError(message);
+      setShowForgot(message.toLowerCase().includes('invalid password'));
     } finally {
       setLoading(false);
     }
@@ -84,7 +90,26 @@ export default function Login({ onSuccess }) {
         </div>
 
         {/* Error */}
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && (
+          <div className="space-y-2">
+            <p className="text-red-400 text-sm">{error}</p>
+            {showForgot && (
+              <button
+                type="button"
+                onClick={() => {
+                  closeModal();
+                  const emailQuery = form.email
+                    ? `?email=${encodeURIComponent(form.email)}`
+                    : '';
+                  navigate(`/forgot-password${emailQuery}`);
+                }}
+                className="text-sm text-accent hover:underline"
+              >
+                Forgot password?
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Button */}
         <button

@@ -65,9 +65,6 @@ async function login({ email, password }) {
   if (!user.isVerified) {
     throw new AppError('Please verify your email', 403);
   }
-  if (!user.isVerified) {
-    throw new AppError('Please verify your email', 403);
-  }
   const token = signToken({ sub: user.id, email: user.email });
   return {
     user: toAuthUserPayload(user),

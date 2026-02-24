@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Camera } from 'lucide-react';
 
 import { useIsLg } from '@/hooks/useIsLg';
 import Message from '@/components/ui/Message';
+import { useModal } from '../context/ModalContext';
 import { AvatarComponent } from '@/components/ui/MUI';
 import { useAccountUserInfo } from '@/features/user/hooks/useAccountUserInfo';
 import { useAccountProfile } from '@/features/user/hooks/useAccountProfile';
@@ -10,6 +13,9 @@ import { useAccountAvatar } from '@/features/user/hooks/useAccountAvatar';
 import { useAccountDelete } from '@/features/user/hooks/useAccountDelete';
 
 export default function Account() {
+  const { closeModal } = useModal();
+  const navigate = useNavigate();
+
   const isLg = useIsLg();
   const fileInputRef = useRef(null);
   const { userInfo, setUserInfo } = useAccountUserInfo();
@@ -110,7 +116,9 @@ export default function Account() {
             </p>
           </div>
           <div>
-            <label className="text-sm text-primary block mb-1">New Password</label>
+            <label className="text-sm text-primary block mb-1">
+              New Password
+            </label>
             <input
               type="password"
               name="password"
@@ -135,6 +143,19 @@ export default function Account() {
               className="w-full px-4 py-3 rounded-xl border border-accent-secondary text-primary"
               placeholder="Current password"
             />
+            <button
+              type="button"
+              onClick={() => {
+                closeModal();
+                const emailQuery = form.email
+                  ? `?email=${encodeURIComponent(form.email)}`
+                  : '';
+                navigate(`/forgot-password${emailQuery}`);
+              }}
+              className="text-sm text-accent hover:underline"
+            >
+              Forgot password?
+            </button>
           </div>
 
           <button

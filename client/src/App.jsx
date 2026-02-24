@@ -19,6 +19,8 @@ import WatchHistoryPage from './pages/WatchHistory';
 import AccountPage from './pages/Account';
 import VerifyEmailPage from './pages/VerifyEmail.jsx';
 import EmailChangeApprovalPage from './pages/EmailChangeApproval.jsx';
+import ForgotPasswordPage from './pages/ForgotPassword.jsx';
+import ResetPasswordPage from './pages/ResetPassword.jsx';
 import { useState, useEffect } from 'react';
 
 import { SnackbarProvider } from './context/SnackbarProvider.jsx';
@@ -118,6 +120,8 @@ const App = () => {
                     path="/email-change/approve"
                     element={<EmailChangeApprovalPage />}
                   />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
 
                   <Route path="/person/:id" element={<PersonPage />} />
 
