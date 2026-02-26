@@ -15,6 +15,7 @@ export default function Login({ onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showForgot, setShowForgot] = useState(false);
+  const [showResendVerify, setShowResendVerify] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -27,6 +28,7 @@ export default function Login({ onSuccess }) {
     e.preventDefault();
     setError('');
     setShowForgot(false);
+    setShowResendVerify(false);
     setLoading(true);
 
     try {
@@ -43,6 +45,7 @@ export default function Login({ onSuccess }) {
       const message = err.message || 'Invalid email or password';
       setError(message);
       setShowForgot(message.toLowerCase().includes('invalid password'));
+      setShowResendVerify(message.toLowerCase().includes('verify'));
     } finally {
       setLoading(false);
     }
@@ -94,21 +97,38 @@ export default function Login({ onSuccess }) {
         {error && (
           <div className="space-y-2">
             <p className="text-red-400 text-sm">{error}</p>
-            {showForgot && (
-              <button
-                type="button"
-                onClick={() => {
-                  closeModal();
-                  const emailQuery = form.email
-                    ? `?email=${encodeURIComponent(form.email)}`
-                    : '';
-                  navigate(`/forgot-password${emailQuery}`);
-                }}
-                className="text-sm text-accent hover:underline"
-              >
-                Forgot password?
-              </button>
-            )}
+            <div className="flex flex-wrap gap-3">
+              {showForgot && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeModal();
+                    const emailQuery = form.email
+                      ? `?email=${encodeURIComponent(form.email)}`
+                      : '';
+                    navigate(`/forgot-password${emailQuery}`);
+                  }}
+                  className="text-sm text-accent hover:underline"
+                >
+                  Forgot password?
+                </button>
+              )}
+              {showResendVerify && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeModal();
+                    const emailQuery = form.email
+                      ? `?email=${encodeURIComponent(form.email)}`
+                      : '';
+                    navigate(`/verify-email${emailQuery}`);
+                  }}
+                  className="text-sm text-accent hover:underline"
+                >
+                  Resend verification?
+                </button>
+              )}
+            </div>
           </div>
         )}
 
