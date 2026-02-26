@@ -24,15 +24,13 @@ const env = {
   OPEN_SUBTITLE_PASSWORD: process.env.OPEN_SUBTITLE_PASSWORD || '',
 
   // ======================
-  // EMAIL (SMTP)
+  // EMAIL 
   // ======================
-  SMTP_HOST: process.env.SMTP_HOST || '',
-  SMTP_PORT: Number(process.env.SMTP_PORT || 587),
-  SMTP_SECURE: Number(process.env.SMTP_PORT || 587) === 465,
-  SMTP_USER: process.env.SMTP_USER || '',
-  SMTP_PASS: process.env.SMTP_PASS || '',
-  SMTP_FROM: process.env.SMTP_FROM || '',
-  APP_BASE_URL: process.env.APP_BASE_URL || '',
+  EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
+  EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
+  EMAILJS_PRIVATE_KEY: process.env.EMAILJS_PRIVATE_KEY,
+  APP_BASE_URL: process.env.APP_BASE_URL,
 };
 
 function ensureEnv() {
