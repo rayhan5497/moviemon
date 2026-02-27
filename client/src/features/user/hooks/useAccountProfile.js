@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '@/context/SnackbarProvider';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 import { getAuthToken, setStoredUserInfo } from '../utils/accountStorage';
 import { updateProfileApi } from '../api/accountApi';
 
@@ -95,3 +95,4 @@ export const useAccountProfile = ({ userInfo, setUserInfo }) => {
 
   return { form, saving, handleInputChange, handleProfileSave };
 };
+

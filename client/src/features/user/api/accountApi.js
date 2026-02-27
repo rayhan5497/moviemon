@@ -68,3 +68,4 @@ export const deleteAccountApi = async ({ userInfo }) => {
 
   return data;
 };
+

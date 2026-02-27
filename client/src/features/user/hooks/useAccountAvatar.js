@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSnackbar } from '@/context/SnackbarProvider';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 import { getAuthToken, setStoredUserInfo } from '../utils/accountStorage';
 import { uploadAvatarApi } from '../api/accountApi';
 
@@ -34,3 +34,4 @@ export const useAccountAvatar = ({ userInfo, setUserInfo }) => {
 
   return { uploading, handleFileChange };
 };
+

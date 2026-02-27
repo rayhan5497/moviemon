@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import randomizeArray from '@/utils/randomizeArray';
+import randomizeArray from '@/shared/utils/randomizeArray';
 
 import HeroSlider from './HeroSlider';
 
@@ -25,3 +25,4 @@ const HeroSliderSection = ({ trending, popular }) => {
 };
 
 export default HeroSliderSection;
+

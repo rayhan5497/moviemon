@@ -1,10 +1,9 @@
-import formatRating from '@/utils/formatRating';
+import formatRating from '@/shared/utils/formatRating';
 
 const HeadingSection = ({ person }) => {
   const popularity = person?.popularity;
   const birthDay = person?.birthday;
   const deathDay = person?.deathday;
-  const adult = person?.adult;
 
   return (
     <div className="heading-container gap-1 flex flex-col">
@@ -34,3 +33,4 @@ const HeadingSection = ({ person }) => {
 };
 
 export default HeadingSection;
+

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { movieActionApi } from '../api/movieActionApi';
-import { useSnackbar } from '../../../context/SnackbarProvider';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 
 export function useMovieAction() {
   const queryClient = useQueryClient();
@@ -93,3 +93,4 @@ export function useMovieAction() {
     },
   });
 }
+

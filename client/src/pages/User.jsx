@@ -1,12 +1,12 @@
 import { useEffect, useMemo } from 'react';
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import HorizontalCardCarousel from '../components/sections/HorizontalCardCarousel';
-import SaveableMovieCard from '../composed/SaveableMovieCard';
-import Message from '../components/ui/Message';
-import { useIsLg } from '../hooks/useIsLg';
+import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
+import SaveableMovieCard from '@/widgets/SaveableMovieCard';
+import Message from '@/shared/components/ui/Message';
+import { useIsLg } from '@/shared/hooks/useIsLg';
 import { useUserMovies } from '../features/user/hooks/useUserMovies';
-import { useMediaByIds } from '../hooks/useMediaByIds';
+import { useMediaByIds } from '@/shared/hooks/useMediaByIds';
 
 const Section = ({
   title,
@@ -160,3 +160,4 @@ const User = () => {
 };
 
 export default User;
+

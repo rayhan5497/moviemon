@@ -5,7 +5,7 @@ import {
   getWatchLaterMovies,
   getWatchHistory,
 } from '../api/userMoviesApi';
-import { useUserMoviesContext } from '../../../context/UserMoviesContext';
+import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
 
 export const useUserMovies = () => {
   const { isLoggedIn } = useUserMoviesContext();
@@ -89,3 +89,4 @@ export const useUserMovies = () => {
     isLoggedIn,
   };
 };
+

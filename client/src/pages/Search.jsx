@@ -2,19 +2,19 @@ import { useSearchParams } from 'react-router-dom';
 import { useEffect, useContext, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-import meme from '@/assets/image/meme.webp';
+import meme from '@/shared/assets/image/meme.webp';
 
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import MovieCard from '../composed/SaveableMovieCard';
-import { useMovies } from '../hooks/useMovies';
-import MainScrollContext from '../context/MainScrollContext';
-import verifyAdultQuery from '../utils/verifyAdultQuery';
-import SearchBox from '../components/ui/SearchBox';
-import { useSnackbar } from '../context/SnackbarProvider';
-import ShowError from '@/components/ui/ShowError';
-import useInfiniteObserver from '../hooks/useInfiniteObserver';
-import Message from '../components/ui/Message';
+import MovieCard from '@/widgets/SaveableMovieCard';
+import { useMovies } from '@/shared/hooks/useMovies';
+import MainScrollContext from '@/shared/context/MainScrollContext';
+import verifyAdultQuery from '@/shared/utils/verifyAdultQuery';
+import SearchBox from '@/shared/components/ui/SearchBox';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
+import ShowError from '@/shared/components/ui/ShowError';
+import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
+import Message from '@/shared/components/ui/Message';
 
 const Search = () => {
   const { showSnackbar } = useSnackbar();
@@ -174,3 +174,4 @@ const Search = () => {
 };
 
 export default Search;
+

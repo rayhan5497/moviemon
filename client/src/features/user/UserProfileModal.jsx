@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useModal } from '@/context/ModalContext';
-import LinkWithScrollSave from '@/components/ui/LinkWithScrollSave';
-import { AvatarComponent, Toast } from '../../components/ui/MUI';
+import { useModal } from '@/shared/context/ModalContext';
+import LinkWithScrollSave from '@/shared/components/ui/LinkWithScrollSave';
+import { AvatarComponent, Toast } from '@/shared/components/ui/MUI';
 import { Camera } from 'lucide-react';
 
 export default function UserMenuModal({ anchorRef, onLogout }) {
@@ -189,3 +189,4 @@ function ProfileLink({ to, label }) {
     </LinkWithScrollSave>
   );
 }
+

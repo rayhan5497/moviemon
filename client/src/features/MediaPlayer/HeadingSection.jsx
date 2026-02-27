@@ -1,4 +1,4 @@
-import HeadingDetailsSection from '../../components/sections/HeadingDetails';
+import HeadingDetailsSection from '@/shared/components/sections/HeadingDetails';
 
 const HeadingSection = ({ media, className }) => {
   console.log('media', media)
@@ -13,3 +13,4 @@ const HeadingSection = ({ media, className }) => {
 };
 
 export default HeadingSection;
+

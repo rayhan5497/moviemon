@@ -1,10 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useSearchParams, useParams } from 'react-router-dom';
 
-import NowPlayingContext from '@/context/NowPlayingContext';
-import { useMovies } from '@/hooks/useMovies';
+import NowPlayingContext from '@/shared/context/NowPlayingContext';
+import { useMovies } from '@/shared/hooks/useMovies';
 import { saveWatchProgress, getWatchProgress } from '../utils/watchHistory';
 
 const FilterSeason = ({ tv }) => {
@@ -254,3 +254,4 @@ const FilterSeason = ({ tv }) => {
 };
 
 export default FilterSeason;
+

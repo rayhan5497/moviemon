@@ -6,9 +6,9 @@ import { Tooltip } from '@mui/material';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import GradientIcon from '@/components/ui/GradientIcon';
-import { useUserMoviesContext } from '@/context/UserMoviesContext';
-import { useSnackbar } from '@/context/SnackbarProvider';
+import GradientIcon from '@/shared/components/ui/GradientIcon';
+import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 
 const NavbarBottom = () => {
   const { pathname } = useLocation();
@@ -110,3 +110,4 @@ const NavbarBottom = () => {
 };
 
 export default NavbarBottom;
+

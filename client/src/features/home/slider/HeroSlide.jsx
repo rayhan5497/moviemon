@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
 
-import HeadingDetailsSection from '@/components/sections/HeadingDetails';
-import HighLightSection from '@/components/sections/HighLight';
+import HeadingDetailsSection from '@/shared/components/sections/HeadingDetails';
+import HighLightSection from '@/shared/components/sections/HighLight';
 
-import { useIsLg } from '@/hooks/useIsLg';
-import { useIsMd } from '@/hooks/useIsMd';
-import { useIsXs } from '@/hooks/useIsXs';
+import { useIsLg } from '@/shared/hooks/useIsLg';
+import { useIsMd } from '@/shared/hooks/useIsMd';
+import { useIsXs } from '@/shared/hooks/useIsXs';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p';
 
@@ -116,3 +116,4 @@ const HeroSlide = ({ item }) => {
 };
 
 export default HeroSlide;
+

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { resendVerification, verifyEmail } from '../features/auth/api/authApi';
-import { useModal } from '../context/ModalContext';
+import { useModal } from '@/shared/context/ModalContext';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
@@ -141,3 +141,4 @@ export default function VerifyEmailPage() {
     </div>
   );
 }
+

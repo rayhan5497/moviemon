@@ -1,10 +1,10 @@
 import { BsStars } from 'react-icons/bs';
 import { RiMovieAiLine } from 'react-icons/ri';
 
-import { useIsMd } from '@/hooks/useIsMd';
+import { useIsMd } from '@/shared/hooks/useIsMd';
 
-import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
-import SaveableMovieCard from '@/composed/SaveableMovieCard';
+import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
+import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 
 const SimilarAndRecommendationSection = ({ media }) => {
   const similar = media?.similar?.results;
@@ -52,3 +52,4 @@ const SimilarAndRecommendationSection = ({ media }) => {
 };
 
 export default SimilarAndRecommendationSection;
+

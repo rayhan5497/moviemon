@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import MainScrollContext from '@/context/MainScrollContext';
-import NowPlayingContext from '@/context/NowPlayingContext';
+import MainScrollContext from '@/shared/context/MainScrollContext';
+import NowPlayingContext from '@/shared/context/NowPlayingContext';
 
-import useScrollRestoration from '@/hooks/useScrollRestoration';
+import useScrollRestoration from '@/shared/hooks/useScrollRestoration';
 
 import Header from './sections/Header';
 import Sidebar from './sections/sidebar/Sidebar';
 import Footer from './sections/Footer';
 import NavbarBottom from './sections/NavbarBottom';
-import { useIsLg } from '@/hooks/useIsLg';
-import { getSidebarState, saveSidebarState } from '@/utils/userState';
+import { useIsLg } from '@/shared/hooks/useIsLg';
+import { getSidebarState, saveSidebarState } from '@/shared/utils/userState';
 import AuthModalController from '@/features/auth/AuthModalController';
 
 const Layout = () => {
@@ -88,3 +88,4 @@ const Layout = () => {
 };
 
 export default Layout;
+

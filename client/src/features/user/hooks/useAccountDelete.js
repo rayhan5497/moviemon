@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '@/context/SnackbarProvider';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 import { clearStoredUserInfo, getAuthToken } from '../utils/accountStorage';
 import { deleteAccountApi } from '../api/accountApi';
 
@@ -31,3 +31,4 @@ export const useAccountDelete = ({ userInfo }) => {
 
   return { deleteAccount };
 };
+

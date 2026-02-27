@@ -1,15 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useRef, useContext, useEffect } from 'react';
 
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import MovieCard from '../composed/SaveableMovieCard';
-import FilterMovies from '../components/filters/trending/FilterMovies';
-import { useMovies } from '../hooks/useMovies';
-import MainScrollContext from '../context/MainScrollContext';
-import ShowError from '@/components/ui/ShowError';
-import useInfiniteObserver from '../hooks/useInfiniteObserver';
-import Message from '../components/ui/Message';
+import MovieCard from '@/widgets/SaveableMovieCard';
+import FilterMovies from '@/shared/components/filters/trending/FilterMovies';
+import { useMovies } from '@/shared/hooks/useMovies';
+import MainScrollContext from '@/shared/context/MainScrollContext';
+import ShowError from '@/shared/components/ui/ShowError';
+import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
+import Message from '@/shared/components/ui/Message';
 
 const Movies = () => {
   const { mediaType, timeWindow } = useParams();
@@ -128,3 +128,4 @@ const Movies = () => {
 };
 
 export default Movies;
+

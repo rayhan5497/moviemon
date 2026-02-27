@@ -1,6 +1,6 @@
 import { FiCast } from 'react-icons/fi';
 
-import HorizontalCardCarousel from '../../components/sections/HorizontalCardCarousel';
+import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
 
 const CastSection = ({ media }) => {
   return (
@@ -16,3 +16,4 @@ const CastSection = ({ media }) => {
 };
 
 export default CastSection;
+

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '@/shared/context/ModalContext';
 import Login from './Login';
 import Signup from './Signup';
 import { X } from 'lucide-react';
-import { Toast } from '../../components/ui/MUI';
+import { Toast } from '@/shared/components/ui/MUI';
 
 export default function AuthModalController() {
   const [action, setAction] = useState('Register');
@@ -98,3 +98,4 @@ export default function AuthModalController() {
     </>
   );
 }
+

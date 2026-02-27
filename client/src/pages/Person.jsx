@@ -1,18 +1,18 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useContext, useRef } from 'react';
 
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import { useMovies } from '../hooks/useMovies';
-import { useIsMd } from '../hooks/useIsMd';
-import { useIsLg } from '../hooks/useIsLg';
+import { useMovies } from '@/shared/hooks/useMovies';
+import { useIsMd } from '@/shared/hooks/useIsMd';
+import { useIsLg } from '@/shared/hooks/useIsLg';
 
 import HeadingSection from '../features/person/HeadingSection';
 import DetailsSection from '../features/person/DetailsSection';
-import MovieCard from '../composed/SaveableMovieCard';
-import ShowError from '../components/ui/ShowError';
-import MainScrollContext from '../context/MainScrollContext';
-import Message from '../components/ui/Message';
+import MovieCard from '@/widgets/SaveableMovieCard';
+import ShowError from '@/shared/components/ui/ShowError';
+import MainScrollContext from '@/shared/context/MainScrollContext';
+import Message from '@/shared/components/ui/Message';
 
 export default function Person() {
   const { id } = useParams();
@@ -220,3 +220,4 @@ export default function Person() {
     </>
   );
 }
+

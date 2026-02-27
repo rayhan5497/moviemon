@@ -1,4 +1,4 @@
-import GradientIcon from '@/components/ui/GradientIcon';
+import GradientIcon from '@/shared/components/ui/GradientIcon';
 
 import QueryNavLink from './QueryNavLink';
 
@@ -68,3 +68,4 @@ const NavSection = ({
 };
 
 export default NavSection;
+

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import FilterLibraryMedia from '../components/filters/library/FilterLibraryMedia';
-import Message from '../components/ui/Message';
+import FilterLibraryMedia from '@/shared/components/filters/library/FilterLibraryMedia';
+import Message from '@/shared/components/ui/Message';
 import { useUserMovies } from '../features/user/hooks/useUserMovies';
-import { useMediaByIds } from '../hooks/useMediaByIds';
-import { useIsLg } from '../hooks/useIsLg';
-import SaveableMovieCard from '../composed/SaveableMovieCard';
+import { useMediaByIds } from '@/shared/hooks/useMediaByIds';
+import { useIsLg } from '@/shared/hooks/useIsLg';
+import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 
 const Saved = () => {
   const { savedByType, isLoggedIn } = useUserMovies();
@@ -78,3 +78,4 @@ const Saved = () => {
 };
 
 export default Saved;
+

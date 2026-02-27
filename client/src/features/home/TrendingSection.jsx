@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from 'react';
 
-import LottiePlayer from '@/components/ui/LottiePlayer';
-import fireAnimation from '@/assets/animated-icon/fire-animation.lottie';
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
-import { useMovies } from '@/hooks/useMovies';
-import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
-import ShowError from '@/components/ui/ShowError';
-import Message from '../../components/ui/Message';
-import SaveableMovieCard from '@/composed/SaveableMovieCard';
+import LottiePlayer from '@/shared/components/ui/LottiePlayer';
+import fireAnimation from '@/shared/assets/animated-icon/fire-animation.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
+import { useMovies } from '@/shared/hooks/useMovies';
+import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
+import ShowError from '@/shared/components/ui/ShowError';
+import Message from '@/shared/components/ui/Message';
+import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 
 const TrendingSection = ({ setMovies }) => {
   const queryString = `all/day`;
@@ -66,3 +66,4 @@ const TrendingSection = ({ setMovies }) => {
 };
 
 export default TrendingSection;
+

@@ -1,13 +1,12 @@
 import { useSearchParams, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import LoadingRipple from '@/assets/animated-icon/loadingRipple.svg';
+import LoadingRipple from '@/shared/assets/animated-icon/loadingRipple.svg';
 
 import HlsPlayer from './HlsPlayer';
 import FallbackIframe from './FallbackIframe';
 
-import '../../../index.css';
-import { useIsLg } from '@/hooks/useIsLg';
-import { useIsMd } from '@/hooks/useIsMd';
+import { useIsLg } from '@/shared/hooks/useIsLg';
+import { useIsMd } from '@/shared/hooks/useIsMd';
 import { saveWatchProgress } from '@/features/MediaPlayer/utils/watchHistory';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
@@ -267,3 +266,4 @@ const Player = ({ media }) => {
 };
 
 export default Player;
+

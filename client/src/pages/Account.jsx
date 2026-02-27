@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Camera } from 'lucide-react';
 
-import { useIsLg } from '@/hooks/useIsLg';
-import Message from '@/components/ui/Message';
-import { useModal } from '../context/ModalContext';
-import { AvatarComponent } from '@/components/ui/MUI';
+import { useIsLg } from '@/shared/hooks/useIsLg';
+import Message from '@/shared/components/ui/Message';
+import { useModal } from '@/shared/context/ModalContext';
+import { AvatarComponent } from '@/shared/components/ui/MUI';
 import { useAccountUserInfo } from '@/features/user/hooks/useAccountUserInfo';
 import { useAccountProfile } from '@/features/user/hooks/useAccountProfile';
 import { useAccountAvatar } from '@/features/user/hooks/useAccountAvatar';
@@ -182,3 +182,4 @@ export default function Account() {
     </div>
   );
 }
+

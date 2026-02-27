@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '@/shared/context/ModalContext';
 import { loginUser } from './api/authApi';
 export default function Login({ onSuccess }) {
   const [form, setForm] = useState({
@@ -145,3 +145,4 @@ export default function Login({ onSuccess }) {
     </>
   );
 }
+

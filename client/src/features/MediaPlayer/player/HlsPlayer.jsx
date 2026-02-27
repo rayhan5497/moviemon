@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import Hls from 'hls.js';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
-import filterData from '@/data/filters.json';
+import filterData from '@/shared/data/filters.json';
 const languages = filterData.languages;
 
-import { useSnackbar } from '../../../context/SnackbarProvider';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 
 const PROXY_URL = import.meta.env.VITE_HLS_PROXY_URL;
 const SUBTITLE_FILE_URL = import.meta.env.VITE_SERVER_BASE_URL;
@@ -340,3 +340,4 @@ export default function HlsPlayer({
     </div>
   );
 }
+

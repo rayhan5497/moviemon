@@ -1,4 +1,4 @@
-import { saveWatchHistory } from '@/api/watchHistoryApi';
+import { saveWatchHistory } from '@/shared/api/watchHistoryApi';
 
 export const saveWatchProgress = (
   showId,
@@ -64,3 +64,4 @@ export const clearWatchProgress = (showId) => {
     console.error('Error clearing watch progress:', error);
   }
 };
+

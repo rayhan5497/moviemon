@@ -1,14 +1,14 @@
 import { useMemo, useEffect } from 'react';
 
-import LottiePlayer from '@/components/ui/LottiePlayer';
-import popularAnimation from '@/assets/animated-icon/popular.lottie';
-import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
-import { useMovies } from '@/hooks/useMovies';
-import randomizeArray from '@/utils/randomizeArray';
-import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
-import ShowError from '@/components/ui/ShowError';
-import Message from '../../components/ui/Message';
-import SaveableMovieCard from '@/composed/SaveableMovieCard';
+import LottiePlayer from '@/shared/components/ui/LottiePlayer';
+import popularAnimation from '@/shared/assets/animated-icon/popular.lottie';
+import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
+import { useMovies } from '@/shared/hooks/useMovies';
+import randomizeArray from '@/shared/utils/randomizeArray';
+import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
+import ShowError from '@/shared/components/ui/ShowError';
+import Message from '@/shared/components/ui/Message';
+import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 
 const PopularSection = ({ setMovies }) => {
   const queryString = `popular`;
@@ -59,10 +59,13 @@ const PopularSection = ({ setMovies }) => {
       )}
 
       {isLoading && allMovies.length === 0 && (
+        <>
         <Message message="Loading, Please wait..." className="w-[1.4em]" />
+        </>
       )}
     </div>
   );
 };
 
 export default PopularSection;
+

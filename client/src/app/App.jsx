@@ -25,9 +25,9 @@ import VerifyEmailPage from '../pages/VerifyEmail.jsx';
 import WatchHistoryPage from '../pages/WatchHistory';
 import WatchLaterPage from '../pages/WatchLater';
 
-import { ModalProvider } from '../context/ModalContext.jsx';
-import { SnackbarProvider } from '../context/SnackbarProvider.jsx';
-import { UserMoviesProvider } from '../context/UserMoviesContext.jsx';
+import { ModalProvider } from '@/shared/context/ModalContext.jsx';
+import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
+import { UserMoviesProvider } from '@/shared/context/UserMoviesContext.jsx';
 
 const queryClient = new QueryClient();
 
@@ -144,3 +144,4 @@ const App = () => {
 };
 
 export default App;
+

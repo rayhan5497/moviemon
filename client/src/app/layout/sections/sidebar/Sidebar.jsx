@@ -6,18 +6,18 @@ import { RiFolderCloudLine, RiFolderCloudFill } from 'react-icons/ri';
 import { useMatch } from 'react-router-dom';
 
 import NavSection from './NavSection';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import { useIsMd } from '@/hooks/useIsMd';
+import ThemeToggle from '@/shared/components/ui/ThemeToggle';
+import { useIsMd } from '@/shared/hooks/useIsMd';
 import {
   AvatarComponent,
   GithubButton,
   ShareButton,
-} from '@/components/ui/MUI';
-import { useModal } from '@/context/ModalContext';
+} from '@/shared/components/ui/MUI';
+import { useModal } from '@/shared/context/ModalContext';
 import { useRef } from 'react';
 import UserMenuModal from '@/features/user/UserProfileModal';
-import { useUserMoviesContext } from '@/context/UserMoviesContext';
-import { useSnackbar } from '@/context/SnackbarProvider';
+import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
+import { useSnackbar } from '@/shared/context/SnackbarProvider';
 
 const Sidebar = ({ isSidebarOpen }) => {
   const isHomeActive = useMatch('/');
@@ -148,3 +148,4 @@ const Sidebar = ({ isSidebarOpen }) => {
 };
 
 export default Sidebar;
+
