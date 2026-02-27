@@ -9,15 +9,15 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { X } from 'lucide-react';
 
-import Backdrop from '../../components/ui/Backdrop';
+import Backdrop from '@/components/ui/Backdrop';
 
 import { saveSidebarState } from '@/utils/userState';
 import SearchBox from '@/components/ui/SearchBox';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useIsMd } from '@/hooks/useIsMd';
 import { AvatarComponent, GithubButton, ShareButton, Toast } from '@components/ui/MUI';
-import { useModal } from '../../context/ModalContext';
-import UserMenuModal from '../../features/user/UserProfileModal';
+import { useModal } from '@/context/ModalContext';
+import UserMenuModal from '@/features/user/UserProfileModal';
 
 const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);

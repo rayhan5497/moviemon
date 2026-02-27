@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
 import HorizontalCardCarousel from '../components/sections/HorizontalCardCarousel';
+import SaveableMovieCard from '../composed/SaveableMovieCard';
 import Message from '../components/ui/Message';
 import { useIsLg } from '../hooks/useIsLg';
 import { useUserMovies } from '../features/user/hooks/useUserMovies';
@@ -14,12 +15,14 @@ const Section = ({
   emptyMessage,
   loadingMessage,
   route,
+  CardComponent,
 }) => (
   <div className="mb-6">
     <HorizontalCardCarousel
       media={items}
       title={title}
       route={items.length ? route : null}
+      CardComponent={CardComponent}
     />
     {isLoading && (
       <Message
@@ -120,6 +123,7 @@ const User = () => {
             emptyMessage={
               isLoggedIn ? 'No items saved yet' : ''
             }
+            CardComponent={SaveableMovieCard}
           />
 
           <Section
@@ -133,6 +137,7 @@ const User = () => {
                 ? 'No watch later items yet'
                 : ''
             }
+            CardComponent={SaveableMovieCard}
           />
 
           <Section
@@ -144,6 +149,7 @@ const User = () => {
             emptyMessage={
               isLoggedIn ? 'No watch history yet' : ''
             }
+            CardComponent={SaveableMovieCard}
           />
         </>
       ) : (

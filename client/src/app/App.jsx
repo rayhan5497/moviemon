@@ -1,38 +1,38 @@
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
-import Layout from './layout/Layout.jsx';
-import HomePage from './pages/Home';
-import DiscoverMoviePage from './pages/DiscoverMovie';
-import DiscoverTvPage from './pages/DiscoverTv.jsx';
-import TrendingPage from './pages/Trending';
-import MoviePage from './pages/Movie';
-import TvPage from './pages/Tv';
-import MediaPlayerPage from './pages/MediaPlayer';
-import SearchPage from './pages/Search';
-import InvalidRoute from './pages/InvalidRoute';
-import SimilarAndRecommendationsPage from './pages/SimilarAndRecommendations';
-import PersonPage from './pages/Person';
-import UserPage from './pages/User';
-import SavedPage from './pages/Saved';
-import WatchLaterPage from './pages/WatchLater';
-import WatchHistoryPage from './pages/WatchHistory';
-import AccountPage from './pages/Account';
-import VerifyEmailPage from './pages/VerifyEmail.jsx';
-import EmailChangeApprovalPage from './pages/EmailChangeApproval.jsx';
-import ForgotPasswordPage from './pages/ForgotPassword.jsx';
-import ResetPasswordPage from './pages/ResetPassword.jsx';
-import { useState, useEffect } from 'react';
 
-import { SnackbarProvider } from './context/SnackbarProvider.jsx';
-import { UserMoviesProvider } from './context/UserMoviesContext.jsx';
+import Layout from './layout/Layout.jsx';
+
+import AccountPage from '../pages/Account';
+import DiscoverMoviePage from '../pages/DiscoverMovie';
+import DiscoverTvPage from '../pages/DiscoverTv.jsx';
+import EmailChangeApprovalPage from '../pages/EmailChangeApproval.jsx';
+import ForgotPasswordPage from '../pages/ForgotPassword.jsx';
+import HomePage from '../pages/Home';
+import InvalidRoute from '../pages/InvalidRoute';
+import MediaPlayerPage from '../pages/MediaPlayer';
+import MoviePage from '../pages/Movie';
+import PersonPage from '../pages/Person';
+import ResetPasswordPage from '../pages/ResetPassword.jsx';
+import SavedPage from '../pages/Saved';
+import SearchPage from '../pages/Search';
+import SimilarAndRecommendationsPage from '../pages/SimilarAndRecommendations';
+import TrendingPage from '../pages/Trending';
+import TvPage from '../pages/Tv';
+import UserPage from '../pages/User';
+import VerifyEmailPage from '../pages/VerifyEmail.jsx';
+import WatchHistoryPage from '../pages/WatchHistory';
+import WatchLaterPage from '../pages/WatchLater';
+
+import { ModalProvider } from '../context/ModalContext.jsx';
+import { SnackbarProvider } from '../context/SnackbarProvider.jsx';
+import { UserMoviesProvider } from '../context/UserMoviesContext.jsx';
 
 const queryClient = new QueryClient();
 
-import { lazy, Suspense } from 'react';
-import { ModalProvider } from './context/ModalContext.jsx';
-
 const DevPanel = import.meta.env.DEV
-  ? lazy(() => import('./dev/DevPanel'))
+  ? lazy(() => import('../dev/DevPanel'))
   : null;
 
 const App = () => {
@@ -120,8 +120,14 @@ const App = () => {
                     path="/email-change/approve"
                     element={<EmailChangeApprovalPage />}
                   />
-                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route
+                    path="/forgot-password"
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route
+                    path="/reset-password"
+                    element={<ResetPasswordPage />}
+                  />
 
                   <Route path="/person/:id" element={<PersonPage />} />
 

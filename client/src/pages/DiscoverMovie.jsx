@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef } from 'react';
 
 import loadingSpinner from '@/assets/animated-icon/loading-spinner.lottie';
 
-import MovieCard from '../shared/composed/SaveableMovieCard';
+import MovieCard from '../composed/SaveableMovieCard';
 import FilterMovies from '../components/filters/discover/FilterMovies';
 import { useMovies } from '../hooks/useMovies';
 import MainScrollContext from '../context/MainScrollContext';

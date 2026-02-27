@@ -54,7 +54,7 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
         formData.append('avatar', file);
 
         const response = await fetch(
-          `${import.meta.env.VITE_TMDB_PROXY_URL}/api/users/me`,
+          `${import.meta.env.VITE_SERVER_BASE_URL}/api/users/me`,
           {
             method: 'PATCH',
             headers: {

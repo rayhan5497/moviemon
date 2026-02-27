@@ -11,8 +11,8 @@ import MainScrollContext from '../context/MainScrollContext';
 import NowPlayingContext from '../context/NowPlayingContext';
 
 import Player from '../features/MediaPlayer/player/PlayerSection';
-import FilterSeason from '../components/filters/season/FilterSeason';
-import FilterSeasonDesktop from '../components/filters/season/FilterSeasonDesktop';
+import FilterSeason from '../features/MediaPlayer/filters/FilterSeason';
+import FilterSeasonDesktop from '../features/MediaPlayer/filters/FilterSeasonDesktop';
 import HeadingSection from '../features/MediaPlayer/HeadingSection';
 import HighLightSection from '../components/sections/HighLight';
 import DetailsSection from '../features/MediaPlayer/DetailsSection';

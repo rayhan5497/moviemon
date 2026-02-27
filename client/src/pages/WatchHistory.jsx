@@ -6,7 +6,7 @@ import Message from '../components/ui/Message';
 import { useUserMovies } from '../features/user/hooks/useUserMovies';
 import { useMediaByIds } from '../hooks/useMediaByIds';
 import { useIsLg } from '../hooks/useIsLg';
-import SaveableMovieCard from '../shared/composed/SaveableMovieCard';
+import SaveableMovieCard from '../composed/SaveableMovieCard';
 
 const WatchHistory = () => {
   const { watchHistory, isLoggedIn } = useUserMovies();

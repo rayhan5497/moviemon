@@ -1,4 +1,4 @@
-const apiBase = import.meta.env.VITE_TMDB_PROXY_URL;
+const apiBase = import.meta.env.VITE_SERVER_BASE_URL;
 
 const parseResponse = async (response, fallbackMessage) => {
   const data = await response.json().catch(() => ({}));

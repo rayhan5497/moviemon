@@ -17,4 +17,4 @@ export const clearStoredUserInfo = () => {
 
 export const getAuthToken = (userInfo) => userInfo?.token || null;
 
-export const getApiBase = () => import.meta.env.VITE_TMDB_PROXY_URL || '';
+export const getApiBase = () => import.meta.env.VITE_SERVER_BASE_URL || '';

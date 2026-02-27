@@ -9,7 +9,7 @@ import { useIsLg } from '../hooks/useIsLg';
 
 import HeadingSection from '../features/person/HeadingSection';
 import DetailsSection from '../features/person/DetailsSection';
-import MovieCard from '../shared/composed/SaveableMovieCard';
+import MovieCard from '../composed/SaveableMovieCard';
 import ShowError from '../components/ui/ShowError';
 import MainScrollContext from '../context/MainScrollContext';
 import Message from '../components/ui/Message';

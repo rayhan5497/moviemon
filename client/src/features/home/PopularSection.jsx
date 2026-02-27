@@ -8,6 +8,7 @@ import randomizeArray from '@/utils/randomizeArray';
 import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
 import ShowError from '@/components/ui/ShowError';
 import Message from '../../components/ui/Message';
+import SaveableMovieCard from '@/composed/SaveableMovieCard';
 
 const PopularSection = ({ setMovies }) => {
   const queryString = `popular`;
@@ -50,6 +51,7 @@ const PopularSection = ({ setMovies }) => {
         route={'/movie/popular'}
         Icon={getLottiePlayer}
         className="text-accent"
+        CardComponent={SaveableMovieCard}
       />
 
       {isError && (

@@ -11,33 +11,6 @@ const getAuthHeaders = () => {
   }
 };
 
-export const getSavedMovies = async () => {
-  const res = await fetch(`${API_BASE}/api/user/saved`, {
-    headers: getAuthHeaders(),
-  });
-  if (!res.ok) throw new Error('Failed to fetch saved movies');
-  const data = await res.json();
-  return data.saved; // { movies: [], tv: [] }
-};
-
-export const getWatchLaterMovies = async () => {
-  const res = await fetch(`${API_BASE}/api/user/watchlater`, {
-    headers: getAuthHeaders(),
-  });
-  if (!res.ok) throw new Error('Failed to fetch watch later movies');
-  const data = await res.json();
-  return data.watchLater; // { movies: [], tv: [] }
-};
-
-export const getWatchHistory = async () => {
-  const res = await fetch(`${API_BASE}/api/user/watch-history`, {
-    headers: getAuthHeaders(),
-  });
-  if (!res.ok) throw new Error('Failed to fetch watch history');
-  const data = await res.json();
-  return data.watchHistory || [];
-};
-
 const safeJson = async (res) => {
   try {
     return await res.json();

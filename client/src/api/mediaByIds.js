@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_TMDB_PROXY_URL || '';
+const API_BASE = import.meta.env.VITE_SERVER_BASE_URL || '';
 
 const safeJson = async (res) => {
   try {

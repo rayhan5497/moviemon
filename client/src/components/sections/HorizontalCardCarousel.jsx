@@ -1,4 +1,4 @@
-import MovieCard from '../../shared/composed/SaveableMovieCard';
+import MovieCard from '../cards/MovieCard';
 import CastCard from '../cards/CastCard';
 import ScrollNavigator from '@components/ui/ScrollNavigator';
 
@@ -14,6 +14,7 @@ const HorizontalCardCarousel = ({
   Icon,
   className = '',
   type,
+  CardComponent = MovieCard,
 }) => {
   const {
     containerRef,
@@ -87,7 +88,7 @@ const HorizontalCardCarousel = ({
             ? media?.map((c) => <CastCard key={c.credit_id} cast={c} />)
             : media?.map((r) => (
                 <div key={r.id} className="card-wrapper md:mr-2">
-                  <MovieCard media={r} />
+                  <CardComponent media={r} />
                 </div>
               ))}
         </div>

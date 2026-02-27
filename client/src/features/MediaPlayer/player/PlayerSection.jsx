@@ -8,7 +8,7 @@ import FallbackIframe from './FallbackIframe';
 import '../../../index.css';
 import { useIsLg } from '@/hooks/useIsLg';
 import { useIsMd } from '@/hooks/useIsMd';
-import { saveWatchProgress } from '@utils/watchHistory';
+import { saveWatchProgress } from '@/features/MediaPlayer/utils/watchHistory';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 

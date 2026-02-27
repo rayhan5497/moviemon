@@ -1,12 +1,11 @@
-import { useMovieAction } from '../../features/user/hooks/useMovieActions';
-import { useUserMovies } from '../../features/user/hooks/useUserMovies'; // hook to get saved/watchLater IDs
-import MovieCard from '../../components/cards/MovieCard';
+import { useMovieAction } from '@/features/user/hooks/useMovieActions';
+import { useUserMovies } from '@/features/user/hooks/useUserMovies';
+import MovieCard from '@/components/cards/MovieCard';
 
 export default function SaveableMovieCard({ media }) {
   const mutation = useMovieAction();
   const { savedIds = [], watchLaterIds = [] } = useUserMovies();
 
-  // Determine initial state from user's DB
   const isSaved = savedIds.includes(media.id);
   const isWatchLater = watchLaterIds.includes(media.id);
 

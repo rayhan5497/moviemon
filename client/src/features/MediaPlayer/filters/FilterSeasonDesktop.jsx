@@ -3,12 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useSearchParams, useParams } from 'react-router-dom';
 
-import NowPlayingContext from '../../../context/NowPlayingContext';
-import { useMovies } from '../../../hooks/useMovies';
-import {
-  saveWatchProgress,
-  getWatchProgress,
-} from '../../../utils/watchHistory';
+import NowPlayingContext from '@/context/NowPlayingContext';
+import { useMovies } from '@/hooks/useMovies';
+import { saveWatchProgress, getWatchProgress } from '../utils/watchHistory';
 
 const FilterSeason = ({ tv }) => {
   const {
@@ -97,7 +94,8 @@ const FilterSeason = ({ tv }) => {
       nowPlayingENum === eNum &&
       nowPlayingEId === eId &&
       nowPlayingSId === sId
-    ) return;
+    )
+      return;
 
     setSearchParams(
       {

@@ -7,6 +7,7 @@ import { useMovies } from '@/hooks/useMovies';
 import HorizontalCardCarousel from '@/components/sections/HorizontalCardCarousel';
 import ShowError from '@/components/ui/ShowError';
 import Message from '../../components/ui/Message';
+import SaveableMovieCard from '@/composed/SaveableMovieCard';
 
 const TrendingSection = ({ setMovies }) => {
   const queryString = `all/day`;
@@ -50,6 +51,7 @@ const TrendingSection = ({ setMovies }) => {
         route={'/trending/all/day'}
         Icon={getLottiePlayer}
         className="text-accent"
+        CardComponent={SaveableMovieCard}
       />
 
       {isError && (

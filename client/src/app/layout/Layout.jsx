@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import MainScrollContext from '../context/MainScrollContext';
-import NowPlayingContext from '../context/NowPlayingContext';
+import MainScrollContext from '@/context/MainScrollContext';
+import NowPlayingContext from '@/context/NowPlayingContext';
 
-import useScrollRestoration from '../hooks/useScrollRestoration';
+import useScrollRestoration from '@/hooks/useScrollRestoration';
 
 import Header from './sections/Header';
 import Sidebar from './sections/sidebar/Sidebar';
@@ -11,7 +11,7 @@ import Footer from './sections/Footer';
 import NavbarBottom from './sections/NavbarBottom';
 import { useIsLg } from '@/hooks/useIsLg';
 import { getSidebarState, saveSidebarState } from '@/utils/userState';
-import AuthModalController from '../features/auth/AuthModalController';
+import AuthModalController from '@/features/auth/AuthModalController';
 
 const Layout = () => {
   const mainRef = useRef(null);

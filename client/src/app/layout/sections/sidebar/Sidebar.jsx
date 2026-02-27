@@ -13,11 +13,11 @@ import {
   GithubButton,
   ShareButton,
 } from '@/components/ui/MUI';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '@/context/ModalContext';
 import { useRef } from 'react';
-import UserMenuModal from '../../../features/user/UserProfileModal';
-import { useUserMoviesContext } from '../../../context/UserMoviesContext';
-import { useSnackbar } from '../../../context/SnackbarProvider';
+import UserMenuModal from '@/features/user/UserProfileModal';
+import { useUserMoviesContext } from '@/context/UserMoviesContext';
+import { useSnackbar } from '@/context/SnackbarProvider';
 
 const Sidebar = ({ isSidebarOpen }) => {
   const isHomeActive = useMatch('/');
