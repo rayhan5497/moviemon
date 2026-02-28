@@ -8,6 +8,8 @@
 MovieMon is a open-source movie discovery and personal library experience that helps users explore large catalogs, apply rich filters, and keep track of what they want to watch or have already watched. It focuses on fast exploration, clean UX, and scalable data flow for long‑term product growth.
 
 ---
+**Note:** This project is for educational purposes only.
+---
 
 ## Live
 
