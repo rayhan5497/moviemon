@@ -85,7 +85,7 @@ export default function VerifyEmailPage() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-6 py-12">
+    <div className="flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-xl rounded-3xl border border-accent-secondary bg-primary/90 p-8 shadow-2xl">
         <h1 className="text-3xl font-bold text-primary">Verify your email</h1>
 

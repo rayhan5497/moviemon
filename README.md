@@ -278,6 +278,12 @@ See [Privacy Policy](privacy-policy.md) for details.
 
 ---
 
+## Terms
+
+See [Terms of Use](terms-of-use.md) for details.
+
+---
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for guidelines.

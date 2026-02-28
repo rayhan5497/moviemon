@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from './layout/Layout.jsx';
 
 import AccountPage from '../pages/Account';
+import AgreementsPage from '../pages/Agreements.jsx';
 import DiscoverMoviePage from '../pages/DiscoverMovie';
 import DiscoverTvPage from '../pages/DiscoverTv.jsx';
 import EmailChangeApprovalPage from '../pages/EmailChangeApproval.jsx';
@@ -13,11 +14,13 @@ import HomePage from '../pages/Home';
 import InvalidRoute from '../pages/InvalidRoute';
 import MediaPlayerPage from '../pages/MediaPlayer';
 import MoviePage from '../pages/Movie';
+import PrivacyPage from '../pages/Privacy.jsx';
 import PersonPage from '../pages/Person';
 import ResetPasswordPage from '../pages/ResetPassword.jsx';
 import SavedPage from '../pages/Saved';
 import SearchPage from '../pages/Search';
 import SimilarAndRecommendationsPage from '../pages/SimilarAndRecommendations';
+import TermsPage from '../pages/Terms.jsx';
 import TrendingPage from '../pages/Trending';
 import TvPage from '../pages/Tv';
 import UserPage from '../pages/User';
@@ -28,6 +31,7 @@ import WatchLaterPage from '../pages/WatchLater';
 import { ModalProvider } from '@/shared/context/ModalContext.jsx';
 import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
 import { UserMoviesProvider } from '@/shared/context/UserMoviesContext.jsx';
+import RequireAgreements from './guards/RequireAgreements.jsx';
 
 const queryClient = new QueryClient();
 
@@ -64,75 +68,81 @@ const App = () => {
               )}
               <Routes>
                 <Route element={<Layout />}>
-                  <Route path="/" element={<HomePage />} />
-                  <Route
-                    path="/discover/movie"
-                    element={<DiscoverMoviePage />}
-                  />
-                  <Route path="/discover/tv" element={<DiscoverTvPage />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/terms" element={<TermsPage />} />
+                  <Route path="/agreements" element={<AgreementsPage />} />
 
-                  <Route
-                    path="/movie"
-                    element={<Navigate to="/movie/popular" replace />}
-                  />
-                  <Route path="/movie/:sort" element={<MoviePage />} />
-                  <Route
-                    path="/tv"
-                    element={<Navigate to="/tv/popular" replace />}
-                  />
-                  <Route path="/tv/:sort" element={<TvPage />} />
+                  <Route element={<RequireAgreements />}>
+                    <Route path="/" element={<HomePage />} />
+                    <Route
+                      path="/discover/movie"
+                      element={<DiscoverMoviePage />}
+                    />
+                    <Route path="/discover/tv" element={<DiscoverTvPage />} />
 
-                  <Route
-                    path="/trending"
-                    element={<Navigate to="/trending/all/day" replace />}
-                  />
-                  <Route
-                    path="/trending/:mediaType"
-                    element={<Navigate to="/trending/all/day" replace />}
-                  />
-                  <Route
-                    path="/trending/:mediaType/:timeWindow"
-                    element={<TrendingPage />}
-                  />
+                    <Route
+                      path="/movie"
+                      element={<Navigate to="/movie/popular" replace />}
+                    />
+                    <Route path="/movie/:sort" element={<MoviePage />} />
+                    <Route
+                      path="/tv"
+                      element={<Navigate to="/tv/popular" replace />}
+                    />
+                    <Route path="/tv/:sort" element={<TvPage />} />
 
-                  <Route
-                    path="/player/:mediaType/:id"
-                    element={<MediaPlayerPage />}
-                  />
-                  <Route
-                    path="/:mediaType/:id/:sort"
-                    element={<SimilarAndRecommendationsPage />}
-                  />
-                  <Route path="/user" element={<UserPage />} />
-                  <Route path="/user/saved" element={<SavedPage />} />
-                  <Route
-                    path="/user/watch-later"
-                    element={<WatchLaterPage />}
-                  />
-                  <Route
-                    path="/user/watch-history"
-                    element={<WatchHistoryPage />}
-                  />
-                  <Route path="/user/account" element={<AccountPage />} />
-                  <Route path="/saved" element={<SavedPage />} />
-                  <Route path="/verify-email" element={<VerifyEmailPage />} />
-                  <Route
-                    path="/email-change/approve"
-                    element={<EmailChangeApprovalPage />}
-                  />
-                  <Route
-                    path="/forgot-password"
-                    element={<ForgotPasswordPage />}
-                  />
-                  <Route
-                    path="/reset-password"
-                    element={<ResetPasswordPage />}
-                  />
+                    <Route
+                      path="/trending"
+                      element={<Navigate to="/trending/all/day" replace />}
+                    />
+                    <Route
+                      path="/trending/:mediaType"
+                      element={<Navigate to="/trending/all/day" replace />}
+                    />
+                    <Route
+                      path="/trending/:mediaType/:timeWindow"
+                      element={<TrendingPage />}
+                    />
 
-                  <Route path="/person/:id" element={<PersonPage />} />
+                    <Route
+                      path="/player/:mediaType/:id"
+                      element={<MediaPlayerPage />}
+                    />
+                    <Route
+                      path="/:mediaType/:id/:sort"
+                      element={<SimilarAndRecommendationsPage />}
+                    />
+                    <Route path="/user" element={<UserPage />} />
+                    <Route path="/user/saved" element={<SavedPage />} />
+                    <Route
+                      path="/user/watch-later"
+                      element={<WatchLaterPage />}
+                    />
+                    <Route
+                      path="/user/watch-history"
+                      element={<WatchHistoryPage />}
+                    />
+                    <Route path="/user/account" element={<AccountPage />} />
+                    <Route path="/saved" element={<SavedPage />} />
+                    <Route path="/verify-email" element={<VerifyEmailPage />} />
+                    <Route
+                      path="/email-change/approve"
+                      element={<EmailChangeApprovalPage />}
+                    />
+                    <Route
+                      path="/forgot-password"
+                      element={<ForgotPasswordPage />}
+                    />
+                    <Route
+                      path="/reset-password"
+                      element={<ResetPasswordPage />}
+                    />
 
-                  <Route path="/search" element={<SearchPage />} />
-                  <Route path="*" element={<InvalidRoute />} />
+                    <Route path="/person/:id" element={<PersonPage />} />
+
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="*" element={<InvalidRoute />} />
+                  </Route>
                 </Route>
               </Routes>
             </UserMoviesProvider>
