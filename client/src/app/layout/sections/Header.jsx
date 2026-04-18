@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import LinkWithScrollSave from '@/shared/components/ui/LinkWithScrollSave';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useLocation, useSearchParams } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ import ThemeToggle from '@/shared/components/ui/ThemeToggle';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { AvatarComponent, GithubButton, ShareButton, Toast } from '@/shared/components/ui/MUI';
 import { useModal } from '@/shared/context/ModalContext';
+import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
 import UserMenuModal from '@/features/user/UserProfileModal';
 
 const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
@@ -37,23 +38,12 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
   const isMd = useIsMd();
 
   const { modal, openModal, closeModal } = useModal();
-
-  const stored = JSON.parse(localStorage.getItem('userInfo'));
-
-  const [isUserLoggedIn, setIsUserLoggedIn ] = useState(false);
+  const { isLoggedIn } = useUserMoviesContext();
   const [toast, setToast] = useState({
     open: false,
     message: '',
     severity: 'success',
   });
-
-  useEffect(() => {
-    if (stored) {
-      setIsUserLoggedIn(true);
-    } else {
-      setIsUserLoggedIn(false);
-    }
-  }, [stored]);
 
   const handleLogoutToast = (message) => {
     setToast({
@@ -156,7 +146,7 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
                   tooltip="Profile"
                   ref={avatarRef}
                   onClick={() =>
-                    isUserLoggedIn
+                    isLoggedIn
                       ? modal === 'user'
                         ? closeModal()
                         : openModal('user')

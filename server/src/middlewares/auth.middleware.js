@@ -2,7 +2,6 @@ const AppError = require('../shared/errors/AppError');
 const { verifyToken } = require('../shared/utils/jwt');
 
 module.exports = function authMiddleware(req, res, next) {
-  console.log('req', req.headers.authorization)
   const header = req.headers.authorization || '';
   if (!header.startsWith('Bearer ')) {
     return next(new AppError('Unauthorized, Unkown Header', 401));

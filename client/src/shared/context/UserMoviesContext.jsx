@@ -1,18 +1,14 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { getStoredUserInfo, isAdminUser } from '@/shared/utils/authStorage';
 
 const UserMoviesContext = createContext(null);
 
 export function UserMoviesProvider({ children }) {
-  const [userInfo, setUserInfo] = useState(() => {
-    const stored = localStorage.getItem('userInfo');
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [userInfo, setUserInfo] = useState(() => getStoredUserInfo());
 
   useEffect(() => {
     const handleUserInfoUpdated = () => {
-      const stored = localStorage.getItem('userInfo');
-      const nextUserInfo = stored ? JSON.parse(stored) : null;
-      setUserInfo(nextUserInfo);
+      setUserInfo(getStoredUserInfo());
     };
 
     window.addEventListener('userInfoUpdated', handleUserInfoUpdated);
@@ -24,6 +20,7 @@ export function UserMoviesProvider({ children }) {
     () => ({
       userInfo,
       isLoggedIn: !!userInfo,
+      isAdmin: isAdminUser(userInfo),
     }),
     [userInfo]
   );

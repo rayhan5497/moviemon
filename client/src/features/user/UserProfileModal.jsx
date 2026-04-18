@@ -4,9 +4,15 @@ import { useModal } from '@/shared/context/ModalContext';
 import LinkWithScrollSave from '@/shared/components/ui/LinkWithScrollSave';
 import { AvatarComponent, Toast } from '@/shared/components/ui/MUI';
 import { Camera } from 'lucide-react';
+import {
+  clearStoredUserInfo,
+  setStoredUserInfo,
+} from '@/shared/utils/authStorage';
+import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
 
 export default function UserMenuModal({ anchorRef, onLogout }) {
   const { modal, closeModal } = useModal();
+  const { userInfo, isAdmin } = useUserMoviesContext();
   const [toast, setToast] = useState({
     open: false,
     message: '',
@@ -29,8 +35,6 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [closeModal, anchorRef]);
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
   const fileInputRef = useRef();
 
   const handleFileClick = () => {
@@ -44,7 +48,6 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log('Selected file:', file);
       try {
         if (!userInfo?.token) {
           throw new Error('Missing auth token');
@@ -67,7 +70,6 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
         const data = await response.json();
 
         if (!response.ok) {
-          console.log('data', data)
           throw new Error(data.message || 'Failed to upload avatar');
         }
 
@@ -76,8 +78,7 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
           user: { ...userInfo.user, ...data },
         };
 
-        localStorage.setItem('userInfo', JSON.stringify(nextUserInfo));
-        window.dispatchEvent(new Event('userInfoUpdated'));
+        setStoredUserInfo(nextUserInfo);
         setToast({
           open: true,
           message: 'Avatar updated successfully',
@@ -148,16 +149,38 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
               </div>
             </div>
 
-            <ProfileLink to="/user/saved" label="Saved Movies" />
-            <ProfileLink to="/user/watch-history" label="Watch History" />
-            <ProfileLink to="/user/watch-later" label="Watch Later" />
-            <ProfileLink to="/user/account" label="Account Settings" />
+            {isAdmin && (
+              <ProfileLink
+                to="/admin"
+                label="Admin Dashboard"
+                onClick={closeModal}
+              />
+            )}
+            <ProfileLink
+              to="/user/saved"
+              label="Saved Movies"
+              onClick={closeModal}
+            />
+            <ProfileLink
+              to="/user/watch-history"
+              label="Watch History"
+              onClick={closeModal}
+            />
+            <ProfileLink
+              to="/user/watch-later"
+              label="Watch Later"
+              onClick={closeModal}
+            />
+            <ProfileLink
+              to="/user/account"
+              label="Account Settings"
+              onClick={closeModal}
+            />
 
             <button
               className="px-4 py-2 text-red-500 hover:bg-accent-hover transition text-left w-full cursor-pointer"
               onClick={() => {
-                localStorage.removeItem('userInfo'); 
-                window.dispatchEvent(new Event('userInfoUpdated'));
+                clearStoredUserInfo();
                 if (onLogout) {
                   onLogout('Logged out successfully');
                 }
@@ -179,10 +202,11 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
   );
 }
 
-function ProfileLink({ to, label }) {
+function ProfileLink({ to, label, onClick }) {
   return (
     <LinkWithScrollSave
       to={to}
+      onClick={onClick}
       className="px-4 py-3 rounded-lg text-primary hover:bg-accent-hover transition"
     >
       {label}
