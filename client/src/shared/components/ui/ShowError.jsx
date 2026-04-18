@@ -12,7 +12,7 @@ const ShowError = ({ message, code, type }) => {
 
   return (
     <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded relative w-full h-auto">
-      {code === 34 ? (
+      {code === 34 || code === 404 ? (
         <>
           <>
             No data is available associated with this <strong>{label} !</strong>

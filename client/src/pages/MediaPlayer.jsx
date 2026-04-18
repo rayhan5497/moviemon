@@ -73,7 +73,6 @@ const MediaPlayer = () => {
         });
       });
     }
-    console.log('media', media);
   }, [isLoading, hasNextPage, media]);
 
   const { setIsPlayerPage, setNowPlayingId, setNowPlayingMedia } =
@@ -103,7 +102,9 @@ const MediaPlayer = () => {
   }, [media]);
 
   if (isError)
-    return <ShowError type={type} code={error.code} message={error.message} />;
+    return (
+      <ShowError type={mediaType} code={error.code} message={error.message} />
+    );
 
   return (
     <>
@@ -184,4 +185,3 @@ const MediaPlayer = () => {
 };
 
 export default MediaPlayer;
-

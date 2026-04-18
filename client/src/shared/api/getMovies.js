@@ -67,8 +67,8 @@ export async function getMovies(query, type) {
   const data = await response.json();
 
   if (!response.ok) {
-    const err = new Error(data.status_message);
-    err.code = data.status_code;
+    const err = new Error(data.status_message || response.statusText);
+    err.code = data.status_code || response.status;
     throw err;
   }
 

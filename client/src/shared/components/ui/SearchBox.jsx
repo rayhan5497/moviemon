@@ -102,20 +102,20 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
           </form>
           <Button
             onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className={`border border-white/70 opacity-70 hover:opacity-80 bg-transparent h-10 rounded-xl py-1 px-2 w-auto cursor-pointer ${
+            className={`border border-white/70 opacity-70 hover:opacity-80 bg-transparent h-8 md:h-10 rounded-xl py-1 px-2 w-auto cursor-pointer ${
               isSearchOpen ? 'z-50' : 'z-0'
             }`}
           >
             {isSearchOpen ? (
               <X
-                className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+                className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-4 md:w-8 p-0 z-20`}
                 size={24}
                 strokeWidth={3}
                 role="button"
               />
             ) : (
               <Search
-                className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-8 p-0 z-20`}
+                className={`text-white opacity-70 hover:opacity-80 cursor-pointer w-4 md:w-8 p-0 z-20`}
                 size={24}
                 strokeWidth={3}
                 role="button"
