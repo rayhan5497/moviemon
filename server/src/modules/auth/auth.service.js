@@ -13,6 +13,7 @@ const toAuthUserPayload = (user) => ({
   email: user.email,
   name: user.name,
   avatar: user.avatar ?? '',
+  role: user.role || 'user',
 });
 
 async function register({ email, password, name }) {
@@ -65,7 +66,11 @@ async function login({ email, password }) {
   if (!user.isVerified) {
     throw new AppError('Please verify your email', 403);
   }
-  const token = signToken({ sub: user.id, email: user.email });
+  const token = signToken({
+    sub: user.id,
+    email: user.email,
+    role: user.role || 'user',
+  });
   return {
     user: toAuthUserPayload(user),
     token
@@ -133,7 +138,11 @@ async function verifyEmail(token, email) {
     });
   }
 
-  const authToken = signToken({ sub: updated.id, email: updated.email });
+  const authToken = signToken({
+    sub: updated.id,
+    email: updated.email,
+    role: updated.role || 'user',
+  });
   const isEmailChangePending =
     updated.pendingEmail && updated.pendingEmailApprovalToken !== '';
 

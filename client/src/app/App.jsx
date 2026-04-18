@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from './layout/Layout.jsx';
 
 import AccountPage from '../pages/Account';
+import AdminPage from '../pages/Admin.jsx';
 import AgreementsPage from '../pages/Agreements.jsx';
 import DiscoverMoviePage from '../pages/DiscoverMovie';
 import DiscoverTvPage from '../pages/DiscoverTv.jsx';
@@ -32,6 +33,7 @@ import { ModalProvider } from '@/shared/context/ModalContext.jsx';
 import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
 import { UserMoviesProvider } from '@/shared/context/UserMoviesContext.jsx';
 import RequireAgreements from './guards/RequireAgreements.jsx';
+import RequireAdmin from './guards/RequireAdmin.jsx';
 
 const queryClient = new QueryClient();
 
@@ -123,6 +125,9 @@ const App = () => {
                       element={<WatchHistoryPage />}
                     />
                     <Route path="/user/account" element={<AccountPage />} />
+                    <Route element={<RequireAdmin />}>
+                      <Route path="/admin" element={<AdminPage />} />
+                    </Route>
                     <Route path="/saved" element={<SavedPage />} />
                     <Route path="/verify-email" element={<VerifyEmailPage />} />
                     <Route

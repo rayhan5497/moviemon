@@ -15,6 +15,11 @@ const UserSchema = new mongoose.Schema(
     pendingPasswordHash: { type: String, default: '' },
     passwordResetToken: { type: String, default: '' },
     passwordResetExpires: { type: Date, default: null },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
 
     avatar: {
       type: String,

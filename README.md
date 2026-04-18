@@ -5,7 +5,7 @@
 [![Vite](https://img.shields.io/badge/Vite-7.x-646CFF.svg)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-19.x-61DAFB.svg)](https://react.dev/)
 
-MovieMon is a open-source movie discovery and personal library experience that helps users explore large catalogs, apply rich filters, and keep track of what they want to watch or have already watched. It focuses on fast exploration, clean UX, and scalable data flow for long‑term product growth.
+MovieMon is an open-source movie discovery and personal library experience that helps users explore large catalogs, apply rich filters, and keep track of what they want to watch or have already watched. The current implementation includes account management, email-based auth flows, subtitle support, and a role-based admin stats dashboard.
 
 ---
 **Note:** This project is for educational purposes only.
@@ -21,6 +21,9 @@ MovieMon is a open-source movie discovery and personal library experience that h
 
 * Discover movies fast with search, filters, trending lists, and infinite scroll
 * Personal library features for saved, watch later, and watch history
+* Account flows for signup, login, email verification, password reset, and profile updates
+* Avatar uploads and account settings backed by Cloudinary
+* Role-based admin dashboard for platform and library stats
 * Media playback with subtitle support for a complete viewing experience
 * Clear loading, empty, and error states for smooth UX
 * Responsive, performance‑minded UI built for long sessions
@@ -45,9 +48,9 @@ MovieMon is a open-source movie discovery and personal library experience that h
 
 * Node.js + Express
 * MongoDB + Mongoose
-* JWT auth + bcrypt
+* JWT auth + bcrypt with role-based access control
 * Multer (uploads) + Cloudinary
-* EmailJS (email flows)
+* EmailJS (verification and password reset flows)
 * Helmet, CORS, Morgan
 * Winston logging
 
@@ -193,6 +196,10 @@ EMAILJS_TEMPLATE_ID=...
 EMAILJS_PUBLIC_KEY=...
 EMAILJS_PRIVATE_KEY=...
 
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+
 APP_BASE_URL=...
 ```
 
@@ -244,6 +251,9 @@ Base URL: `/api`
 * `POST /api/users/watchlater/:movieId` (auth)
 * `POST /api/users/watch-history/:movieId` (auth)
 
+**Admin** (auth + admin role)
+* `GET /api/admin/stats`
+
 ---
 
 ## Scripts
@@ -260,15 +270,6 @@ Base URL: `/api`
 * `npm run dev` — start server with nodemon
 * `npm start` — start server
 * `npm test` — run tests
-
----
-
-## Roadmap
-
-* Comprehensive test coverage for client and server
-* Pagination for user library endpoints and UI
-* Server‑side HLS pipeline implementation
-* Entity layer separation for stricter FSD alignment
 
 ---
 

@@ -9,8 +9,9 @@ async function fetchMovies(path) {
   }api_key=${apiKey}`;
 
   const response = await fetch(url);
+
   if (!response.ok) {
-    throw new AppError('Movies API error', response.status);
+    throw new AppError(response.statusText || 'Movie API Error', response.status);
   }
   const data = await response.json();
 

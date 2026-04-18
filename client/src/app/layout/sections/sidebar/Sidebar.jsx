@@ -2,6 +2,7 @@ import { GoHome, GoHomeFill } from 'react-icons/go';
 import { RiMovie2AiLine, RiMovie2AiFill } from 'react-icons/ri';
 import { BiTv, BiSolidTv } from 'react-icons/bi';
 import { RiFolderCloudLine, RiFolderCloudFill } from 'react-icons/ri';
+import { Shield, ShieldCheck } from 'lucide-react';
 
 import { useMatch } from 'react-router-dom';
 
@@ -24,14 +25,13 @@ const Sidebar = ({ isSidebarOpen }) => {
   const isMovieActive = useMatch('discover/movie');
   const isTvActive = useMatch('discover/tv');
   const isLibraryActive = useMatch('/user/*');
-  const { isLoggedIn } = useUserMoviesContext();
+  const isAdminActive = useMatch('/admin');
+  const { isLoggedIn, isAdmin } = useUserMoviesContext();
   const { showSnackbar } = useSnackbar();
 
   const isMd = useIsMd();
 
   const { modal, openModal, closeModal } = useModal();
-
-  const isUserLoggedIn = localStorage.getItem('userInfo');
 
   const avatarRef = useRef();
 
@@ -53,7 +53,7 @@ const Sidebar = ({ isSidebarOpen }) => {
               tooltip="Profile"
               ref={avatarRef}
               onClick={() =>
-                isUserLoggedIn
+                isLoggedIn
                   ? modal === 'user'
                     ? closeModal()
                     : openModal('user')
@@ -143,6 +143,15 @@ const Sidebar = ({ isSidebarOpen }) => {
           { label: 'Watch History', path: '/user/watch-history' },
         ]}
       />
+      {isAdmin && (
+        <NavSection
+          icon={Shield}
+          iconFill={ShieldCheck}
+          title={{ label: 'Admin', path: '/admin' }}
+          isSectionActive={isAdminActive}
+          items={[]}
+        />
+      )}
     </aside>
   );
 };

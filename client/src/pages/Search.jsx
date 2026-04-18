@@ -115,7 +115,7 @@ const Search = () => {
     return (
       <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded absolute w-full h-full top-1/2 left-1/2 -translate-1/2 z-10">
         <img
-          className={`w-full sm:h-full sm:w-auto md:max-h-96 [transition-property:opacity,scale] [transition-duration:2000ms,4000ms]  [transition-timing-function:linear,linear] ${
+          className={`w-full sm:h-full sm:w-auto md:max-h-80 [transition-property:opacity,scale] [transition-duration:2000ms,4000ms]  [transition-timing-function:linear,linear] ${
             visible ? 'opacity-100 scale-100' : 'opacity-0 scale-80'
           }`}
           src={meme}
@@ -147,7 +147,7 @@ const Search = () => {
           md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
           xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] md:mt-0"
         >
-          {allMovies.map(
+          {allMovies.filter((media) => media.poster_path).map(
             (media) =>
               media.media_type !== 'person ' && (
                 <MovieCard key={media.id} media={media} />
