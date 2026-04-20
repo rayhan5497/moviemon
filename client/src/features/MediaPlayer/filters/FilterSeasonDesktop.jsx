@@ -1,5 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { ChevronLeft } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+
 import { useEffect, useState, useContext } from 'react';
 import { useSearchParams, useParams } from 'react-router-dom';
 
@@ -8,6 +11,8 @@ import { useMovies } from '@/shared/hooks/useMovies';
 import { saveWatchProgress, getWatchProgress } from '../utils/watchHistory';
 
 const FilterSeason = ({ tv }) => {
+  const [filterVisibility, setFilterVisibility] = useState(true);
+
   const {
     setNowPlayingSNum,
     nowPlayingSNum,
@@ -157,101 +162,118 @@ const FilterSeason = ({ tv }) => {
 
   return (
     <>
-      <div
-        id="filterSeason"
-        className="season-and-episode-wrapper flex flex-col md:shrink-3 md:overflow-auto md:w-full p-5 gap-5 backdrop-grayscale-[1] backdrop-contrast-[1.1] rounded-tr-lg rounded-br-lg"
-      >
-        <div className="season-section flex items-center gap-1 md:flex-wrap">
-          <span className="nowPlaying bg-teal-600 flex items-center p-2 gap-1 border-t-1 w-full justify-center rounded text-white">
-            <span>Season:</span>{' '}
-            <span>{String(nowPlayingSNum)?.padStart(2, '0')}</span>
-          </span>
-          <div className="season-wrapper gap-2 flex overflow-auto md:flex-wrap">
-            {tv.seasons
-              ?.filter((s) => s.season_number !== 0)
-              .map((s) => (
-                <span
-                  key={s.season_number}
-                  onClick={() => handleSeasonClick(s.season_number)}
-                  className={`cursor-pointer hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
-                    Number(nowPlayingSNum) === s.season_number
-                      ? 'bg-teal-600'
-                      : ''
-                  } ${
-                    Number(currentSeason) === s.season_number
-                      ? 'bg-gray-700'
-                      : ''
-                  }`}
-                >{`S${s.season_number}`}</span>
-              ))}
+      {filterVisibility ? (
+        <ChevronLeft
+          onClick={() => setFilterVisibility(false)}
+          className="filter-visibility-toggle z-1 self-center -mr-4 bg-gray-700 rounded-sm hover:bg-gray-600 w-5 cursor-pointer h-12"
+        />
+      ) : (
+        <ChevronRight
+          onClick={() => setFilterVisibility(true)}
+          className="filter-visibility-toggle z-1 self-center -mr-4 bg-gray-700 rounded-sm hover:bg-gray-600 w-5 cursor-pointer h-12"
+        />
+      )}
+
+      {filterVisibility && (
+        <div
+          id="filterSeason"
+          className="season-and-episode-wrapper flex flex-col md:shrink-3 md:overflow-auto md:w-full p-5 pl-6 gap-5 backdrop-grayscale-[1] backdrop-contrast-[1.1] rounded-tr-lg rounded-br-lg"
+        >
+          <div className="season-section flex items-center gap-1 md:flex-wrap">
+            <span className="nowPlaying bg-teal-600 flex items-center p-2 gap-1 border-t-1 w-full justify-center rounded text-white">
+              <span>Season:</span>{' '}
+              <span>{String(nowPlayingSNum)?.padStart(2, '0')}</span>
+            </span>
+            <div className="season-wrapper gap-2 flex overflow-auto md:flex-wrap">
+              {tv.seasons
+                ?.filter((s) => s.season_number !== 0)
+                .map((s) => (
+                  <span
+                    key={s.season_number}
+                    onClick={() => handleSeasonClick(s.season_number)}
+                    className={`cursor-pointer hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
+                      Number(nowPlayingSNum) === s.season_number
+                        ? 'bg-teal-600'
+                        : ''
+                    } ${
+                      Number(currentSeason) === s.season_number
+                        ? 'bg-gray-700'
+                        : ''
+                    }`}
+                  >{`S${s.season_number}`}</span>
+                ))}
+            </div>
+          </div>
+          <div className="episode-section flex items-center gap-1 md:flex-wrap">
+            <span className="nowPlaying bg-teal-600 flex items-center p-2 gap-1 border-t-1 w-full justify-center rounded text-white">
+              <span>Episode:</span>{' '}
+              <span>{String(nowPlayingENum)?.padStart(2, '0')}</span>
+            </span>
+            <AnimatePresence mode="wait">
+              <motion.span
+                className={`episode-wrapper gap-2 flex overflow-auto items-center min-h-[2rem] md:flex-wrap ${
+                  isLoading || season?.episodes?.length <= 0
+                    ? 'w-full justify-center'
+                    : ''
+                }`}
+                key={`${season?.id}_${nowPlayingEId}_${nowPlayingENum}`}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 0 }}
+                transition={{ duration: 0.1, ease: 'easeOut' }}
+              >
+                {isLoading ? (
+                  <span className="flex gap-2 items-center justify-center w-full">
+                    {[0, 1, 2].map((i) => (
+                      <motion.span
+                        key={i}
+                        className="w-2 h-2 bg-accent rounded-full"
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{
+                          duration: 0.6,
+                          repeat: Infinity,
+                          delay: i * 0.15,
+                          ease: 'easeInOut',
+                        }}
+                      />
+                    ))}
+                  </span>
+                ) : (
+                  <>
+                    {season?.episodes?.length <= 0 ? (
+                      <span className="text-secondary">
+                        No episode in season {currentSeason}
+                      </span>
+                    ) : (
+                      season?.episodes?.map((e) => (
+                        <span
+                          onClick={() =>
+                            handleEpisodeClick(
+                              e.episode_number,
+                              e.id,
+                              season.id
+                            )
+                          }
+                          className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-gray-200 ${
+                            Number(nowPlayingENum) === e.episode_number &&
+                            (Number(nowPlayingEId) === e.id ||
+                              nowPlayingEId === null)
+                              ? 'bg-teal-600'
+                              : ''
+                          }`}
+                          key={e.episode_number}
+                        >{`E${e.episode_number}`}</span>
+                      ))
+                    )}
+                  </>
+                )}
+              </motion.span>
+            </AnimatePresence>
           </div>
         </div>
-        <div className="episode-section flex items-center gap-1 md:flex-wrap">
-          <span className="nowPlaying bg-teal-600 flex items-center p-2 gap-1 border-t-1 w-full justify-center rounded text-white">
-            <span>Episode:</span>{' '}
-            <span>{String(nowPlayingENum)?.padStart(2, '0')}</span>
-          </span>
-          <AnimatePresence mode="wait">
-            <motion.span
-              className={`episode-wrapper gap-2 flex overflow-auto items-center min-h-[2rem] md:flex-wrap ${
-                isLoading || season?.episodes?.length <= 0
-                  ? 'w-full justify-center'
-                  : ''
-              }`}
-              key={`${season?.id}_${nowPlayingEId}_${nowPlayingENum}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 0 }}
-              transition={{ duration: 0.1, ease: 'easeOut' }}
-            >
-              {isLoading ? (
-                <span className="flex gap-2 items-center justify-center w-full">
-                  {[0, 1, 2].map((i) => (
-                    <motion.span
-                      key={i}
-                      className="w-2 h-2 bg-accent rounded-full"
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{
-                        duration: 0.6,
-                        repeat: Infinity,
-                        delay: i * 0.15,
-                        ease: 'easeInOut',
-                      }}
-                    />
-                  ))}
-                </span>
-              ) : (
-                <>
-                  {season?.episodes?.length <= 0 ? (
-                    <span className="text-secondary">
-                      No episode in season {currentSeason}
-                    </span>
-                  ) : (
-                    season?.episodes?.map((e) => (
-                      <span
-                        onClick={() =>
-                          handleEpisodeClick(e.episode_number, e.id, season.id)
-                        }
-                        className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-gray-200 ${
-                          Number(nowPlayingENum) === e.episode_number &&
-                          (Number(nowPlayingEId) === e.id ||
-                            nowPlayingEId === null)
-                            ? 'bg-teal-600'
-                            : ''
-                        }`}
-                        key={e.episode_number}
-                      >{`E${e.episode_number}`}</span>
-                    ))
-                  )}
-                </>
-              )}
-            </motion.span>
-          </AnimatePresence>
-        </div>
-      </div>
+      )}
     </>
   );
 };
 
 export default FilterSeason;
-
