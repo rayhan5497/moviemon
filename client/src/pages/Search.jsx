@@ -1,9 +1,9 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useContext, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { VirtuosoGrid } from 'react-virtuoso'; // 1. Import Virtuoso
 
 import meme from '@/shared/assets/image/meme.webp';
-
 import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
 import MovieCard from '@/widgets/SaveableMovieCard';
@@ -15,6 +15,8 @@ import { useSnackbar } from '@/shared/context/SnackbarProvider';
 import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
+import InfiniteMovieGrid from '@/shared/components/sections/infiniteMovieGrid';
+import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 
 const Search = () => {
   const { showSnackbar } = useSnackbar();
@@ -25,8 +27,7 @@ const Search = () => {
   const type = 'search';
 
   const isQuery = searchParams.get('query');
-
-  const isAdultQuery = isQuery && verifyAdultQuery(searchParams.get('query'));
+    const isAdultQuery = isQuery && verifyAdultQuery(searchParams.get('query'));
 
   const {
     data,
@@ -38,7 +39,6 @@ const Search = () => {
     isLoading,
   } = useMovies(queryString, type, { enabled: !isAdultQuery });
 
-  //Change document title
   useEffect(() => {
     document.title = `Search ${
       isQuery
@@ -47,24 +47,23 @@ const Search = () => {
     } - Moviemon`;
   }, [isQuery]);
 
+  // 2. Filter data here to prevent "Empty Divs" in the grid
   const allMovies = [
     ...new Map(
       (data?.pages || [])
         .flatMap((page) => page.results)
-        .filter(Boolean)
+        .filter((m) => m && m.poster_path && m.media_type !== 'person') // Combined filters
         .map((m) => [m.id, m])
     ).values(),
   ];
 
   const { mainRef, sentinelRef } = useContext(MainScrollContext);
-
   const fetchLock = useRef(false);
 
-  // Observer setup — run once per mount
   useInfiniteObserver({
-    targetRef: sentinelRef, // this div from Layout
+    targetRef: sentinelRef,
     rootRef: mainRef,
-    rootMargin: '200px', // trigger a bit before reaching bottom
+    rootMargin: '200px',
     threshold: 0,
     onIntersect: async () => {
       if (fetchLock.current) return;
@@ -79,7 +78,6 @@ const Search = () => {
     },
   });
 
-  // 1. Reset scroll on new query ---------------------------------------------
   useEffect(() => {
     if (mainRef.current) mainRef.current.scrollTop = 0;
   }, [queryString]);
@@ -111,11 +109,12 @@ const Search = () => {
       </div>
     );
   }
+
   if (isAdultQuery) {
     return (
       <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded absolute w-full h-full top-1/2 left-1/2 -translate-1/2 z-10">
         <img
-          className={`w-full sm:h-full sm:w-auto md:max-h-80 [transition-property:opacity,scale] [transition-duration:2000ms,4000ms]  [transition-timing-function:linear,linear] ${
+          className={`w-full sm:h-full sm:w-auto md:max-h-80 transition-all duration-1000 ${
             visible ? 'opacity-100 scale-100' : 'opacity-0 scale-80'
           }`}
           src={meme}
@@ -141,37 +140,38 @@ const Search = () => {
             </strong>
           </h1>
         )}
-        <div
-          className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
-          grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
-          md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
-          xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] md:mt-0"
-        >
-          {allMovies.filter((media) => media.poster_path).map(
-            (media) =>
-              media.media_type !== 'person ' && (
-                <MovieCard key={media.id} media={media} />
-              )
+
+        {/* 3. VirtuosoGrid replaces the manual .map() */}
+        <InfiniteMovieGrid
+          data={allMovies}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+          renderItem={(media) => (
+            <SaveableMovieCard key={media.id} media={media} />
+          )}
+        />
+
+        <div className="message pt-3">
+          {!isLoading && !hasNextPage && allMovies.length <= 0 && (
+            <Message icon="🎬" message="No Media Found!" />
+          )}
+
+          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+            <Message
+              lottie={loadingSpinner}
+              message={isLoading ? 'Loading Media' : 'Loading More Media'}
+              className="w-[1.4em]"
+            />
+          ) : null}
+
+          {!isLoading && !hasNextPage && allMovies.length > 0 && (
+            <Message icon="🎬" message="No More Media" />
           )}
         </div>
-        {!isLoading && !hasNextPage && allMovies.length <= 0 && (
-          <Message icon="🎬" message="No Media Found!" />
-        )}
-        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
-          <Message
-            lottie={loadingSpinner}
-            message={isLoading ? 'Loading Media' : 'Loading More Media'}
-            className="w-[1.4em]"
-          />
-        ) : null}
-
-        {!isLoading && !hasNextPage && allMovies.length > 0 && (
-          <Message icon="🎬" message="No More Media" />
-        )}
       </div>
     </>
   );
 };
 
 export default Search;
-
