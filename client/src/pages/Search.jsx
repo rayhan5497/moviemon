@@ -10,7 +10,7 @@ import MovieCard from '@/widgets/SaveableMovieCard';
 import { useMovies } from '@/shared/hooks/useMovies';
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import verifyAdultQuery from '@/shared/utils/verifyAdultQuery';
-import SearchBox from '@/shared/components/ui/SearchBox';
+import SearchBox from '@/features/search/SearchBox';
 import { useSnackbar } from '@/shared/context/SnackbarProvider';
 import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';

@@ -12,7 +12,7 @@ import { X } from 'lucide-react';
 import Backdrop from '@/shared/components/ui/Backdrop';
 
 import { saveSidebarState } from '@/shared/utils/userState';
-import SearchBox from '@/shared/components/ui/SearchBox';
+import SearchBox from '@/features/search/SearchBox';
 import ThemeToggle from '@/shared/components/ui/ThemeToggle';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { AvatarComponent, GithubButton, ShareButton, Toast } from '@/shared/components/ui/MUI';
