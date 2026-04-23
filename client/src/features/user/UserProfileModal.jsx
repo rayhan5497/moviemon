@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '@/shared/context/ModalContext';
 import LinkWithScrollSave from '@/shared/components/ui/LinkWithScrollSave';
@@ -9,6 +9,7 @@ import {
   setStoredUserInfo,
 } from '@/shared/utils/authStorage';
 import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
+import { useOutsideClick } from '@/shared/hooks/useOutsideClick';
 
 export default function UserMenuModal({ anchorRef, onLogout }) {
   const { modal, closeModal } = useModal();
@@ -20,20 +21,11 @@ export default function UserMenuModal({ anchorRef, onLogout }) {
   });
   const menuRef = useRef();
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(e.target) &&
-        anchorRef.current &&
-        !anchorRef.current.contains(e.target)
-      ) {
-        closeModal();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [closeModal, anchorRef]);
+  useOutsideClick(menuRef, closeModal, {
+    enabled: modal === 'user',
+    ignoreRefs: [anchorRef],
+    detectIframe: true,
+  });
 
   const fileInputRef = useRef();
 

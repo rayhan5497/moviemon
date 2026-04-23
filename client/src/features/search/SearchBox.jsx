@@ -80,7 +80,10 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
     setInputValue(e.target.value);
   };
 
-  useOutsideClick(ref, () => setIsFocused(false));
+  useOutsideClick(ref, () => setIsFocused(false), {
+    enabled: isFocused,
+    detectIframe: true,
+  });
 
   return (
     <div ref={ref} className="search-wrapper">
