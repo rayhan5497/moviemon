@@ -80,6 +80,13 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
     setInputValue(e.target.value);
   };
 
+  const handleResultClick = () => {
+    setIsFocused(false);
+    if (!isMd && setIsSearchOpen) {
+      setIsSearchOpen(false);
+    }
+  };
+
   useOutsideClick(ref, () => setIsFocused(false), {
     enabled: isFocused,
     detectIframe: true,
@@ -122,7 +129,7 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
                 <InputResult
                   data={allMovies}
                   isLoading={isLoading}
-                  setIsFocused={setIsFocused}
+                  onResultClick={handleResultClick}
                 />
               )}
             </div>
@@ -168,7 +175,7 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
                 <InputResult
                   data={allMovies}
                   isLoading={isLoading}
-                  setIsFocused={setIsFocused}
+                  onResultClick={handleResultClick}
                 />
               )}
             </div>

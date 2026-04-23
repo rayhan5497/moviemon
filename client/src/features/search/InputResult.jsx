@@ -1,10 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import Button from '@/shared/components/ui/Button';
-import { X } from 'lucide-react';
-import { Search } from 'lucide-react';
-
-const InputResult = ({ data, isLoading, setIsFocused }) => {
+const InputResult = ({ data, isLoading, onResultClick }) => {
 
   const detailsDescriptor = ['Year', 'Rating'];
 
@@ -24,7 +20,7 @@ const InputResult = ({ data, isLoading, setIsFocused }) => {
                 to={`/player/${result.media_type}/${result.id}`}
                 key={result.id}
                 className="flex items-center gap-2 p-1 hover:bg-accent-hover rounded cursor-pointer"
-                onClick={() => setIsFocused(false)}
+                onClick={onResultClick}
               >
                 <img
                   src={`https://image.tmdb.org/t/p/w45/${result.poster_path}`}
