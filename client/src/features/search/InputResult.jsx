@@ -10,9 +10,9 @@ const InputResult = ({ data, isLoading, setIsFocused }) => {
 
   return (
     <div className="result absolute top-13 left-0 w-full">
-      {data?.pages[0]?.results.length > 0 && (
+      {data.length > 0 && (
         <div className="bg-secondary rounded-xl p-2 text-sm max-h-60 overflow-y-auto">
-          {data.pages[0].results
+          {data
             .filter(Boolean)
             .filter((result) => result.poster_path)
             .sort(
@@ -73,9 +73,9 @@ const InputResult = ({ data, isLoading, setIsFocused }) => {
             >
               <div className="w-12 h-16 rounded bg-gray-500 animate-pulse" />
               <div className="details p-1 flex gap-2 flex-col">
-                <div className="title w-30 h-4 text-accent font-medium truncate bg-gray-500 animate-pulse" />
-                <span className="opacity-70 w-16 h-3 bg-gray-500 animate-pulse"></span>
-                <span className="opacity-80 w-16 h-3 bg-gray-500 animate-pulse" />
+                <div className="title rounded w-30 h-4 text-accent font-medium truncate bg-gray-500 animate-pulse" />
+                <span className="opacity-70 rounded w-16 h-3 bg-gray-500 animate-pulse"></span>
+                <span className="opacity-80 rounded w-16 h-3 bg-gray-500 animate-pulse" />
               </div>
             </div>
           ))}

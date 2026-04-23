@@ -14,6 +14,7 @@ import { useIsMd } from '@/shared/hooks/useIsMd';
 import HeadingSection from '../features/MediaPlayer/HeadingSection';
 import DetailsSection from '../features/MediaPlayer/DetailsSection';
 import HighLightSection from '@/shared/components/sections/HighLight';
+import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
 
 const Similar = () => {
   const { mediaType, sort, id } = useParams();
@@ -70,12 +71,13 @@ const Similar = () => {
   const type2 = `player/${mediaType}`;
 
   // fetch movie data if context is empty
-  const {
-    data: mediaData,
-    isError: mediaIsError,
-  } = useMovies(mediaQueryString, type2, {
-    enabled: nowPlayingMedia ? false : true,
-  });
+  const { data: mediaData, isError: mediaIsError } = useMovies(
+    mediaQueryString,
+    type2,
+    {
+      enabled: nowPlayingMedia ? false : true,
+    }
+  );
 
   const media = mediaData?.pages[0];
 
@@ -149,39 +151,38 @@ const Similar = () => {
           </>
         )}
 
-        <div
-          className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
-          grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
-          md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
-          xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] md:mt-0"
-        >
-          {allMovies.map((media) => (
-            <MovieCard key={media.id} media={media} />
-          ))}
-        </div>
-        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
-          <Message
-            lottie={loadingSpinner}
-            message={isLoading ? 'Loading Media' : 'Loading More Media'}
-            className="w-[1.4em]"
-          />
-        ) : null}
+        <InfiniteMovieGrid
+          data={allMovies}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+          renderItem={(media) => <MovieCard key={media.id} media={media} />}
+        />
 
-        {!isLoading && !hasNextPage && allMovies.length > 0 && (
-          <Message icon="🎬" message="No More Media" />
-        )}
-        {!isLoading && !hasNextPage && allMovies.length === 0 && (
-          <Message
-            icon="🎬"
-            message={`No ${
-              media?.title ? sort + ' for this Movie!' : ' for this TV show'
-            }`}
-          />
-        )}
+        <div className="message pt-3">
+          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+            <Message
+              lottie={loadingSpinner}
+              message={isLoading ? 'Loading Media' : 'Loading More Media'}
+              className="w-[1.4em]"
+            />
+          ) : null}
+
+          {!isLoading && !hasNextPage && allMovies.length > 0 && (
+            <Message icon="🎬" message="No More Media" />
+          )}
+          {!isLoading && !hasNextPage && allMovies.length === 0 && (
+            <Message
+              icon="🎬"
+              message={`No ${
+                media?.title ? sort + ' for this Movie!' : ' for this TV show'
+              }`}
+            />
+          )}
+        </div>
       </div>
     </>
   );
 };
 
 export default Similar;
-

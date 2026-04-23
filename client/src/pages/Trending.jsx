@@ -10,6 +10,7 @@ import MainScrollContext from '@/shared/context/MainScrollContext';
 import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
+import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
 
 const Movies = () => {
   const { mediaType, timeWindow } = useParams();
@@ -76,56 +77,51 @@ const Movies = () => {
     <>
       <FilterMovies />
       <div className="movies">
-        <div
-          className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
-          grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
-          md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
-          xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] md:mt-0"
-        >
-          {allMovies.map(
-            (media) =>
-              media.media_type !== 'person' && (
-                <MovieCard key={media.id} media={media} />
-              )
+        <InfiniteMovieGrid
+          data={allMovies}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+          renderItem={(media) => <MovieCard key={media.id} media={media} />}
+        />
+
+        <div className="message pt-3">
+          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+            <Message
+              lottie={loadingSpinner}
+              message={
+                isLoading
+                  ? mediaType === 'movie'
+                    ? 'Loading Movies'
+                    : mediaType === 'tv'
+                    ? 'Loading TV Shows'
+                    : 'Loading Media'
+                  : mediaType === 'movie'
+                  ? 'Loading More Movies'
+                  : mediaType === 'tv'
+                  ? 'Loading More Shows'
+                  : 'Loading More Media'
+              }
+              className="w-[1.4em]"
+            />
+          ) : null}
+
+          {!isLoading && !hasNextPage && (
+            <Message
+              icon="🎬"
+              message={
+                mediaType === 'movie'
+                  ? 'No More Movies'
+                  : mediaType === 'tv'
+                  ? 'No More Shows'
+                  : 'No More Media'
+              }
+            />
           )}
         </div>
-
-        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
-          <Message
-            lottie={loadingSpinner}
-            message={
-              isLoading
-                ? mediaType === 'movie'
-                  ? 'Loading Movies'
-                  : mediaType === 'tv'
-                  ? 'Loading TV Shows'
-                  : 'Loading Media'
-                : mediaType === 'movie'
-                ? 'Loading More Movies'
-                : mediaType === 'tv'
-                ? 'Loading More Shows'
-                : 'Loading More Media'
-            }
-            className="w-[1.4em]"
-          />
-        ) : null}
-
-        {!isLoading && !hasNextPage && (
-          <Message
-            icon="🎬"
-            message={
-              mediaType === 'movie'
-                ? 'No More Movies'
-                : mediaType === 'tv'
-                ? 'No More Shows'
-                : 'No More Media'
-            }
-          />
-        )}
       </div>
     </>
   );
 };
 
 export default Movies;
-

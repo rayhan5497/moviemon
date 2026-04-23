@@ -7,6 +7,7 @@ import { useUserMovies } from '../features/user/hooks/useUserMovies';
 import { useMediaByIds } from '@/shared/hooks/useMediaByIds';
 import { useIsLg } from '@/shared/hooks/useIsLg';
 import SaveableMovieCard from '@/widgets/SaveableMovieCard';
+import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
 
 const Saved = () => {
   const { savedByType, isLoggedIn } = useUserMovies();
@@ -58,16 +59,12 @@ const Saved = () => {
               <Message message="No items saved yet" />
             )}
 
-            <div
-              className="movie-wrapper movies-grid grid gap-1 lg:gap-2 mt-2
-            grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
-            md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
-            xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))]"
-            >
-              {data.map((media) => (
+            <InfiniteMovieGrid
+              data={data}
+              renderItem={(media) => (
                 <SaveableMovieCard key={media.id} media={media} />
-              ))}
-            </div>
+              )}
+            />
           </>
         ) : (
           <Message icon="🚫" message="You need to login to use this feature" />
@@ -78,4 +75,3 @@ const Saved = () => {
 };
 
 export default Saved;
-

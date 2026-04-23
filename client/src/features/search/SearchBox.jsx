@@ -22,9 +22,24 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
 
   const isAdultQuery = debouncedValue && verifyAdultQuery(debouncedValue);
 
-  const { data, isLoading } = useMovies('query=' + debouncedValue, type, {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useMovies('query=' + debouncedValue, type, {
     enabled: !!debouncedValue && !isAdultQuery,
   });
+
+  const allMovies = [
+    ...new Map(
+      (data?.pages || [])
+        .flatMap((page) => page.results)
+        .filter(Boolean)
+        .map((m) => [m.id, m])
+    ).values(),
+  ];
 
   const navigate = useNavigate();
 
@@ -49,7 +64,17 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
     });
   };
 
-  useEffect(() => {}, [debouncedValue, data]);
+  useEffect(() => {
+    if (
+      allMovies &&
+      allMovies.length < 20 &&
+      !isFetchingNextPage &&
+      hasNextPage &&
+      !isLoading
+    ) {
+      fetchNextPage();
+    }
+  }, [allMovies]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -92,7 +117,7 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
               </button>
               {isFocused && (
                 <InputResult
-                  data={data}
+                  data={allMovies}
                   isLoading={isLoading}
                   setIsFocused={setIsFocused}
                 />
@@ -138,7 +163,7 @@ const SearchBox = ({ inMotion, setIsSearchOpen, isSearchOpen }) => {
               </button>
               {isFocused && (
                 <InputResult
-                  data={data}
+                  data={allMovies}
                   isLoading={isLoading}
                   setIsFocused={setIsFocused}
                 />

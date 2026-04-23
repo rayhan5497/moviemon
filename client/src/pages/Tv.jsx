@@ -10,6 +10,7 @@ import MainScrollContext from '@/shared/context/MainScrollContext';
 import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
+import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
 
 const Popular = () => {
   const [searchParams] = useSearchParams();
@@ -71,31 +72,30 @@ const Popular = () => {
     <>
       <FilterMovies />
       <div className="movies">
-        <div
-          className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
-          grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
-          md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
-          xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] md:mt-0"
-        >
-          {allMovies.map((media) => (
-            <MovieCard key={media.id} media={media} />
-          ))}
-        </div>
-        {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
-          <Message
-            lottie={loadingSpinner}
-            message={isLoading ? 'Loading TV Shows' : 'Loading More Shows'}
-            className="w-[1.4em]"
-          />
-        ) : null}
+        <InfiniteMovieGrid
+          data={allMovies}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+          renderItem={(media) => <MovieCard key={media.id} media={media} />}
+        />
 
-        {!isLoading && !hasNextPage && (
-          <Message icon="🎬" message="No More Shows" />
-        )}
+        <div className="message pt-3">
+          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+            <Message
+              lottie={loadingSpinner}
+              message={isLoading ? 'Loading TV Shows' : 'Loading More Shows'}
+              className="w-[1.4em]"
+            />
+          ) : null}
+
+          {!isLoading && !hasNextPage && (
+            <Message icon="🎬" message="No More Shows" />
+          )}
+        </div>
       </div>
     </>
   );
 };
 
 export default Popular;
-
