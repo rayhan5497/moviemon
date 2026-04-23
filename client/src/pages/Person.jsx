@@ -78,25 +78,7 @@ export default function Person() {
                         onError={() => setImgLoaded(true)}
                       />
                       {!imgLoaded && (
-                        <>
-                          <div className="absolute inset-0 bg-secondary max-w-[250px] rounded-lg overflow-hidden">
-                            <div
-                              className="absolute inset-0"
-                              style={{
-                                background: `linear-gradient(
-                                  135deg,
-                                  rgba(255,255,255,0) 0%,
-                                  rgba(126,126,126,0.20) 50%,
-                                  rgba(255,255,255,0) 100%
-                                  )`,
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: '300% 300%', // big enough to move smoothly
-                                animation: `shimmer 1s infinite linear`,
-                                animationDelay: `${Math.random() * 0.5}s`,
-                              }}
-                            ></div>
-                          </div>
-                        </>
+                        <div className="!absolute inset-0 max-w-[250px] skeleton-shimmer rounded-lg"></div>
                       )}
                     </div>
 
@@ -123,25 +105,7 @@ export default function Person() {
                         onError={() => setImgLoaded(true)}
                       />
                       {!imgLoaded && (
-                        <>
-                          <div className="relative inset-0 bg-secondary max-w-[250px] w-full h-[250px] rounded-md overflow-hidden">
-                            <div
-                              className="absolute inset-0"
-                              style={{
-                                background: `linear-gradient(
-                                  135deg,
-                                  rgba(255,255,255,0) 0%,
-                                  rgba(126,126,126,0.20) 50%,
-                                  rgba(255,255,255,0) 100%
-                                  )`,
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: '300% 300%', // big enough to move smoothly
-                                animation: `shimmer 1s infinite linear`,
-                                animationDelay: `${Math.random() * 0.5}s`,
-                              }}
-                            ></div>
-                          </div>
-                        </>
+                        <div className="relative inset-0 max-w-[250px] w-full h-[250px] skeleton-shimmer rounded-md"></div>
                       )}
                       <div className="w-dvh h-40 absolute bottom-0 bg-primary-gradient-to-top"></div>
                       <div className="w-dvh h-30 blur-xl absolute -bottom-5 bg-primary"></div>

@@ -36,25 +36,7 @@ export default function CastCard ({ cast }) {
 
               {/* Shimmer Skeleton */}
               {!imgLoaded && (
-                <>
-                  <div className="absolute inset-0 bg-secondary w-20 h-20 rounded-full overflow-hidden">
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background: `linear-gradient(
-              135deg,
-              rgba(255,255,255,0) 0%,
-              rgba(126,126,126,0.20) 50%,
-              rgba(255,255,255,0) 100%
-            )`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: '300% 300%', // big enough to move smoothly
-                        animation: `shimmer 1s infinite linear`,
-                        animationDelay: `${Math.random() * 0.5}s`,
-                      }}
-                    ></div>
-                  </div>
-                </>
+                <div className="!absolute inset-0 w-20 h-20 skeleton-shimmer rounded-full"></div>
               )}
             </>
           ) : (
