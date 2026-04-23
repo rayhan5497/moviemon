@@ -69,7 +69,7 @@ const Tv = () => {
 
   return (
     <>
-      <FilterMovies />
+      {!isLoading && <FilterMovies />}
       <div className="movies">
         <InfiniteMovieGrid
           data={allTv}

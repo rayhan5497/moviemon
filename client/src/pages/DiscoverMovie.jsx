@@ -70,18 +70,15 @@ const Movies = () => {
 
   return (
     <>
-      <FilterMovies />
+      {!isLoading && <FilterMovies />}
 
       <div className="movies">
-
         <InfiniteMovieGrid
           data={allMovies}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           fetchNextPage={fetchNextPage}
-          renderItem={(media) => (
-            <MovieCard key={media.id} media={media} />
-          )}
+          renderItem={(media) => <MovieCard key={media.id} media={media} />}
         />
 
         <div className="message pt-3">

@@ -75,7 +75,8 @@ const Movies = () => {
 
   return (
     <>
-      <FilterMovies />
+      {' '}
+      {!isLoading && <FilterMovies />}
       <div className="movies">
         <InfiniteMovieGrid
           data={allMovies}
