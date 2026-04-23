@@ -10,6 +10,7 @@ import MainScrollContext from '@/shared/context/MainScrollContext';
 import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
+import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
 
 const Tv = () => {
   const [searchParams] = useSearchParams();
@@ -70,32 +71,30 @@ const Tv = () => {
     <>
       <FilterMovies />
       <div className="movies">
-        <div
-          className="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
-          grid-cols-[repeat(auto-fit,minmax(110px,auto))] sm:grid-cols-[repeat(auto-fit,minmax(120px,auto))]
-          md:grid-cols-[repeat(auto-fit,minmax(130px,auto))] lg:grid-cols-[repeat(auto-fit,minmax(150px,auto))]
-          xl:grid-cols-[repeat(auto-fit,minmax(170px,auto))] md:mt-0"
-        >
-          {allTv.map((media) => (
-            <MovieCard key={media.id} media={media} />
-          ))}
+        <InfiniteMovieGrid
+          data={allTv}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+          renderItem={(media) => <MovieCard key={media.id} media={media} />}
+        />
+
+        <div className="message pt-3">
+          {(isLoading && allTv.length === 0) || isFetchingNextPage ? (
+            <Message
+              lottie={loadingSpinner}
+              message={isLoading ? 'Loading TV Shows' : 'Loading More Shows'}
+              className="w-[1.4em]"
+            />
+          ) : null}
+
+          {!isLoading && !hasNextPage && (
+            <Message icon="🎬" message="No More Shows" />
+          )}
         </div>
-
-        {(isLoading && allTv.length === 0) || isFetchingNextPage ? (
-          <Message
-            lottie={loadingSpinner}
-            message={isLoading ? 'Loading TV Shows' : 'Loading More Shows'}
-            className="w-[1.4em]"
-          />
-        ) : null}
-
-        {!isLoading && !hasNextPage && (
-          <Message icon="🎬" message="No More Shows" />
-        )}
       </div>
     </>
   );
 };
 
 export default Tv;
-
