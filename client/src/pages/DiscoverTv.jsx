@@ -71,13 +71,15 @@ const Tv = () => {
     <>
       {!isLoading && <FilterMovies />}
       <div className="movies">
-        <InfiniteMovieGrid
-          data={allTv}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          fetchNextPage={fetchNextPage}
-          renderItem={(media) => <MovieCard key={media.id} media={media} />}
-        />
+        {!isLoading && allTv.length !== 0 && (
+          <InfiniteMovieGrid
+            data={allTv}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+            renderItem={(media) => <MovieCard key={media.id} media={media} />}
+          />
+        )}
 
         <div className="message pt-3">
           {(isLoading && allTv.length === 0) || isFetchingNextPage ? (

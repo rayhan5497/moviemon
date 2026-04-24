@@ -72,13 +72,15 @@ const Popular = () => {
     <>
       {!isLoading && <FilterMovies />}
       <div className="movies">
-        <InfiniteMovieGrid
-          data={allMovies}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          fetchNextPage={fetchNextPage}
-          renderItem={(media) => <MovieCard key={media.id} media={media} />}
-        />
+        {!isLoading && allMovies.length !== 0 && (
+          <InfiniteMovieGrid
+            data={allMovies}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+            renderItem={(media) => <MovieCard key={media.id} media={media} />}
+          />
+        )}
 
         <div className="message pt-3">
           {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
