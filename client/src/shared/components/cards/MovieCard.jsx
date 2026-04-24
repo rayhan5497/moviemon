@@ -51,23 +51,7 @@ const MovieCard = ({ media, onSave, onWatchLater }) => {
                 onError={() => setImgLoaded(true)}
               />
               {!imgLoaded && (
-                <div className="absolute inset-0 bg-secondary rounded-lg overflow-hidden">
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `linear-gradient(
-                        135deg,
-                        rgba(255,255,255,0) 0%,
-                        rgba(126,126,126,0.20) 50%,
-                        rgba(255,255,255,0) 100%
-                      )`,
-                      backgroundRepeat: 'no-repeat',
-                      backgroundSize: '300% 300%',
-                      animation: `shimmer 1s infinite linear`,
-                      animationDelay: `${Math.random() * 0.5}s`,
-                    }}
-                  ></div>
-                </div>
+                <div className="!absolute inset-0 skeleton-shimmer rounded-lg"></div>
               )}
             </>
           ) : (
