@@ -15,6 +15,7 @@ import HeadingSection from '../features/MediaPlayer/HeadingSection';
 import DetailsSection from '../features/MediaPlayer/DetailsSection';
 import HighLightSection from '@/shared/components/sections/HighLight';
 import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
+import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
 
 const Similar = () => {
   const { mediaType, sort, id } = useParams();
@@ -160,13 +161,15 @@ const Similar = () => {
         />
 
         <div className="message pt-3">
-          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+          {isLoading && allMovies.length === 0 && <MovieSkeleton />}
+
+          {isFetchingNextPage && (
             <Message
               lottie={loadingSpinner}
-              message={isLoading ? 'Loading Media' : 'Loading More Media'}
+              message={'Loading More Media'}
               className="w-[1.4em]"
             />
-          ) : null}
+          )}
 
           {!isLoading && !hasNextPage && allMovies.length > 0 && (
             <Message icon="🎬" message="No More Media" />

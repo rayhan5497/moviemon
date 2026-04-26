@@ -11,6 +11,7 @@ import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
 import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
+import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
 
 const Movies = () => {
   const { mediaType, timeWindow } = useParams();
@@ -88,7 +89,23 @@ const Movies = () => {
         )}
 
         <div className="message pt-3">
-          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+          {isLoading && allMovies.length === 0 && <MovieSkeleton />}
+
+          {isFetchingNextPage && (
+            <Message
+              lottie={loadingSpinner}
+              message={
+                mediaType === 'movie'
+                  ? 'Loading More Movies'
+                  : mediaType === 'tv'
+                  ? 'Loading More Shows'
+                  : 'Loading More Media'
+              }
+              className="w-[1.4em]"
+            />
+          )}
+
+          {/* {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
             <Message
               lottie={loadingSpinner}
               message={
@@ -106,7 +123,7 @@ const Movies = () => {
               }
               className="w-[1.4em]"
             />
-          ) : null}
+          ) : null} */}
 
           {!isLoading && !hasNextPage && (
             <Message
