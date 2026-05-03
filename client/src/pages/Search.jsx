@@ -17,6 +17,7 @@ import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
 import InfiniteMovieGrid from '@/shared/components/sections/infiniteMovieGrid';
 import SaveableMovieCard from '@/widgets/SaveableMovieCard';
+import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
 
 const Search = () => {
   const { showSnackbar } = useSnackbar();
@@ -27,7 +28,7 @@ const Search = () => {
   const type = 'search';
 
   const isQuery = searchParams.get('query');
-    const isAdultQuery = isQuery && verifyAdultQuery(searchParams.get('query'));
+  const isAdultQuery = isQuery && verifyAdultQuery(searchParams.get('query'));
 
   const {
     data,
@@ -157,13 +158,15 @@ const Search = () => {
             <Message icon="🎬" message="No Media Found!" />
           )}
 
-          {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
+          {isLoading && allMovies.length === 0 && <MovieSkeleton />}
+
+          {isFetchingNextPage && (
             <Message
               lottie={loadingSpinner}
-              message={isLoading ? 'Loading Media' : 'Loading More Media'}
+              message={'Loading More Media'}
               className="w-[1.4em]"
             />
-          ) : null}
+          )}
 
           {!isLoading && !hasNextPage && allMovies.length > 0 && (
             <Message icon="🎬" message="No More Media" />

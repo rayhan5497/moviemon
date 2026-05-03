@@ -13,6 +13,7 @@ import MovieCard from '@/widgets/SaveableMovieCard';
 import ShowError from '@/shared/components/ui/ShowError';
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import Message from '@/shared/components/ui/Message';
+import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
 
 export default function Person() {
   const { id } = useParams();
@@ -173,13 +174,7 @@ export default function Person() {
           )}
         </div>
 
-        {isLoading && (
-          <Message
-            lottie={loadingSpinner}
-            message="Loading... please wait !"
-            className="w-[1.4em]"
-          />
-        )}
+        {isLoading && <MovieSkeleton />}
       </div>
     </>
   );

@@ -21,6 +21,7 @@ import ShowError from '@/shared/components/ui/ShowError';
 import SimilarAndRecommendationSection from '../features/MediaPlayer/SimilarAndRecommendationSection';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
+import MediaPlayerSkeleton from '@/features/MediaPlayer/MediaPlayerSkeleton';
 
 const MediaPlayer = () => {
   const { mediaType, id } = useParams();
@@ -172,13 +173,7 @@ const MediaPlayer = () => {
             </>
           )}
         </div>
-        {isLoading && (
-          <Message
-            lottie={loadingSpinner}
-            message="Loading... please wait !"
-            className="w-[1.4em]"
-          />
-        )}
+        {isLoading && <MediaPlayerSkeleton />}
       </div>
     </>
   );

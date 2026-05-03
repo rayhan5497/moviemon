@@ -11,6 +11,7 @@ import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
 import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
+import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
 
 const Tv = () => {
   const [searchParams] = useSearchParams();
@@ -82,13 +83,15 @@ const Tv = () => {
         )}
 
         <div className="message pt-3">
-          {(isLoading && allTv.length === 0) || isFetchingNextPage ? (
+          {isLoading && allTv.length === 0 && <MovieSkeleton />}
+
+          {isFetchingNextPage && (
             <Message
               lottie={loadingSpinner}
-              message={isLoading ? 'Loading TV Shows' : 'Loading More Shows'}
+              message={'Loading More Shows'}
               className="w-[1.4em]"
             />
-          ) : null}
+          )}
 
           {!isLoading && !hasNextPage && (
             <Message icon="🎬" message="No More Shows" />
