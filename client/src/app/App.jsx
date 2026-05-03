@@ -34,6 +34,7 @@ import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
 import { UserMoviesProvider } from '@/shared/context/UserMoviesContext.jsx';
 import RequireAgreements from './guards/RequireAgreements.jsx';
 import RequireAdmin from './guards/RequireAdmin.jsx';
+import AIChatWidget from '@features/ai/AIChatWidget.jsx';
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ const App = () => {
                   <DevPanel />
                 </Suspense>
               )}
+              <AIChatWidget />
               <Routes>
                 <Route element={<Layout />}>
                   <Route path="/privacy" element={<PrivacyPage />} />

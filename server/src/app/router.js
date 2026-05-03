@@ -6,6 +6,7 @@ const authMiddleware = require('../middlewares/auth.middleware');
 const adminMiddleware = require('../middlewares/admin.middleware');
 const userRoutes = require('../modules/users/user.routes');
 const adminRoutes = require('../modules/admin/admin.routes');
+const aiRoutes = require('../modules/ai/ai.routes');
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use('/subtitles', authMiddleware, subtitlesRoutes);
 router.use('/users', userRoutes);
 router.use('/user', userRoutes);
 router.use('/admin', authMiddleware, adminMiddleware, adminRoutes);
+router.use('/ai', aiRoutes);
 
 module.exports = router;

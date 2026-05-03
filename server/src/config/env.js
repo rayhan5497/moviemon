@@ -24,6 +24,12 @@ const env = {
   OPEN_SUBTITLE_PASSWORD: process.env.OPEN_SUBTITLE_PASSWORD || '',
 
   // ======================
+  // AI
+  // ======================
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
+  COHERE_API_KEY: process.env.COHERE_API_KEY || '',
+
+  // ======================
   // EMAIL 
   // ======================
   EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
