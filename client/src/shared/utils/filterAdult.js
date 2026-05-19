@@ -4,8 +4,7 @@ export default async function filterAdult(data) {
   let allowFilter = true;
   if (!allowFilter) return data;
   if (!data.results) return data;
-  let movieSkipped = 0;
-  let passedMovie = 0;
+  let movieSkipped = [];
   let filteredMovies = [];
   const movies = data.results;
   for (const movie of movies) {
@@ -17,7 +16,7 @@ export default async function filterAdult(data) {
         movie.title || movie.name,
         movie
       );
-      movieSkipped++;
+      movieSkipped.push(movie);
       continue;
     }
 
@@ -37,15 +36,16 @@ export default async function filterAdult(data) {
         );
       });
 
-      movieSkipped++;
+      movieSkipped.push(movie);
       continue;
     }
 
     filteredMovies.push(movie);
-    passedMovie++;
   }
-  console.log('skippedMovies', movieSkipped);
-  console.log('passedMovie', passedMovie);
+
+  // filteredMovies.push(...movieSkipped)
+  console.log('skippedMovies', movieSkipped.length);
+  console.log('passedMovie', filteredMovies.length);
 
   let finalData = {
     page: data.page,

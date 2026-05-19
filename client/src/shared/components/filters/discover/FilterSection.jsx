@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 const FilterSection = React.forwardRef((props, ref) => {
   const { pathname } = useLocation();
-  const fetchType = pathname.startsWith('/tv') ? 'tv' : 'movie';
+  const fetchType = pathname.startsWith('/discover/tv') ? 'tv' : 'movie';
 
   const categoryNames = {
     language: 'Language',
@@ -70,6 +70,7 @@ const FilterSection = React.forwardRef((props, ref) => {
 
         {props.category === 'genres' && props.isFiltersOpen(props.category) && (
           <div className="label-wrapper p-1 gap-[5px] border border-accent-secondary rounded bg-primary text-primary z-50 absolute max-h-[50vh] overflow-x-hidden overflow-scroll left-0 right-0 md:flex md:flex-wrap md:relative md:border-0 md:p-0">
+            {console.log('fetchtype: ', fetchType)}
             {(fetchType === 'movie'
               ? filtersData.genres
               : filtersData['tv-genres']
