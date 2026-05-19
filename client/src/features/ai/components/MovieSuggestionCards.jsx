@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { Card, CardActionArea, Typography } from '@mui/material';
+import { useIsMd } from '@/shared/hooks/useIsMd';
 
 const TMDB_IMG = 'https://image.tmdb.org/t/p/w185';
 
-const MovieSuggestionCards = ({ movies }) => {
+const MovieSuggestionCards = ({ movies, setIsOpen }) => {
   const navigate = useNavigate();
+
+  const isMd = useIsMd();
 
   if (!movies || movies.length === 0) return null;
 
@@ -13,7 +16,12 @@ const MovieSuggestionCards = ({ movies }) => {
       {movies.map((movie) => (
         <Card
           key={movie.id}
-          onClick={() => navigate(`/player/${movie.media_type}/${movie.id}`)}
+          onClick={() => {
+            if (!isMd) {
+              setIsOpen(false);
+            }
+            navigate(`/player/${movie.media_type}/${movie.id}`);
+          }}
           sx={{
             minWidth: 88,
             maxWidth: 88,

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import MovieSuggestionCards from './MovieSuggestionCards';
 
-const AIChatMessage = ({ message }) => {
+const AIChatMessage = ({ message, setIsOpen }) => {
   const isUser = message.role === 'user';
 
   return (
@@ -35,7 +35,7 @@ const AIChatMessage = ({ message }) => {
 
         {/* Movie suggestion cards (AI messages only) */}
         {!isUser && message.movies && message.movies.length > 0 ? (
-          <MovieSuggestionCards movies={message.movies} />
+          <MovieSuggestionCards movies={message.movies} setIsOpen={setIsOpen}/>
         ) : null}
 
         {!isUser &&
