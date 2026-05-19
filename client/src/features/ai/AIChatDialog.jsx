@@ -17,6 +17,7 @@ const AIChatDialog = ({
   sendMessage,
   isPending,
   clearChat,
+  setIsOpen
 }) => {
   const messagesEndRef = useRef(null);
 
@@ -86,7 +87,7 @@ const AIChatDialog = ({
       {/* ── Messages ── */}
       <div className="flex-1 overflow-y-auto px-3 py-3 no-scrollbar">
         {messages.map((msg) => (
-          <AIChatMessage key={msg.id} message={msg} />
+          <AIChatMessage key={msg.id} message={msg} setIsOpen={setIsOpen} />
         ))}
 
         {isPending && (

@@ -1,8 +1,13 @@
+import { useLocation } from 'react-router-dom';
+
 const SkeletonBlock = ({ className = '' }) => (
   <div className={`skeleton-shimmer ${className}`}></div>
 );
 
 const MediaPlayerSkeleton = () => {
+  const { pathname } = useLocation();
+  const fetchType = pathname.startsWith('/player/tv') ? 'tv' : 'movie';
+
   return (
     <div className="movies md:flex md:flex-col w-full">
       <div className="movie-wrapper md:flex md:flex-col md:w-full text-white max-w-screen-2xl self-center">
@@ -83,8 +88,12 @@ const MediaPlayerSkeleton = () => {
           </div>
 
           {/* Season Filter Skeleton */}
-          <SkeletonBlock className="h-10 w-full rounded-xl" />
-          <SkeletonBlock className="h-10 w-full rounded-xl mb-3" />
+          {fetchType === 'tv' && (
+            <>
+              <SkeletonBlock className="h-10 w-full rounded-xl" />
+              <SkeletonBlock className="h-10 w-full rounded-xl mb-3" />
+            </>
+          )}
 
           {/* Poster + Highlight Row */}
           <div className="poster-and-highlight flex gap-2 min-w-0 mb-4">

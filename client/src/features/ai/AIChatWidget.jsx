@@ -21,7 +21,7 @@ const AIChatWidget = () => {
             exit={{ opacity: 0, y: 18, scale: 0.95 }}
             transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <AIChatDialog {...chatState} />
+            <AIChatDialog {...chatState} setIsOpen={setIsOpen} />
           </motion.div>
         )}
       </AnimatePresence>
