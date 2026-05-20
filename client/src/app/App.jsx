@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState, useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -34,6 +34,7 @@ import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
 import { UserMoviesProvider } from '@/shared/context/UserMoviesContext.jsx';
 import RequireAgreements from './guards/RequireAgreements.jsx';
 import RequireAdmin from './guards/RequireAdmin.jsx';
+import filters from '../shared/data/filters.json';
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,24 @@ const App = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  function generateYears(startYear, endYear) {
+    const years = filters.years;
+    years.length = 0;
+
+    for (let year = endYear; year >= startYear; year--) {
+      years.push({
+        label: String(year),
+        value: String(year),
+      });
+    }
+
+    return years;
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  useMemo(() => generateYears(2000, currentYear), []);
 
   return (
     <ModalProvider>
