@@ -96,7 +96,10 @@ const FilterSection = React.forwardRef((props, ref) => {
 
         {props.category === 'sort' && props.isFiltersOpen(props.category) && (
           <div className="label-wrapper p-1 gap-2 border border-accent-secondary rounded text-primary bg-primary z-50 absolute max-h-[50vh] overflow-x-hidden overflow-scroll left-0 right-0 md:flex md:flex-wrap md:relative md:overflow-auto md:border-0 md:gap-0 md:p-0">
-            {filtersData.sorts.map((sort) => (
+            {(fetchType === 'movie'
+              ? filtersData['discover-movie-sorts']
+              : filtersData['discover-tv-sorts']
+            ).map((sort) => (
               <label key={sort.label} className="cursor-pointer">
                 <input
                   type="radio"
@@ -189,4 +192,3 @@ const FilterSection = React.forwardRef((props, ref) => {
 });
 
 export default FilterSection;
-

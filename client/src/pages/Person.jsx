@@ -14,6 +14,7 @@ import ShowError from '@/shared/components/ui/ShowError';
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import Message from '@/shared/components/ui/Message';
 import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
+import { setMeta } from '../shared/utils/setMeta';
 
 export default function Person() {
   const { id } = useParams();
@@ -36,7 +37,32 @@ export default function Person() {
 
   //Change document title
   useEffect(() => {
-    document.title = `Cast: ${person?.name || 'Unknow Person'} - Moviemon`;
+    const title = `Person: ${person?.name || 'Unknown person'}`;
+
+    document.title = `${title} - Moviemon`;
+
+    setMeta('description', person?.biography || 'Bio not available for this person');
+
+    setMeta('og:title', title, 'property');
+
+    setMeta('og:description', person?.biography, 'property');
+
+    setMeta(
+      'og:image',
+      `https://image.tmdb.org/t/p/w1280${person?.profile_path}`,
+      'property'
+    );
+
+    setMeta('twitter:card', 'summary_large_image');
+
+    setMeta('twitter:title', title);
+
+    setMeta('twitter:description', person?.biography);
+
+    setMeta(
+      'twitter:image',
+      `https://image.tmdb.org/t/p/w1280${person?.profile_path}`
+    );
   }, [person]);
 
   useEffect(() => {

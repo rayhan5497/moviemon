@@ -27,8 +27,13 @@ const FilterMovies = () => {
     )
   );
   const [selectedSort, setSelectedSort] = useState(
-    filtersData.sorts.find((s) => s.value === searchParams.get('sort_by'))
-      ?.value || ''
+    fetchType === 'movie'
+      ? filtersData['discover-movie-sorts'].find(
+          (s) => s.value === searchParams.get('sort_by')
+        )?.value || ''
+      : filtersData['discover-tv-sorts'].find(
+          (s) => s.value === searchParams.get('sort_by')
+        )?.value || ''
   );
   const [selectedMinRating, setSelectedMinRating] = useState(
     filtersData['min-rating'].some(
@@ -177,7 +182,13 @@ const FilterMovies = () => {
       : [];
 
   const sortLabel = selectedSort
-    ? filtersData.sorts.find((s) => s.value === selectedSort)?.label || ''
+    ? fetchType === 'movie'
+      ? filtersData['discover-movie-sorts'].find(
+          (s) => s.value === selectedSort
+        )?.label || ''
+      : filtersData['discover-tv-sorts'].find(
+          (s) => s.value === selectedSort
+        )?.label || ''
     : '';
   const minRatingLabel = selectedMinRating
     ? filtersData['min-rating'].find((r) => r.label === selectedMinRating)
@@ -465,4 +476,3 @@ const FilterMovies = () => {
 };
 
 export default FilterMovies;
-

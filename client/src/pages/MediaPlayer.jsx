@@ -9,6 +9,7 @@ import { useIsLg } from '@/shared/hooks/useIsLg';
 
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import NowPlayingContext from '@/shared/context/NowPlayingContext';
+import { setMeta } from '@/shared/utils/setMeta';
 
 import Player from '../features/MediaPlayer/player/PlayerSection';
 import FilterSeason from '../features/MediaPlayer/filters/FilterSeason';
@@ -96,10 +97,32 @@ const MediaPlayer = () => {
 
   //Change document title
   useEffect(() => {
-    setNowPlayingMedia(media);
-    document.title = `Watch: ${
-      media?.name || media?.title || 'Unknown Media'
-    } - Moviemon`;
+    const title = `Watch: ${media?.name || media?.title}`;
+
+    document.title = `${title} - Moviemon`;
+
+    setMeta('description', media?.overview || 'Watch movies on Moviemon');
+
+    setMeta('og:title', title, 'property');
+
+    setMeta('og:description', media?.overview, 'property');
+
+    setMeta(
+      'og:image',
+      `https://image.tmdb.org/t/p/w1280${media?.backdrop_path}`,
+      'property'
+    );
+
+    setMeta('twitter:card', 'summary_large_image');
+
+    setMeta('twitter:title', title);
+
+    setMeta('twitter:description', media?.overview);
+
+    setMeta(
+      'twitter:image',
+      `https://image.tmdb.org/t/p/w1280${media?.backdrop_path}`
+    );
   }, [media]);
 
   if (isError)

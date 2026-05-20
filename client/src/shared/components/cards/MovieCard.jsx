@@ -2,13 +2,20 @@ import { useState } from 'react';
 import LinkWithScrollSave from '../ui/LinkWithScrollSave';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
+import { getMediaRating } from '@/shared/utils/mediaRatings';
 
-const MovieCard = ({ media, onSave, onWatchLater }) => {
+const MovieCard = ({
+  media,
+  onSave,
+  onWatchLater,
+  ratingSource = 'preferred',
+}) => {
   const isMd = useIsMd();
   const [imgLoaded, setImgLoaded] = useState(false);
   const isSaved = Boolean(media?.saved);
   const isWatchLater = Boolean(media?.watchLater);
   const { isLoggedIn } = useUserMoviesContext();
+  const rating = getMediaRating(media, ratingSource);
 
   const getPath = () => {
     if (media?.title) {
@@ -63,7 +70,7 @@ const MovieCard = ({ media, onSave, onWatchLater }) => {
           {(media?.release_date ?? media?.first_air_date)?.slice(0, 4) || 'N/A'}
         </p>
         <p className="rating text-orange-300 text-[1.2rem] font-bold bg-[#0000007a] px-[0.3rem] py-[0rem] rounded absolute right-1 bottom-1">
-          {media?.vote_average ? media?.vote_average.toFixed(1) : 'N/A'}
+          {rating ? rating.toFixed(1) : 'N/A'}
         </p>
 
         {/* Play Button */}

@@ -12,6 +12,7 @@ import NavbarBottom from './sections/NavbarBottom';
 import { useIsLg } from '@/shared/hooks/useIsLg';
 import { getSidebarState, saveSidebarState } from '@/shared/utils/userState';
 import AuthModalController from '@/features/auth/AuthModalController';
+import AIChatWidget from '@features/ai/AIChatWidget.jsx';
 
 const Layout = () => {
   const mainRef = useRef(null);
@@ -64,6 +65,7 @@ const Layout = () => {
         }}
       >
         <div className="layout grid grid-rows-[auto_1fr_auto] grid-cols-[240px_1fr] h-screen">
+          <AIChatWidget />
           <AuthModalController />
           <Header
             setIsSidebarOpen={setIsSidebarOpen}

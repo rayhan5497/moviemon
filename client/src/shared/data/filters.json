@@ -766,10 +766,15 @@
     { "value": 1, "label": "1" },
     { "value": 0, "label": "0" }
   ],
-  "sorts": [
+  "discover-movie-sorts": [
     { "value": "popularity.desc", "label": "Most Popular" },
     { "value": "vote_average.desc", "label": "Top Rated" },
-    { "value": "release_date.desc", "label": "Newest" }
+    { "value": "primary_release_date.desc", "label": "Newest" }
+  ],
+  "discover-tv-sorts": [
+    { "value": "popularity.desc", "label": "Most Popular" },
+    { "value": "vote_average.desc", "label": "Top Rated" },
+    { "value": "first_air_date.desc", "label": "Newest" }
   ],
 
   "tv-genres": [
@@ -877,21 +882,21 @@
   ],
 
   "movie-sorts": [
-    { "value": "popular" , "label": "Popular" },
+    { "value": "popular", "label": "Popular" },
     { "value": "now_playing", "label": "Now Playing" },
     { "value": "upcoming", "label": "Upcoming" },
     { "value": "top_rated", "label": "Top Rated" },
     { "value": "latest", "label": "Recently Added" }
   ],
   "tv-sorts": [
-    { "value": "popular" , "label": "Popular" },
+    { "value": "popular", "label": "Popular" },
     { "value": "airing_today", "label": "Airing Today" },
     { "value": "on_the_air", "label": "On The Air" },
     { "value": "top_rated", "label": "Top Rated" },
     { "value": "latest", "label": "Recently Added" }
-  ], 
+  ],
   "media": [
-    {"value": "movie", "label": "Movie"},
-    {"value": "tv", "label": "TV Show"}
+    { "value": "movie", "label": "Movie" },
+    { "value": "tv", "label": "TV Show" }
   ]
 }

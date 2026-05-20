@@ -16,6 +16,10 @@ import MovieSkeleton from '@/shared/components/ui/MovieSkeleton';
 const Movies = () => {
   const [searchParams] = useSearchParams();
   const queryString = searchParams.toString();
+
+  const shouldShowTmdb = queryString.includes('vote_average');
+  console.log('shoushwotdb: ', shouldShowTmdb);
+
   const type = 'discover/movie';
 
   const {
@@ -68,7 +72,6 @@ const Movies = () => {
 
   if (isError)
     return <ShowError type={type} code={error.code} message={error.message} />;
-
   return (
     <>
       {!isLoading && <FilterMovies />}
@@ -80,7 +83,13 @@ const Movies = () => {
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             fetchNextPage={fetchNextPage}
-            renderItem={(media) => <MovieCard key={media.id} media={media} />}
+            renderItem={(media) => (
+              <MovieCard
+                key={media.id}
+                media={media}
+                ratingSource={shouldShowTmdb ? 'tmdb' : 'imdb'}
+              />
+            )}
           />
         )}
 

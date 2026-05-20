@@ -2,7 +2,7 @@ import { useMovieAction } from '@/features/user/hooks/useMovieActions';
 import { useUserMovies } from '@/features/user/hooks/useUserMovies';
 import MovieCard from '@/shared/components/cards/MovieCard';
 
-export default function SaveableMovieCard({ media }) {
+export default function SaveableMovieCard({ media, ratingSource }) {
   const mutation = useMovieAction();
   const { savedIds = [], watchLaterIds = [] } = useUserMovies();
 
@@ -38,6 +38,7 @@ export default function SaveableMovieCard({ media }) {
       }}
       onSave={handleSave}
       onWatchLater={handleWatchLater}
+      ratingSource={ratingSource}
     />
   );
 }

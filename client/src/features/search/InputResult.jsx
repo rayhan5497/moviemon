@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { getMediaRating } from '@/shared/utils/mediaRatings';
 
 const InputResult = ({ data, isLoading, onResultClick }) => {
 
@@ -41,7 +42,8 @@ const InputResult = ({ data, isLoading, onResultClick }) => {
                           result.first_air_date?.split('-')[0] ||
                           'N/A';
                       } else if (descriptor === 'Rating') {
-                        value = result.vote_average?.toFixed(1) ?? 'N/A';
+                        const rating = getMediaRating(result);
+                        value = rating != null ? rating.toFixed(1) : 'N/A';
                       }
 
                       return (
