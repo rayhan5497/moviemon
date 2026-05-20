@@ -2,6 +2,16 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+function parseBooleanEnv(value, defaultValue) {
+  if (value == null || value === '') {
+    return defaultValue;
+  }
+
+  return !['false', '0', 'no', 'off'].includes(
+    String(value).trim().toLowerCase()
+  );
+}
+
 const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: Number(process.env.PORT) || 3000,
@@ -13,6 +23,18 @@ const env = {
   MOVIES_API_PROVIDER: process.env.MOVIES_API_PROVIDER || 'tmdb',
   MOVIES_API_BASE_URL: process.env.MOVIES_API_BASE_URL || '',
   MOVIES_API_KEY: process.env.MOVIES_API_KEY || '',
+  OMDB_API_KEY: process.env.OMDB_API_KEY || '',
+  IMDB_RATINGS_DATASET_URL:
+    process.env.IMDB_RATINGS_DATASET_URL ||
+    'https://datasets.imdbws.com/title.ratings.tsv.gz',
+  IMDB_RATINGS_DATASET_PATH:
+    process.env.IMDB_RATINGS_DATASET_PATH || '',
+  IMDB_SYNC_INTERVAL_HOURS: Number(process.env.IMDB_SYNC_INTERVAL_HOURS) || 24,
+  IMDB_SYNC_ENABLED: parseBooleanEnv(process.env.IMDB_SYNC_ENABLED, true),
+  IMDB_ENRICHMENT_ENABLED: parseBooleanEnv(
+    process.env.IMDB_ENRICHMENT_ENABLED,
+    true
+  ),
 
   OPEN_SUBTITLES_API_BASE_URL: process.env.OPEN_SUBTITLES_API_BASE_URL || '',
   OPEN_SUBTITLES_API_KEY: process.env.OPEN_SUBTITLES_API_KEY || '',

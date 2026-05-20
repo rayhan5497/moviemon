@@ -148,6 +148,9 @@ async function fetchMovieSuggestions(titles) {
         poster_path: result.poster_path || null,
         media_type: result.media_type,
         vote_average: result.vote_average || null,
+        vote_count: result.vote_count || null,
+        imdb_rating: result.imdb_rating || null,
+        imdb_vote_count: result.imdb_vote_count || null,
         release_date: result.release_date || result.first_air_date || null,
       };
     })
