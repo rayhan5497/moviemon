@@ -4,3 +4,4 @@ node_modules
 blog.md
 journey.md
 .kilocode
+server/data/

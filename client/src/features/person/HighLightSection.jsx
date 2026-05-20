@@ -1,6 +1,8 @@
+import { getMediaRating, getMediaVoteCount } from '@/shared/utils/mediaRatings';
+
 const HighLightSection = ({ media }) => {
-  const rating = media?.vote_average;
-  const voteCount = media?.vote_count;
+  const rating = getMediaRating(media);
+  const voteCount = getMediaVoteCount(media);
 
   return (
     <div

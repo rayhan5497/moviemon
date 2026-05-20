@@ -2,11 +2,12 @@ import { RiMovie2AiLine } from 'react-icons/ri';
 import { BiTv } from 'react-icons/bi';
 import { CountryFlag, CountryName } from '../ui/Country';
 import isValidCountryCode from '@/shared/utils/checkCountryCode';
+import { getMediaRating } from '@/shared/utils/mediaRatings';
 
 const HeadingSection = ({ media, className }) => {
   const mediaType = media?.title ? 'movie' : 'tv';
 
-  const rating = media?.vote_average;
+  const rating = getMediaRating(media);
   const date = media?.release_date || media?.first_air_date;
   const countryCode = media?.origin_country ? media?.origin_country[0] : null;
   const rated =
