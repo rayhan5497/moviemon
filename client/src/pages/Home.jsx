@@ -6,6 +6,7 @@ import HeroSliderSection from '../features/home/slider/HeroSliderSection';
 import HomeSkeleton from '@/features/home/HomeSkeleton';
 import { useMovies } from '@/shared/hooks/useMovies';
 import randomizeArray from '@/shared/utils/randomizeArray';
+import MovieCard from '@/widgets/MovieCard';
 
 const Home = () => {
   const trendingQuery = useMovies('all/day', 'trending');
@@ -54,12 +55,14 @@ const Home = () => {
             isLoading={trendingQuery.isLoading}
             isError={trendingQuery.isError}
             error={trendingQuery.error}
+            CardComponent={MovieCard}
           />
           <PopularSection
             movies={popularMovies}
             isLoading={popularQuery.isLoading}
             isError={popularQuery.isError}
             error={popularQuery.error}
+            CardComponent={MovieCard}
           />
         </>
       )}

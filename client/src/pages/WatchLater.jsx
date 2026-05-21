@@ -6,7 +6,7 @@ import Message from '@/shared/components/ui/Message';
 import { useUserMovies } from '../features/user/hooks/useUserMovies';
 import { useMediaByIds } from '@/shared/hooks/useMediaByIds';
 import { useIsLg } from '@/shared/hooks/useIsLg';
-import SaveableMovieCard from '@/widgets/SaveableMovieCard';
+import MovieCard from '@/widgets/MovieCard';
 import InfiniteMovieGrid from '../shared/components/sections/infiniteMovieGrid';
 
 const WatchLater = () => {
@@ -62,7 +62,7 @@ const WatchLater = () => {
             <InfiniteMovieGrid
               data={data}
               renderItem={(media) => (
-                <SaveableMovieCard key={media.id} media={media} />
+                <MovieCard key={media.id} media={media} />
               )}
             />
           </>

@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
 import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
-import SaveableMovieCard from '@/widgets/SaveableMovieCard';
+import MovieCard from '@/widgets/MovieCard';
 import Message from '@/shared/components/ui/Message';
 import { useIsLg } from '@/shared/hooks/useIsLg';
 import { useUserMovies } from '../features/user/hooks/useUserMovies';
@@ -123,7 +123,7 @@ const User = () => {
             emptyMessage={
               isLoggedIn ? 'No items saved yet' : ''
             }
-            CardComponent={SaveableMovieCard}
+            CardComponent={MovieCard}
           />
 
           <Section
@@ -137,7 +137,7 @@ const User = () => {
                 ? 'No watch later items yet'
                 : ''
             }
-            CardComponent={SaveableMovieCard}
+            CardComponent={MovieCard}
           />
 
           <Section
@@ -149,7 +149,7 @@ const User = () => {
             emptyMessage={
               isLoggedIn ? 'No watch history yet' : ''
             }
-            CardComponent={SaveableMovieCard}
+            CardComponent={MovieCard}
           />
         </>
       ) : (

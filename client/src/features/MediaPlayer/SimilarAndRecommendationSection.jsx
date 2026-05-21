@@ -4,9 +4,8 @@ import { RiMovieAiLine } from 'react-icons/ri';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 
 import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
-import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 
-const SimilarAndRecommendationSection = ({ media }) => {
+const SimilarAndRecommendationSection = ({ media, CardComponent }) => {
   const similar = media?.similar?.results;
   const recommendations = media?.recommendations?.results;
   const title = media?.name ? 'Similar TV Shows' : 'Similar Movies';
@@ -35,7 +34,7 @@ const SimilarAndRecommendationSection = ({ media }) => {
           title="You may also like"
           route={recommendationRoute}
           Icon={BsStars}
-          CardComponent={SaveableMovieCard}
+          CardComponent={CardComponent}
         />
       )}
       {hasSimilar && (
@@ -44,7 +43,7 @@ const SimilarAndRecommendationSection = ({ media }) => {
           title={title}
           route={similarRoute}
           Icon={RiMovieAiLine}
-          CardComponent={SaveableMovieCard}
+          CardComponent={CardComponent}
         />
       )}
     </div>

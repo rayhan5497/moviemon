@@ -3,7 +3,7 @@ import { useRef, useContext, useEffect } from 'react';
 
 import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import MovieCard from '@/widgets/SaveableMovieCard';
+import MovieCard from '@/widgets/MovieCard';
 import { useMovies } from '@/shared/hooks/useMovies';
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import ShowError from '@/shared/components/ui/ShowError';

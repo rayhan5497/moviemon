@@ -1,7 +1,7 @@
 import { getMediaRating, getMediaVoteCount } from '@/shared/utils/mediaRatings';
 import getRatingColor from '@/shared/utils/ratingColor';
 
-const HighLightSection = ({ media, className = '' }) => {
+const HighLightSection = ({ media, className = '', SaveButtons }) => {
   const rating = getMediaRating(media);
   const voteCount = getMediaVoteCount(media);
   const ratingColor = getRatingColor(rating);
@@ -70,6 +70,12 @@ const HighLightSection = ({ media, className = '' }) => {
       >
         {voteCount ? voteCount + ' people rated' : 'No rating'}
       </div>
+
+{SaveButtons && (
+
+  <SaveButtons media={media} classNames='relative gap-2'/>
+)
+}
     </div>
   );
 };
