@@ -16,9 +16,8 @@ const MovieSuggestionCards = ({ movies, setIsOpen }) => {
         const rating = getMediaRating(movie);
 
         return (
-          <Link to={`/player/${movie.media_type}/${movie.id}`}>
+          <Link key={movie.id} to={`/player/${movie.media_type}/${movie.id}`}>
             <Card
-              key={movie.id}
               onClick={() => {
                 if (!isMd) {
                   setIsOpen(false);

@@ -1,15 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useContext, useRef } from 'react';
 
-import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
-
 import { useMovies } from '@/shared/hooks/useMovies';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { useIsLg } from '@/shared/hooks/useIsLg';
 
 import HeadingSection from '../features/person/HeadingSection';
 import DetailsSection from '../features/person/DetailsSection';
-import MovieCard from '@/widgets/SaveableMovieCard';
+import MovieCard from '@/widgets/MovieCard';
 import ShowError from '@/shared/components/ui/ShowError';
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import Message from '@/shared/components/ui/Message';

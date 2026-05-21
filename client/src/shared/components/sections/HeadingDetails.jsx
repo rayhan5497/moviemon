@@ -3,6 +3,7 @@ import { BiTv } from 'react-icons/bi';
 import { CountryFlag, CountryName } from '../ui/Country';
 import isValidCountryCode from '@/shared/utils/checkCountryCode';
 import { getMediaRating } from '@/shared/utils/mediaRatings';
+import getRatingColor from '@/shared/utils/ratingColor';
 
 const HeadingSection = ({ media, className }) => {
   const mediaType = media?.title ? 'movie' : 'tv';
@@ -16,9 +17,10 @@ const HeadingSection = ({ media, className }) => {
     media?.content_ratings?.results?.find((r) => r.iso_3166_1 === countryCode)
       ?.rating ||
     '';
+  const ratingColor = getRatingColor(rating);
 
   return (
-    <div className="heading-data w-max inline-flex opacity-70 md:text-lg items-center gap-2 flex-wrap leading-none">
+    <div className="heading-data inline-flex opacity-70 md:text-lg items-center gap-2 flex-wrap leading-none">
       {rated && (
         <>
           {mediaType === 'movie' ? (
@@ -35,7 +37,7 @@ const HeadingSection = ({ media, className }) => {
         </>
       )}
 
-      <span className={`text-amber-300 font-semibold ${className}`}>
+      <span className={`${ratingColor} font-semibold ${className}`}>
         <span>★ </span>
         {rating ? rating.toFixed(1) : 'N/A'}
       </span>
@@ -59,4 +61,3 @@ const HeadingSection = ({ media, className }) => {
 };
 
 export default HeadingSection;
-

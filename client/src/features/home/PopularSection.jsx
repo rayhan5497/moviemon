@@ -4,9 +4,9 @@ import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie
 import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
 import ShowError from '@/shared/components/ui/ShowError';
 import Message from '@/shared/components/ui/Message';
-import SaveableMovieCard from '@/widgets/SaveableMovieCard';
+import MovieCard from '@/widgets/MovieCard';
 
-const PopularSection = ({ movies = [], isLoading, isError, error }) => {
+const PopularSection = ({ movies = [], isLoading, isError, error, CardComponent }) => {
   const type = 'movie/tv';
 
   const getLottiePlayer = () => {
@@ -26,7 +26,7 @@ const PopularSection = ({ movies = [], isLoading, isError, error }) => {
         route={'/movie/popular'}
         Icon={getLottiePlayer}
         className="text-accent"
-        CardComponent={SaveableMovieCard}
+        CardComponent={CardComponent}
       />
 
       {isError && (

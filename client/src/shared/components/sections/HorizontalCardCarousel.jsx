@@ -1,4 +1,4 @@
-import MovieCard from '../cards/MovieCard';
+// import MovieCard from '@/widgets/MovieCard';
 import CastCard from '../cards/CastCard';
 import ScrollNavigator from '@/shared/components/ui/ScrollNavigator';
 
@@ -14,7 +14,7 @@ const HorizontalCardCarousel = ({
   Icon,
   className = '',
   type,
-  CardComponent = MovieCard,
+  CardComponent,
 }) => {
   const {
     containerRef,

@@ -6,7 +6,7 @@ import { VirtuosoGrid } from 'react-virtuoso'; // 1. Import Virtuoso
 import meme from '@/shared/assets/image/meme.webp';
 import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
 
-import MovieCard from '@/widgets/SaveableMovieCard';
+import MovieCard from '@/widgets/MovieCard';
 import { useMovies } from '@/shared/hooks/useMovies';
 import MainScrollContext from '@/shared/context/MainScrollContext';
 import verifyAdultQuery from '@/shared/utils/verifyAdultQuery';
@@ -16,7 +16,6 @@ import ShowError from '@/shared/components/ui/ShowError';
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
 import InfiniteMovieGrid from '@/shared/components/sections/infiniteMovieGrid';
-import SaveableMovieCard from '@/widgets/SaveableMovieCard';
 import MovieSkeleton from '../shared/components/ui/MovieSkeleton';
 
 const Search = () => {

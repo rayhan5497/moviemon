@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useContext, useRef } from 'react';
 
-import loadingSpinner from '@/shared/assets/animated-icon/loading-spinner.lottie';
-
 import { useMovies } from '@/shared/hooks/useMovies';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { useIsLg } from '@/shared/hooks/useIsLg';
@@ -23,6 +21,8 @@ import SimilarAndRecommendationSection from '../features/MediaPlayer/SimilarAndR
 import useInfiniteObserver from '@/shared/hooks/useInfiniteObserver';
 import Message from '@/shared/components/ui/Message';
 import MediaPlayerSkeleton from '@/features/MediaPlayer/MediaPlayerSkeleton';
+import MovieCard from '@/widgets/MovieCard';
+import SaveButtonsContainer from '@/features/user/SaveButtonsContainer';
 
 const MediaPlayer = () => {
   const { mediaType, id } = useParams();
@@ -77,8 +77,7 @@ const MediaPlayer = () => {
     }
   }, [isLoading, hasNextPage, media]);
 
-  const { setIsPlayerPage, setNowPlayingId, setNowPlayingMedia } =
-    useContext(NowPlayingContext);
+  const { setIsPlayerPage, setNowPlayingId } = useContext(NowPlayingContext);
   useEffect(() => {
     setNowPlayingId(media?.id);
   }, [setNowPlayingId, media]);
@@ -161,11 +160,17 @@ const MediaPlayer = () => {
                         <HeadingSection media={media} />
                         <DetailsSection media={media} />
                       </div>
-                      <HighLightSection media={media} />
+                      <HighLightSection
+                        media={media}
+                        SaveButtons={SaveButtonsContainer}
+                      />
                     </div>
                     <div className="relevant-details m-2">
                       <CastSection media={media} />
-                      <SimilarAndRecommendationSection media={media} />
+                      <SimilarAndRecommendationSection
+                        media={media}
+                        CardComponent={MovieCard}
+                      />
                     </div>
                   </div>
                 </>
@@ -181,14 +186,20 @@ const MediaPlayer = () => {
                         src={`https://image.tmdb.org/t/p/w780${poster}`}
                       />
 
-                      <HighLightSection media={media} />
+                      <HighLightSection
+                        media={media}
+                        SaveButtons={SaveButtonsContainer}
+                      />
                     </div>
 
                     <DetailsSection media={media} />
 
                     <div className="relevant-details m-2">
                       <CastSection media={media} />
-                      <SimilarAndRecommendationSection media={media} />
+                      <SimilarAndRecommendationSection
+                        media={media}
+                        CardComponent={MovieCard}
+                      />
                     </div>
                   </div>
                 </>
