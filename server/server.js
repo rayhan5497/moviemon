@@ -2,12 +2,19 @@ const createApp = require('./src/app/app');
 const { connectMongo } = require('./src/config/mongo');
 const { ensureEnv, env } = require('./src/config/env');
 const logger = require('./src/config/logger');
-const { startMovieMappingsSyncJob } = require('./src/modules/movies/movies.sync');
+const imdbSqlite = require('./src/modules/movies/imdbSqlite.service');
 
 async function start() {
   ensureEnv();
   await connectMongo();
-  startMovieMappingsSyncJob();
+
+  // Initialize SQLite for IMDb ratings (non-blocking, will log errors gracefully)
+  try {
+    await imdbSqlite.initialize();
+  } catch (error) {
+    logger.warn('SQLite initialization failed, IMDb enrichment will be limited: %s', error.message);
+  }
+
   const app = createApp();
   const server = app.listen(env.PORT, () => {
     logger.info(`Server listening on port ${env.PORT}`);
@@ -21,4 +28,3 @@ if (require.main === module) {
     process.exit(1);
   });
 }
-
