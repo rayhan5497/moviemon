@@ -1,13 +1,15 @@
-export function setMeta(name, content, type = 'name') {
+export function setMeta(name, content, type = 'name', tagName = 'meta') {
   if (!content) return;
 
-  let tag = document.querySelector(`meta[${type}='${name}']`);
+  const selector = `${tagName}[${type}='${name}']`;
+  let tag = document.querySelector(selector);
 
   if (!tag) {
-    tag = document.createElement('meta');
+    tag = document.createElement(tagName);
     tag.setAttribute(type, name);
     document.head.appendChild(tag);
   }
 
-  tag.setAttribute('content', content);
+  const attribute = tagName === 'link' ? 'href' : 'content';
+  tag.setAttribute(attribute, content);
 }

@@ -24,7 +24,7 @@ import MediaPlayerSkeleton from '@/features/MediaPlayer/MediaPlayerSkeleton';
 import MovieCard from '@/widgets/MovieCard';
 import SaveButtonsContainer from '@/features/user/SaveButtonsContainer';
 import TrailerModal from '../features/MediaPlayer/TrailerModal';
-import ActionButtons from '@/features/MediaPlayer/Components/ActionButtons';
+import ActionButtons from '@/features/MediaPlayer/components/ActionButtons';
 
 const MediaPlayer = () => {
   const { mediaType, id } = useParams();
@@ -209,11 +209,6 @@ const MediaPlayer = () => {
                           media={media}
                           SaveButtons={SaveButtonsContainer}
                         />
-
-                        {/* <ActionButtons
-                          setOpenTrailer={setOpenTrailer}
-                          media={media}
-                        /> */}
                       </div>
                     </div>
 
