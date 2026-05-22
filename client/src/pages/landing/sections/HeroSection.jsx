@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Film, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import siteLogo from '/siteLogo.png';
 
 const HeroSection = () => {
   return (
@@ -52,11 +53,11 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
-            to="/"
+            to="/home"
             className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold text-lg hover:from-teal-400 hover:to-teal-500 transition-all duration-300 shadow-lg shadow-teal-500/25"
           >
-            <Film className="w-5 h-5" />
-            Explore Movies
+            <img src={siteLogo} alt="MovieMon" className="w-5 h-5 brightness-200 rounded-full" />
+            Explore Movies & TV Shows
           </Link>
 
           <a

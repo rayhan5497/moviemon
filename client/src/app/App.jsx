@@ -89,14 +89,14 @@ const App = () => {
                 </Suspense>
               )}
               <Routes>
-                <Route path="/landing" element={<LandingPage />} />
+                <Route path="/" element={<LandingPage />} />
 
                 <Route element={<Layout />}>
                   <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/terms" element={<TermsPage />} />
                   <Route path="/agreements" element={<AgreementsPage />} />
 
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/home" element={<HomePage />} />
                   <Route
                     path="/discover/movie"
                     element={<DiscoverMoviePage />}

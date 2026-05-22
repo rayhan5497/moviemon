@@ -21,7 +21,7 @@ import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
 import { useSnackbar } from '@/shared/context/SnackbarProvider';
 
 const Sidebar = ({ isSidebarOpen }) => {
-  const isHomeActive = useMatch('/');
+  const isHomeActive = useMatch('/home');
   const isMovieActive = useMatch('discover/movie');
   const isTvActive = useMatch('discover/tv');
   const isLibraryActive = useMatch('/user/*');
@@ -98,7 +98,7 @@ const Sidebar = ({ isSidebarOpen }) => {
         icon={GoHome}
         iconFill={GoHomeFill}
         isSectionActive={isHomeActive}
-        title={{ label: 'Home', path: '/' }}
+        title={{ label: 'Home', path: '/home' }}
         items={[]}
       />
       <NavSection

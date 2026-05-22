@@ -39,17 +39,17 @@ const LandingPage = () => {
     setMeta('og:title', 'MovieMon — Discover Movies Instantly', 'property');
     setMeta('og:description', description, 'property');
     setMeta('og:type', 'website', 'property');
-    setMeta('og:url', `${siteUrl}/landing`, 'property');
+    setMeta('og:url', `${siteUrl}`, 'property');
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', 'MovieMon — Discover Movies Instantly');
     setMeta('twitter:description', description);
     setMeta('twitter:image', `${siteUrl}/og-moviemon.png`);
-    setMeta('canonical', `${siteUrl}/landing`, 'rel', 'link');
+    setMeta('canonical', `${siteUrl}`, 'rel', 'link');
 
     const jsonLd = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      url: `${siteUrl}/landing`,
+      url: `${siteUrl}`,
       name: 'MovieMon',
       description,
       publisher: {
