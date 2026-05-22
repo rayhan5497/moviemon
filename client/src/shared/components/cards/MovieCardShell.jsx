@@ -51,16 +51,16 @@ const MovieCardShell = ({ media, saveButtons, ratingSource}) => {
           )}
         </div>
 
-        <p className="yea rounded m-0 absolute text-sm sm:text-[1rem] top-1 left-1 px-[0.3rem] bg-accent text-primary font-semibold">
+        <p className="yea rounded m-0 absolute text-xs sm:text-[0.9rem] top-1 left-1 px-[0.3rem] bg-accent text-primary font-semibold">
           {(media?.release_date ?? media?.first_air_date)?.slice(0, 4) || 'N/A'}
         </p>
-        <div className="rating text-orange-300 text-[1.2rem] font-bold bg-[#0000007a] px-[0.3rem] py-[0rem] rounded absolute right-1 bottom-1 items-center flex gap-1 flex-col">
+        <div className="rating text-orange-300 text-[1rem] font-bold bg-[#0000007a] px-[0.3rem] py-[0rem] rounded absolute right-1 bottom-1 items-center flex gap-1 flex-col">
           <div className="opacity-80 mt-[0.3rem] -mb-1">
             {isIMDB ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="17"
+                width="25"
+                height="12"
                 viewBox="0 0 64 32"
                 version="1.1"
               >
@@ -80,11 +80,11 @@ const MovieCardShell = ({ media, saveButtons, ratingSource}) => {
               </svg>
             ) : (
               <div
-                className="text-[0.5rem] px-0.5 rounded font-extrabold text-black"
+                className="text-[0.4rem] px-0.5 rounded-xs font-extrabold text-black"
                 style={{
                   background:
                     'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
-                  transform: 'scaleY(1.2)',
+                  transform: 'scaleY(1.3)',
                   transformOrigin: 'center',
                 }}
               >
@@ -93,7 +93,7 @@ const MovieCardShell = ({ media, saveButtons, ratingSource}) => {
             )}
           </div>
           <div className={ratingColor}>
-            {rating ? rating.toFixed(1) : 'N/A'}
+            {rating ? rating.toFixed(1) : <span className="text-sm">N/A</span>}
           </div>
         </div>
 

@@ -148,7 +148,7 @@ const Search = () => {
           isFetchingNextPage={isFetchingNextPage}
           fetchNextPage={fetchNextPage}
           renderItem={(media) => (
-            <SaveableMovieCard key={media.id} media={media} />
+            <MovieCard key={media.id} media={media} />
           )}
         />
 

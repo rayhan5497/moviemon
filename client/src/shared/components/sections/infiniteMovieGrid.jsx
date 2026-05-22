@@ -11,7 +11,7 @@ const InfiniteMovieGrid = ({ data, renderItem }) => {
       customScrollParent={mainRef.current}
       data={data}
       overscan={400}
-      listClassName="movie-wrapper movies-grid grid gap-1 lg:gap-2 m-2 xl:m-4
+      listClassName="movie-wrapper movies-grid grid gap-4 lg:gap-5 m-2 xl:m-4
         grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))]
         md:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(150px,1fr))]
         xl:grid-cols-[repeat(auto-fill,minmax(170px,1fr))]"
