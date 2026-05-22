@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useContext, useRef } from 'react';
+import { useEffect, useContext, useRef, useState } from 'react';
 
 import { useMovies } from '@/shared/hooks/useMovies';
 import { useIsMd } from '@/shared/hooks/useIsMd';
@@ -23,12 +23,14 @@ import Message from '@/shared/components/ui/Message';
 import MediaPlayerSkeleton from '@/features/MediaPlayer/MediaPlayerSkeleton';
 import MovieCard from '@/widgets/MovieCard';
 import SaveButtonsContainer from '@/features/user/SaveButtonsContainer';
+import TrailerModal from '../features/MediaPlayer/TrailerModal';
+import ActionButtons from '@/features/MediaPlayer/Components/ActionButtons';
 
 const MediaPlayer = () => {
   const { mediaType, id } = useParams();
   const queryString = `${
     mediaType + '/' + id
-  }&append_to_response=credits,content_ratings,release_dates,recommendations,similar,external_ids`;
+  }&append_to_response=credits,content_ratings,release_dates,recommendations,similar,external_ids,videos,backdrops`;
 
   const type = `player/${mediaType}`;
 
@@ -124,6 +126,8 @@ const MediaPlayer = () => {
     );
   }, [media]);
 
+  const [openTrailer, setOpenTrailer] = useState(false);
+
   if (isError)
     return (
       <ShowError type={mediaType} code={error.code} message={error.message} />
@@ -147,6 +151,17 @@ const MediaPlayer = () => {
                 )}
               </div>
 
+              {!isMd && (
+                <ActionButtons setOpenTrailer={setOpenTrailer} media={media} />
+              )}
+
+              <TrailerModal
+                open={openTrailer}
+                onClose={() => setOpenTrailer(false)}
+                videos={media?.videos?.results}
+                mediaTitle={media?.title}
+              />
+
               {isMd ? (
                 <>
                   <div className="details-container relative gap-4 flex flex-col m-2 my-5">
@@ -156,9 +171,13 @@ const MediaPlayer = () => {
                         className="w-full h-max max-w-60 relative rounded-lg min-w-0 flex-shrink"
                         src={`https://image.tmdb.org/t/p/w780${poster}`}
                       />
-                      <div className="heading-and-details flex flex-col gap-3">
+                      <div className="heading-and-details flex flex-col gap-3 items-start">
                         <HeadingSection media={media} />
                         <DetailsSection media={media} />
+                        <ActionButtons
+                          setOpenTrailer={setOpenTrailer}
+                          media={media}
+                        />
                       </div>
                       <HighLightSection
                         media={media}
@@ -182,14 +201,20 @@ const MediaPlayer = () => {
                     <div className="poster-and-highlight flex gap-2 min-w-0">
                       <img
                         id="poster"
-                        className="w-full max-w-40 min-w-0 flex-shrink rounded-lg"
+                        className="w-full h-fit max-w-40 min-w-0 flex-shrink rounded-lg"
                         src={`https://image.tmdb.org/t/p/w780${poster}`}
                       />
+                      <div className="container flex flex-col justify-center">
+                        <HighLightSection
+                          media={media}
+                          SaveButtons={SaveButtonsContainer}
+                        />
 
-                      <HighLightSection
-                        media={media}
-                        SaveButtons={SaveButtonsContainer}
-                      />
+                        {/* <ActionButtons
+                          setOpenTrailer={setOpenTrailer}
+                          media={media}
+                        /> */}
+                      </div>
                     </div>
 
                     <DetailsSection media={media} />
