@@ -69,9 +69,16 @@ export default function TrailerThumbnailCarousel({
 
             {/* Gradient + title label */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
-              <p className="text-white text-xs line-clamp-2">
-                {video.name}
-              </p>
+              <p className="text-white text-xs line-clamp-2">{video.name}</p>
+            </div>
+
+            {/* spoiler alert */}
+            <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black to-transparent p-2">
+              {video?.type.toLowerCase() === 'clip' && (
+                <p className="text-red-500 text-xs font-bold line-clamp-2">
+                  May contain spoiler
+                </p>
+              )}
             </div>
           </button>
         ))}

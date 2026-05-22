@@ -1,5 +1,4 @@
 export default function ActionButtons({ media, setOpenTrailer }) {
-  console.log('media: ', media, 'setOpenTrailer: ', setOpenTrailer);
   return (
     <div className="flex flex-wrap gap-1.5 md:gap-2.5 mt-2 justify-center">
       {/* Trailer */}
