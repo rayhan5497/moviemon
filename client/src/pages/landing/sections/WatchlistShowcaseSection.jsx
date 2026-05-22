@@ -1,0 +1,107 @@
+import { motion } from 'framer-motion';
+import { Bookmark, Heart, Clock } from 'lucide-react';
+
+const WatchlistShowcaseSection = () => {
+  return (
+    <section className="py-24 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="order-2 lg:order-1"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Build Your{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
+                Library
+              </span>
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed mb-8">
+              Save movies to your personal collection. Create a watchlist, track
+              what you have watched, and never lose a recommendation again.
+            </p>
+
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center flex-shrink-0">
+                  <Bookmark className="w-5 h-5 text-teal-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Smart Watchlist</h3>
+                  <p className="text-sm text-gray-400">
+                    Save movies with one click. Organize by what you want to
+                    watch next.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                  <Heart className="w-5 h-5 text-red-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Favorites</h3>
+                  <p className="text-sm text-gray-400">
+                    Mark your favorites and quickly find them again.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Watch History</h3>
+                  <p className="text-sm text-gray-400">
+                    Automatically track what you have watched. Never rewatch
+                    accidentally.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="order-1 lg:order-2"
+          >
+            <div className="relative rounded-2xl bg-gray-800/60 border border-white/5 p-6 overflow-hidden">
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { title: 'Inception', year: '2010' },
+                  { title: 'Interstellar', year: '2014' },
+                  { title: 'The Matrix', year: '1999' },
+                  { title: 'Parasite', year: '2019' },
+                  { title: 'The Dark Knight', year: '2008' },
+                  { title: 'Blade Runner 2049', year: '2017' },
+                ].map((movie) => (
+                  <div
+                    key={movie.title}
+                    className="rounded-lg bg-gray-700/50 p-3 text-center hover:bg-gray-700/70 transition-colors"
+                  >
+                    <div className="w-full aspect-[2/3] rounded-md bg-gradient-to-br from-gray-600 to-gray-700 mb-2" />
+                    <p className="text-xs font-medium truncate">
+                      {movie.title}
+                    </p>
+                    <p className="text-xs text-gray-500">{movie.year}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default WatchlistShowcaseSection;

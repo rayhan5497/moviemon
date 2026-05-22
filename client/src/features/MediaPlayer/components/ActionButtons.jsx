@@ -24,9 +24,6 @@ export default function ActionButtons({ media, setOpenTrailer }) {
           rel="noopener noreferrer"
           className="flex items-center gap-1 p-1 md:px-2 h-5 md:h-auto  rounded-full bg-secondary text-primary font-semibold text-sm hover:brightness-110 active:scale-95 transition-all duration-200 shadow-lg cursor-pointer"
         >
-          {/* <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
-            <path d="M18.5 3H5.5C4.12 3 3 4.12 3 5.5v13C3 19.88 4.12 21 5.5 21h13c1.38 0 2.5-1.12 2.5-2.5v-13C21 4.12 19.88 3 18.5 3zm-9.5 12H7.5V9H9v6zm2.5 0H10.5V9H11v6zm2.5 0H13V9h1v6zm3.5 0h-1.5V9H17v6z" />
-          </svg> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             id="Movie_Ticket_20"

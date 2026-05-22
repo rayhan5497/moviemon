@@ -28,6 +28,7 @@ import UserPage from '../pages/User';
 import VerifyEmailPage from '../pages/VerifyEmail.jsx';
 import WatchHistoryPage from '../pages/WatchHistory';
 import WatchLaterPage from '../pages/WatchLater';
+import LandingPage from '../pages/landing/LandingPage.jsx';
 
 import { ModalProvider } from '@/shared/context/ModalContext.jsx';
 import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
@@ -88,6 +89,7 @@ const App = () => {
                 </Suspense>
               )}
               <Routes>
+                <Route path="/landing" element={<LandingPage />} />
                 <Route element={<Layout />}>
                   <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/terms" element={<TermsPage />} />

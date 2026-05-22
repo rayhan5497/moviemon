@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const vitePrerender = require('vite-plugin-prerender');
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,7 +11,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    vitePrerender({
+      staticDir: path.resolve(__dirname, 'dist'),
+      routes: ['/landing'],
+      renderAfterDocumentEvent: 'prerender-ready',
+      renderAfterTime: 500,
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
