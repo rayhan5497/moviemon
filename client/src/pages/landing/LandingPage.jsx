@@ -32,10 +32,14 @@ const LandingPage = () => {
 
   useEffect(() => {
     const description =
-      'Search and explore movies with ratings, trailers, and details. MovieMon is your ultimate movie discovery companion.';
+      'Search, stream, and watch movies and TV shows with ratings, trailers, subtitles, and AI-powered recommendations. MovieMon helps you discover, stream, and save your favorite titles.';
 
-    document.title = 'MovieMon — Discover Movies Instantly';
+    document.title = 'MovieMon — Discover & Stream Movies and TV Shows';
     setMeta('description', description);
+    setMeta(
+      'keywords',
+      'movies, stream, watch, tv shows, trailers, subtitles, watchlist, recommendations, AI recommendations, streaming, movie discovery'
+    );
     setMeta('og:title', 'MovieMon — Discover Movies Instantly', 'property');
     setMeta('og:description', description, 'property');
     setMeta('og:type', 'website', 'property');
@@ -55,6 +59,11 @@ const LandingPage = () => {
       publisher: {
         '@type': 'Organization',
         name: 'MovieMon',
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${siteUrl}/search?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
       },
     };
 

@@ -17,8 +17,8 @@ const LandingFooter = () => {
               MovieMon
             </Link>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Your ultimate movie discovery companion. Search, explore, and save
-              your favorites.
+              Your ultimate movie discovery and streaming companion. Search,
+              explore, stream trailers, and save your favorites.
             </p>
           </div>
 

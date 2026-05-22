@@ -57,11 +57,13 @@ const FeaturesSection = () => {
     <section id="features" className="py-24 px-4 bg-gray-900/50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Everything You Need
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+            Stream, Search, and Save
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            MovieMon combines powerful tools into one seamless experience.
+          <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto">
+            MovieMon brings streaming info, trailers, subtitles, and AI-powered
+            recommendations together so you can find and watch the best movies
+            and TV shows.
           </p>
         </div>
 

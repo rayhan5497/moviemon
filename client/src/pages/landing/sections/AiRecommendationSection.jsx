@@ -55,16 +55,16 @@ const AiRecommendationSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               AI-Powered{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400">
                 Recommendations
               </span>
             </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mb-6">
-              Stuck on what to watch next? Ask our AI assistant. It knows your
-              taste, suggests hidden gems, and helps you discover movies you
-              never knew you would love.
+            <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-6">
+              Not sure what to stream? Our AI assistant learns your taste and
+              recommends movies and TV shows, prioritizing available trailers,
+              streaming availability, and similar titles you’ll love.
             </p>
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-start gap-3">

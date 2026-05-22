@@ -16,11 +16,12 @@ const TrendingPreviewSection = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-12">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">
               Trending Now
             </h2>
             <p className="text-gray-400">
-              See what everyone is watching. Updated daily.
+              See what people are streaming and watching — updated daily with
+              top movies and TV shows.
             </p>
           </div>
           <Link

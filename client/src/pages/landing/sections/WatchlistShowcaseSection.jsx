@@ -13,15 +13,16 @@ const WatchlistShowcaseSection = () => {
             transition={{ duration: 0.6 }}
             className="order-2 lg:order-1"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               Build Your{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
-                Library
+                Streaming Library
               </span>
             </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              Save movies to your personal collection. Create a watchlist, track
-              what you have watched, and never lose a recommendation again.
+            <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8">
+              Save titles to your personal collection and queue them to stream
+              later. Track your watch history, favorite picks, and never lose a
+              great recommendation.
             </p>
 
             <div className="space-y-6">

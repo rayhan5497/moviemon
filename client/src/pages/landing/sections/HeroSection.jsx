@@ -27,23 +27,21 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight"
         >
-          Discover Movies{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">
-            Instantly
-          </span>
+          Discover Movies & TV Shows
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">Stream & Watch Trailers</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Search, explore, and save your favorites. MovieMon brings you ratings,
-          trailers, AI-powered recommendations, and a growing library of movies
-          — all in one place.
+          Search, stream, and save titles. MovieMon shows ratings, trailers,
+          subtitle support, and personalized AI recommendations so you can
+          watch what matters to you — movies and TV shows included.
         </motion.p>
 
         <motion.div
@@ -54,10 +52,10 @@ const HeroSection = () => {
         >
           <Link
             to="/home"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold text-lg hover:from-teal-400 hover:to-teal-500 transition-all duration-300 shadow-lg shadow-teal-500/25"
+            className="inline-flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold text-base sm:text-lg hover:from-teal-400 hover:to-teal-500 transition-all duration-300 shadow-lg shadow-teal-500/25"
           >
             <img src={siteLogo} alt="MovieMon" className="w-5 h-5 brightness-200 rounded-full" />
-            Explore Movies & TV Shows
+            Explore & Stream
           </Link>
 
           <a
