@@ -11,8 +11,20 @@ async function findByEmailOrPendingEmail(email) {
   });
 }
 
-async function createUser({ email, name, passwordHash }) {
-  return User.create({ email: email.toLowerCase(), name, passwordHash });
+async function createUser({
+  email,
+  name,
+  passwordHash,
+  agreementAccepted,
+  agreementAcceptedAt,
+}) {
+  return User.create({
+    email: email.toLowerCase(),
+    name,
+    passwordHash,
+    agreementAccepted,
+    agreementAcceptedAt,
+  });
 }
 
 async function findByVerificationToken(token) {

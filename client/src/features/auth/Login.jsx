@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { useModal } from '@/shared/context/ModalContext';
 import { loginUser } from './api/authApi';
+import {
+  saveAgreementsState,
+  AGREEMENTS_VERSION,
+} from '@/shared/utils/userState';
 export default function Login({ onSuccess }) {
   const [form, setForm] = useState({
     email: '',
@@ -35,7 +39,14 @@ export default function Login({ onSuccess }) {
       const data = await loginUser(form);
 
       localStorage.setItem('userInfo', JSON.stringify(data));
-      
+      saveAgreementsState({
+        accepted: Boolean(data?.user?.agreementAccepted),
+        acceptedAt: data?.user?.agreementAccepted
+          ? data.user.agreementAcceptedAt || new Date().toISOString()
+          : null,
+        version: AGREEMENTS_VERSION,
+      });
+
       window.dispatchEvent(new Event('userInfoUpdated'));
       if (onSuccess) {
         onSuccess({ message: 'Logged in successfully', action: 'login' });
@@ -145,4 +156,3 @@ export default function Login({ onSuccess }) {
     </>
   );
 }
-

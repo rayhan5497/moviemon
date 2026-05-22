@@ -1,20 +1,26 @@
 import { useState } from 'react';
 import { registerUser } from './api/authApi';
+import {
+  AGREEMENTS_VERSION,
+  saveAgreementsState,
+} from '@/shared/utils/userState';
 export default function Signup({ onSuccess }) {
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    agreementAccepted: false,
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
+    const { name, type, checked, value } = e.target;
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -24,6 +30,9 @@ export default function Signup({ onSuccess }) {
     }
     if (form.password !== form.confirmPassword) {
       return 'Passwords do not match';
+    }
+    if (!form.agreementAccepted) {
+      return 'You must accept the privacy policy and terms of use';
     }
     return '';
   };
@@ -41,7 +50,18 @@ export default function Signup({ onSuccess }) {
     setLoading(true);
 
     try {
-      const data = await registerUser(form);
+      const payload = {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        agreementAccepted: form.agreementAccepted,
+      };
+      const data = await registerUser(payload);
+      saveAgreementsState({
+        accepted: true,
+        acceptedAt: new Date().toISOString(),
+        version: AGREEMENTS_VERSION,
+      });
       localStorage.setItem('pendingVerificationEmail', form.email);
 
       if (onSuccess) {
@@ -128,6 +148,38 @@ export default function Signup({ onSuccess }) {
           />
         </div>
 
+        <div className="flex items-start gap-3">
+          <input
+            id="agreementAccepted"
+            type="checkbox"
+            name="agreementAccepted"
+            checked={form.agreementAccepted}
+            onChange={handleChange}
+            className="mt-2"
+          />
+          <label htmlFor="agreementAccepted" className="text-secondary text-sm">
+            I agree to the{' '}
+            <a
+              href="/privacy"
+              className="text-link underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Privacy Policy
+            </a>{' '}
+            and{' '}
+            <a
+              href="/terms"
+              className="text-link underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Terms of Use
+            </a>
+            .
+          </label>
+        </div>
+
         {/* Error */}
         {error && <p className="text-red-400 text-sm">{error}</p>}
 
@@ -144,4 +196,3 @@ export default function Signup({ onSuccess }) {
     </>
   );
 }
-
