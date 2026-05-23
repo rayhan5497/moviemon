@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Languages, Globe, CheckCircle } from 'lucide-react';
+import { ResponsiveH2 } from '../components/LandingHeading';
 
 const SubtitleSupportSection = () => {
   const languages = [
@@ -16,7 +17,7 @@ const SubtitleSupportSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 bg-gray-900/50">
+    <section className="py-16 md:py-24 px-4 bg-gray-900/50">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -29,12 +30,12 @@ const SubtitleSupportSection = () => {
               <Languages className="w-4 h-4 text-teal-400" />
               Multi-Language
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <ResponsiveH2>
               Watch in{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-400">
                 Any Language
               </span>
-            </h2>
+            </ResponsiveH2>
             <p className="text-gray-400 text-lg leading-relaxed mb-6">
               Built-in subtitle support with a growing library of languages.
               Whether you are learning a new language or need subtitles,

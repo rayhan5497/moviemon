@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { Search, Star, Film, List, Languages, Zap } from 'lucide-react';
+import {ResponsiveH2} from '../components/LandingHeading';
+import {ResponsiveH3} from '../components/LandingHeading';
 
 const features = [
   {
@@ -54,14 +56,14 @@ const itemVariants = {
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-24 px-4 bg-gray-900/50">
+    <section id="features" className="py-16 md:py-24 px-4 bg-gray-900/50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Everything You Need
-          </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            MovieMon combines powerful tools into one seamless experience.
+          <ResponsiveH2>Stream, Search, and Save</ResponsiveH2>
+          <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto">
+            MovieMon brings streaming info, trailers, subtitles, and AI-powered
+            recommendations together so you can find and watch the best movies
+            and TV shows.
           </p>
         </div>
 
@@ -81,7 +83,7 @@ const FeaturesSection = () => {
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500/20 to-orange-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                 <feature.icon className="w-6 h-6 text-teal-400" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+              <ResponsiveH3>{feature.title}</ResponsiveH3>
               <p className="text-gray-400 text-sm leading-relaxed">
                 {feature.description}
               </p>

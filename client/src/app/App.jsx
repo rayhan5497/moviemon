@@ -89,52 +89,68 @@ const App = () => {
                 </Suspense>
               )}
               <Routes>
-                <Route path="/landing" element={<LandingPage />} />
+                <Route path="/" element={<LandingPage />} />
+
                 <Route element={<Layout />}>
                   <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/terms" element={<TermsPage />} />
                   <Route path="/agreements" element={<AgreementsPage />} />
 
+                  <Route path="/home" element={<HomePage />} />
+                  <Route
+                    path="/discover/movie"
+                    element={<DiscoverMoviePage />}
+                  />
+                  <Route path="/discover/tv" element={<DiscoverTvPage />} />
+                  <Route
+                    path="/movie"
+                    element={<Navigate to="/movie/popular" replace />}
+                  />
+                  <Route path="/movie/:sort" element={<MoviePage />} />
+                  <Route
+                    path="/tv"
+                    element={<Navigate to="/tv/popular" replace />}
+                  />
+                  <Route path="/tv/:sort" element={<TvPage />} />
+                  <Route
+                    path="/trending"
+                    element={<Navigate to="/trending/all/day" replace />}
+                  />
+                  <Route
+                    path="/trending/:mediaType"
+                    element={<Navigate to="/trending/all/day" replace />}
+                  />
+                  <Route
+                    path="/trending/:mediaType/:timeWindow"
+                    element={<TrendingPage />}
+                  />
+                  <Route
+                    path="/player/:mediaType/:id"
+                    element={<MediaPlayerPage />}
+                  />
+                  <Route
+                    path="/:mediaType/:id/:sort"
+                    element={<SimilarAndRecommendationsPage />}
+                  />
+                  <Route path="/person/:id" element={<PersonPage />} />
+                  <Route path="/search" element={<SearchPage />} />
+                  <Route path="*" element={<InvalidRoute />} />
+
+                  <Route path="/verify-email" element={<VerifyEmailPage />} />
+                  <Route
+                    path="/email-change/approve"
+                    element={<EmailChangeApprovalPage />}
+                  />
+                  <Route
+                    path="/forgot-password"
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route
+                    path="/reset-password"
+                    element={<ResetPasswordPage />}
+                  />
+
                   <Route element={<RequireAgreements />}>
-                    <Route path="/" element={<HomePage />} />
-                    <Route
-                      path="/discover/movie"
-                      element={<DiscoverMoviePage />}
-                    />
-                    <Route path="/discover/tv" element={<DiscoverTvPage />} />
-
-                    <Route
-                      path="/movie"
-                      element={<Navigate to="/movie/popular" replace />}
-                    />
-                    <Route path="/movie/:sort" element={<MoviePage />} />
-                    <Route
-                      path="/tv"
-                      element={<Navigate to="/tv/popular" replace />}
-                    />
-                    <Route path="/tv/:sort" element={<TvPage />} />
-
-                    <Route
-                      path="/trending"
-                      element={<Navigate to="/trending/all/day" replace />}
-                    />
-                    <Route
-                      path="/trending/:mediaType"
-                      element={<Navigate to="/trending/all/day" replace />}
-                    />
-                    <Route
-                      path="/trending/:mediaType/:timeWindow"
-                      element={<TrendingPage />}
-                    />
-
-                    <Route
-                      path="/player/:mediaType/:id"
-                      element={<MediaPlayerPage />}
-                    />
-                    <Route
-                      path="/:mediaType/:id/:sort"
-                      element={<SimilarAndRecommendationsPage />}
-                    />
                     <Route path="/user" element={<UserPage />} />
                     <Route path="/user/saved" element={<SavedPage />} />
                     <Route
@@ -149,25 +165,6 @@ const App = () => {
                     <Route element={<RequireAdmin />}>
                       <Route path="/admin" element={<AdminPage />} />
                     </Route>
-                    <Route path="/saved" element={<SavedPage />} />
-                    <Route path="/verify-email" element={<VerifyEmailPage />} />
-                    <Route
-                      path="/email-change/approve"
-                      element={<EmailChangeApprovalPage />}
-                    />
-                    <Route
-                      path="/forgot-password"
-                      element={<ForgotPasswordPage />}
-                    />
-                    <Route
-                      path="/reset-password"
-                      element={<ResetPasswordPage />}
-                    />
-
-                    <Route path="/person/:id" element={<PersonPage />} />
-
-                    <Route path="/search" element={<SearchPage />} />
-                    <Route path="*" element={<InvalidRoute />} />
                   </Route>
                 </Route>
               </Routes>

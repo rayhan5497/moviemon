@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import {ResponsiveH2} from '../components/LandingHeading';
+
 
 const faqs = [
   {
@@ -43,16 +45,16 @@ const FaqSection = () => {
   };
 
   return (
-    <section className="py-24 px-4">
+    <section className="py-16 md:py-24 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <ResponsiveH2>
             Frequently Asked{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">
               Questions
             </span>
-          </h2>
-          <p className="text-gray-400 text-lg">
+          </ResponsiveH2>
+          <p className="text-gray-400 text-sm sm:text-lg">
             Everything you need to know about MovieMon.
           </p>
         </div>
@@ -68,7 +70,7 @@ const FaqSection = () => {
                 className="w-full flex items-center justify-between p-5 text-left"
                 aria-expanded={openIndex === i}
               >
-                <span className="font-medium text-white pr-4">
+                <span className="font-medium text-sm text-white pr-4">
                   {faq.question}
                 </span>
                 <ChevronDown

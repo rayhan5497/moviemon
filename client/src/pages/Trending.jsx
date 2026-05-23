@@ -105,26 +105,6 @@ const Movies = () => {
             />
           )}
 
-          {/* {(isLoading && allMovies.length === 0) || isFetchingNextPage ? (
-            <Message
-              lottie={loadingSpinner}
-              message={
-                isLoading
-                  ? mediaType === 'movie'
-                    ? 'Loading Movies'
-                    : mediaType === 'tv'
-                    ? 'Loading TV Shows'
-                    : 'Loading Media'
-                  : mediaType === 'movie'
-                  ? 'Loading More Movies'
-                  : mediaType === 'tv'
-                  ? 'Loading More Shows'
-                  : 'Loading More Media'
-              }
-              className="w-[1.4em]"
-            />
-          ) : null} */}
-
           {!isLoading && !hasNextPage && (
             <Message
               icon="🎬"

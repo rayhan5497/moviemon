@@ -1,6 +1,11 @@
 ﻿import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
+  getStoredUserInfo,
+  setStoredUserInfo,
+} from '@/shared/utils/authStorage';
+import { updateProfileApi } from '@/features/user/api/accountApi';
+import {
   AGREEMENTS_VERSION,
   getAgreementsState,
   saveAgreementsState,
@@ -24,20 +29,44 @@ const Agreements = () => {
     }
   }, [navigate]);
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!privacyAccepted || !termsAccepted) {
       setError('Please agree to both documents to continue.');
       return;
     }
 
-    saveAgreementsState({
-      accepted: true,
-      acceptedAt: new Date().toISOString(),
-      version: AGREEMENTS_VERSION,
-    });
+    setError('');
+    const userInfo = getStoredUserInfo();
 
-    const target = location.state?.from?.pathname || '/';
-    navigate(target, { replace: true });
+    try {
+      if (userInfo?.token) {
+        await updateProfileApi({
+          userInfo,
+          payload: { agreementAccepted: true },
+        });
+
+        const nextUserInfo = {
+          ...userInfo,
+          user: {
+            ...userInfo.user,
+            agreementAccepted: true,
+            agreementAcceptedAt: new Date().toISOString(),
+          },
+        };
+        setStoredUserInfo(nextUserInfo);
+      }
+
+      saveAgreementsState({
+        accepted: true,
+        acceptedAt: new Date().toISOString(),
+        version: AGREEMENTS_VERSION,
+      });
+
+      const target = location.state?.from?.pathname || '/';
+      navigate(target, { replace: true });
+    } catch (err) {
+      setError(err.message || 'Unable to save agreement acceptance');
+    }
   };
 
   return (
@@ -83,8 +112,9 @@ const Agreements = () => {
         </div>
 
         <div className="mt-6 text-sm text-secondary bg-secondary rounded-lg p-3">
-          This project is provided for educational purposes only. Features may change or be removed at any time. Data
-          may be reset or deleted without notice.
+          This project is provided for educational purposes only. Features may
+          change or be removed at any time. Data may be reset or deleted without
+          notice.
         </div>
 
         {error && <p className="mt-4 text-red-400 text-sm">{error}</p>}

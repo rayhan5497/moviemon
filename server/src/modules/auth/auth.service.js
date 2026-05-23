@@ -14,11 +14,19 @@ const toAuthUserPayload = (user) => ({
   name: user.name,
   avatar: user.avatar ?? '',
   role: user.role || 'user',
+  agreementAccepted: Boolean(user.agreementAccepted),
+  agreementAcceptedAt: user.agreementAcceptedAt || null,
 });
 
-async function register({ email, password, name }) {
+async function register({ email, password, name, agreementAccepted }) {
   if (!email || !password) {
     throw new AppError('Email and password are required', 400);
+  }
+  if (agreementAccepted !== true) {
+    throw new AppError(
+      'You must accept the privacy policy and terms of use',
+      400
+    );
   }
   const existing = await authRepository.findByEmail(email);
   if (existing) {
@@ -32,6 +40,8 @@ async function register({ email, password, name }) {
     email,
     name: name || '',
     passwordHash,
+    agreementAccepted: true,
+    agreementAcceptedAt: new Date(),
   });
 
   await authRepository.updateUser(user.id, {
@@ -73,7 +83,7 @@ async function login({ email, password }) {
   });
   return {
     user: toAuthUserPayload(user),
-    token
+    token,
   };
 }
 
@@ -116,7 +126,10 @@ async function verifyEmail(token, email) {
       verificationExpires: null,
     });
 
-    if (updated.pendingEmailVerified && updated.pendingEmailApprovalToken === '') {
+    if (
+      updated.pendingEmailVerified &&
+      updated.pendingEmailApprovalToken === ''
+    ) {
       updated = await authRepository.updateUser(user.id, {
         email: updated.pendingEmail,
         pendingEmail: '',
@@ -195,7 +208,10 @@ async function approveEmailChange(token) {
   if (!user) {
     throw new AppError('Invalid or expired token', 400);
   }
-  if (user.pendingEmailApprovalExpires && user.pendingEmailApprovalExpires < new Date()) {
+  if (
+    user.pendingEmailApprovalExpires &&
+    user.pendingEmailApprovalExpires < new Date()
+  ) {
     throw new AppError('Invalid or expired token', 400);
   }
 

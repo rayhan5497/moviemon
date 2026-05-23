@@ -28,7 +28,6 @@ function parseMovieId(movieId) {
   return id;
 }
 
-
 async function updateProfile(userId, data, file) {
   const currentUser = await userRepository.findById(
     userId,
@@ -40,6 +39,14 @@ async function updateProfile(userId, data, file) {
 
   if (data.name) {
     updates.name = data.name;
+  }
+
+  if (data.agreementAccepted !== undefined) {
+    updates.agreementAccepted = parseState(
+      data.agreementAccepted,
+      'agreementAccepted'
+    );
+    updates.agreementAcceptedAt = updates.agreementAccepted ? new Date() : null;
   }
 
   const wantsEmailChange = Boolean(data.email);
@@ -159,7 +166,8 @@ async function updateProfile(userId, data, file) {
         to: currentUser.email,
         token: user.pendingEmailApprovalToken,
         purpose:
-          user.pendingEmail && (updates.pendingPasswordHash || user.pendingPasswordHash)
+          user.pendingEmail &&
+          (updates.pendingPasswordHash || user.pendingPasswordHash)
             ? 'email_password_change'
             : 'email_change',
       });

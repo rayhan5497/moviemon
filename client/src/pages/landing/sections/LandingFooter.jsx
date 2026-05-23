@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { Film } from 'lucide-react';
 
 const LandingFooter = () => {
   const currentYear = new Date().getFullYear();
@@ -10,15 +9,15 @@ const LandingFooter = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link
-              to="/"
+              to="/home"
               className="inline-flex items-center gap-2 text-xl font-bold text-white mb-3"
             >
-              <Film className="w-6 h-6 text-teal-400" />
+              <img src="/siteLogo.png" alt="MovieMon" className="w-6 h-6" />
               MovieMon
             </Link>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Your ultimate movie discovery companion. Search, explore, and save
-              your favorites.
+              Your ultimate movie discovery and streaming companion. Search,
+              explore, stream trailers, and save your favorites.
             </p>
           </div>
 

@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import { Bookmark, Heart, Clock } from 'lucide-react';
+import { ResponsiveH2 } from '../components/LandingHeading';
+import libraryImage from '@/shared/assets/image/library.webp';
 
 const WatchlistShowcaseSection = () => {
   return (
-    <section className="py-24 px-4">
+    <section className="py-16 md:py-24 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -13,15 +15,16 @@ const WatchlistShowcaseSection = () => {
             transition={{ duration: 0.6 }}
             className="order-2 lg:order-1"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <ResponsiveH2>
               Build Your{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
-                Library
+                Streaming Library
               </span>
-            </h2>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              Save movies to your personal collection. Create a watchlist, track
-              what you have watched, and never lose a recommendation again.
+            </ResponsiveH2>
+            <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8">
+              Save titles to your personal collection and queue them to stream
+              later. Track your watch history, favorite picks, and never lose a
+              great recommendation.
             </p>
 
             <div className="space-y-6">
@@ -72,28 +75,12 @@ const WatchlistShowcaseSection = () => {
             transition={{ duration: 0.6 }}
             className="order-1 lg:order-2"
           >
-            <div className="relative rounded-2xl bg-gray-800/60 border border-white/5 p-6 overflow-hidden">
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { title: 'Inception', year: '2010' },
-                  { title: 'Interstellar', year: '2014' },
-                  { title: 'The Matrix', year: '1999' },
-                  { title: 'Parasite', year: '2019' },
-                  { title: 'The Dark Knight', year: '2008' },
-                  { title: 'Blade Runner 2049', year: '2017' },
-                ].map((movie) => (
-                  <div
-                    key={movie.title}
-                    className="rounded-lg bg-gray-700/50 p-3 text-center hover:bg-gray-700/70 transition-colors"
-                  >
-                    <div className="w-full aspect-[2/3] rounded-md bg-gradient-to-br from-gray-600 to-gray-700 mb-2" />
-                    <p className="text-xs font-medium truncate">
-                      {movie.title}
-                    </p>
-                    <p className="text-xs text-gray-500">{movie.year}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="relative rounded-2xl bg-gray-800 sm:p-6 overflow-hidden">
+              <img
+                src={libraryImage}
+                alt="Watchlist Showcase"
+                className="rounded-lg w-full h-auto object-cover"
+              />
 
               <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent pointer-events-none" />
             </div>

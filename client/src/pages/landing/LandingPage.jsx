@@ -19,6 +19,8 @@ const CtaSection = lazy(() => import('./sections/CtaSection'));
 const FaqSection = lazy(() => import('./sections/FaqSection'));
 const LandingFooter = lazy(() => import('./sections/LandingFooter'));
 
+import { useMovies } from '@/shared/hooks/useMovies';
+import randomizeArray from '@/shared/utils/randomizeArray';
 const SectionFallback = () => (
   <div className="min-h-[200px] bg-primary animate-pulse" />
 );
@@ -32,29 +34,38 @@ const LandingPage = () => {
 
   useEffect(() => {
     const description =
-      'Search and explore movies with ratings, trailers, and details. MovieMon is your ultimate movie discovery companion.';
+      'Search, stream, and watch movies and TV shows with ratings, trailers, subtitles, and AI-powered recommendations. MovieMon helps you discover, stream, and save your favorite titles.';
 
-    document.title = 'MovieMon — Discover Movies Instantly';
+    document.title = 'MovieMon — Discover & Stream Movies and TV Shows';
     setMeta('description', description);
+    setMeta(
+      'keywords',
+      'movies, stream, watch, tv shows, trailers, subtitles, watchlist, recommendations, AI recommendations, streaming, movie discovery'
+    );
     setMeta('og:title', 'MovieMon — Discover Movies Instantly', 'property');
     setMeta('og:description', description, 'property');
     setMeta('og:type', 'website', 'property');
-    setMeta('og:url', `${siteUrl}/landing`, 'property');
+    setMeta('og:url', `${siteUrl}`, 'property');
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', 'MovieMon — Discover Movies Instantly');
     setMeta('twitter:description', description);
     setMeta('twitter:image', `${siteUrl}/og-moviemon.png`);
-    setMeta('canonical', `${siteUrl}/landing`, 'rel', 'link');
+    setMeta('canonical', `${siteUrl}`, 'rel', 'link');
 
     const jsonLd = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      url: `${siteUrl}/landing`,
+      url: `${siteUrl}`,
       name: 'MovieMon',
       description,
       publisher: {
         '@type': 'Organization',
         name: 'MovieMon',
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${siteUrl}/search?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
       },
     };
 
@@ -73,6 +84,22 @@ const LandingPage = () => {
     document.dispatchEvent(new Event('prerender-ready'));
   }, [siteUrl]);
 
+
+  // Fetch Movies
+    const queryString = `all/day`;
+    const type = 'trending';
+
+    const { data, isError, isLoading } = useMovies(queryString, type);
+
+    const allMovies = [
+      ...new Map(
+        (data?.pages || [])
+          .flatMap((page) => page.results)
+          .filter(Boolean)
+          .map((m) => [m.id, m])
+      ).values(),
+    ];
+
   return (
     <div className="landing-page bg-gray-950 text-white min-h-screen">
       <Suspense fallback={<SectionFallback />}>
@@ -84,7 +111,11 @@ const LandingPage = () => {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        <TrendingPreviewSection />
+        <TrendingPreviewSection
+          allMovies={randomizeArray(allMovies).slice(0, 6)}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
@@ -92,7 +123,11 @@ const LandingPage = () => {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        <WatchlistShowcaseSection />
+        <WatchlistShowcaseSection
+          allMovies={randomizeArray(allMovies).slice(0, 6)}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>

@@ -15,6 +15,8 @@ const UserSchema = new mongoose.Schema(
     pendingPasswordHash: { type: String, default: '' },
     passwordResetToken: { type: String, default: '' },
     passwordResetExpires: { type: Date, default: null },
+    agreementAccepted: { type: Boolean, default: false },
+    agreementAcceptedAt: { type: Date, default: null },
     role: {
       type: String,
       enum: ['user', 'admin'],
