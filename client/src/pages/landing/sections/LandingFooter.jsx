@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import siteLogo from '/siteLogo.png';
 
 const LandingFooter = () => {
   const currentYear = new Date().getFullYear();
@@ -13,7 +12,7 @@ const LandingFooter = () => {
               to="/home"
               className="inline-flex items-center gap-2 text-xl font-bold text-white mb-3"
             >
-              <img src={siteLogo} alt="MovieMon" className="w-6 h-6" />
+              <img src="/siteLogo.png" alt="MovieMon" className="w-6 h-6" />
               MovieMon
             </Link>
             <p className="text-sm text-gray-500 leading-relaxed">

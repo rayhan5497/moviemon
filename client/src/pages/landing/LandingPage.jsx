@@ -19,6 +19,8 @@ const CtaSection = lazy(() => import('./sections/CtaSection'));
 const FaqSection = lazy(() => import('./sections/FaqSection'));
 const LandingFooter = lazy(() => import('./sections/LandingFooter'));
 
+import { useMovies } from '@/shared/hooks/useMovies';
+import randomizeArray from '@/shared/utils/randomizeArray';
 const SectionFallback = () => (
   <div className="min-h-[200px] bg-primary animate-pulse" />
 );
@@ -82,6 +84,22 @@ const LandingPage = () => {
     document.dispatchEvent(new Event('prerender-ready'));
   }, [siteUrl]);
 
+
+  // Fetch Movies
+    const queryString = `all/day`;
+    const type = 'trending';
+
+    const { data, isError, isLoading } = useMovies(queryString, type);
+
+    const allMovies = [
+      ...new Map(
+        (data?.pages || [])
+          .flatMap((page) => page.results)
+          .filter(Boolean)
+          .map((m) => [m.id, m])
+      ).values(),
+    ];
+
   return (
     <div className="landing-page bg-gray-950 text-white min-h-screen">
       <Suspense fallback={<SectionFallback />}>
@@ -93,7 +111,11 @@ const LandingPage = () => {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        <TrendingPreviewSection />
+        <TrendingPreviewSection
+          allMovies={randomizeArray(allMovies).slice(0, 6)}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
@@ -101,7 +123,11 @@ const LandingPage = () => {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        <WatchlistShowcaseSection />
+        <WatchlistShowcaseSection
+          allMovies={randomizeArray(allMovies).slice(0, 6)}
+          isError={isError}
+          isLoading={isLoading}
+        />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>

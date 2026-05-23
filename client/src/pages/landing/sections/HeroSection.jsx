@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
-import siteLogo from '/siteLogo.png';
 
 const ResponsiveDiv = ({ children, className = '' }) => {
   return <div className={className}>{children}</div>;
@@ -62,7 +61,7 @@ const HeroSection = () => {
             className="inline-flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold text-base sm:text-lg hover:from-teal-400 hover:to-teal-500 transition-all duration-300 shadow-lg shadow-teal-500/25"
           >
             <img
-              src={siteLogo}
+              src="/siteLogo.png"
               alt="MovieMon"
               className="w-5 h-5 brightness-200 rounded-full"
             />
@@ -94,7 +93,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto border-t border-white/10 pt-8"
+          className="mt-8 sm:mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto border-t border-white/10 pt-8"
         >
           <ResponsiveDiv className="text-center text-[clamp(0.8rem,5vw,1.5rem)] font-bold leading-tight">
             10K+
@@ -110,7 +109,7 @@ const HeroSection = () => {
           </ResponsiveDiv>
           <ResponsiveDiv className="text-center text-[clamp(0.8rem,5vw,1.5rem)] font-bold leading-tight">
             AI
-            <ResponsiveDiv className="font-normal text-gray-500 text-[clamp(0.6rem,5vw,1rem)] leading-tight">
+            <ResponsiveDiv className="font-normal text-gray-500 text-[clamp(0.6rem,5vw,1rem)] leading-tight wrap-break-word">
               Recommendations
             </ResponsiveDiv>
           </ResponsiveDiv>

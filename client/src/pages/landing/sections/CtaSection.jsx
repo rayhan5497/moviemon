@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import siteLogo from '/siteLogo.png';
 import { ResponsiveH2 } from '../components/LandingHeading';
 
 const CtaSection = () => {
@@ -28,7 +27,7 @@ const CtaSection = () => {
           className="inline-flex items-center gap-3 px-8 py-3 sm:px-10 sm:py-4 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold text-base sm:text-lg hover:from-teal-400 hover:to-teal-500 transition-all duration-300 shadow-lg shadow-teal-500/25 group"
         >
           <img
-            src={siteLogo}
+            src="/siteLogo.png"
             alt="MovieMon"
             className="w-5 h-5 brightness-200 rounded-full"
           />
