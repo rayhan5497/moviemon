@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
 import siteLogo from '/siteLogo.png';
 
+const ResponsiveDiv = ({ children, className = '' }) => {
+  return <div className={className}>{children}</div>;
+};
+
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
@@ -23,15 +27,18 @@ const HeroSection = () => {
           Your Ultimate Movie Companion
         </motion.div>
 
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight"
         >
-          Discover Movies & TV Shows
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">Stream & Watch Trailers</span>
-        </motion.h1>
+          <h1 className="mb-6 text-[clamp(1rem,6vw,3rem)] font-bold leading-tight">
+            Discover Movies & TV Shows
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">
+              Stream & Watch Trailers
+            </span>
+          </h1>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -40,8 +47,8 @@ const HeroSection = () => {
           className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           Search, stream, and save titles. MovieMon shows ratings, trailers,
-          subtitle support, and personalized AI recommendations so you can
-          watch what matters to you — movies and TV shows included.
+          subtitle support, and personalized AI recommendations so you can watch
+          what matters to you — movies and TV shows included.
         </motion.p>
 
         <motion.div
@@ -54,13 +61,17 @@ const HeroSection = () => {
             to="/home"
             className="inline-flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold text-base sm:text-lg hover:from-teal-400 hover:to-teal-500 transition-all duration-300 shadow-lg shadow-teal-500/25"
           >
-            <img src={siteLogo} alt="MovieMon" className="w-5 h-5 brightness-200 rounded-full" />
+            <img
+              src={siteLogo}
+              alt="MovieMon"
+              className="w-5 h-5 brightness-200 rounded-full"
+            />
             Explore & Stream
           </Link>
 
           <a
             href="#features"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-white/10 text-white font-semibold text-lg hover:bg-white/5 transition-all duration-300"
+            className="inline-flex items-center gap-3 px-10 py-3 sm:px-12 sm:py-4 rounded-xl border border-white/10 text-white font-semibold text-lg hover:bg-white/5 transition-all duration-300"
           >
             Learn More
             <svg
@@ -85,18 +96,24 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto border-t border-white/10 pt-8"
         >
-          <div className="text-center">
-            <div className="text-2xl font-bold text-white">10K+</div>
-            <div className="text-sm text-gray-500">Movies</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-white">HD</div>
-            <div className="text-sm text-gray-500">Trailers</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-white">AI</div>
-            <div className="text-sm text-gray-500">Recommendations</div>
-          </div>
+          <ResponsiveDiv className="text-center text-[clamp(0.8rem,5vw,1.5rem)] font-bold leading-tight">
+            10K+
+            <ResponsiveDiv className="font-normal text-gray-500 text-[clamp(0.6rem,5vw,1rem)] leading-tight">
+              Movies
+            </ResponsiveDiv>
+          </ResponsiveDiv>
+          <ResponsiveDiv className="text-center text-[clamp(0.8rem,5vw,1.5rem)] font-bold leading-tight">
+            HD
+            <ResponsiveDiv className="font-normal text-gray-500 text-[clamp(0.6rem,5vw,1rem)] leading-tight">
+              Trailers
+            </ResponsiveDiv>
+          </ResponsiveDiv>
+          <ResponsiveDiv className="text-center text-[clamp(0.8rem,5vw,1.5rem)] font-bold leading-tight">
+            AI
+            <ResponsiveDiv className="font-normal text-gray-500 text-[clamp(0.6rem,5vw,1rem)] leading-tight">
+              Recommendations
+            </ResponsiveDiv>
+          </ResponsiveDiv>
         </motion.div>
       </div>
 

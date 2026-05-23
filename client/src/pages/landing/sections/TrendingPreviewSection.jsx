@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { TrendingUp } from 'lucide-react';
+import {ResponsiveH2} from '../components/LandingHeading';
 
 const trendingMock = [
   { title: 'Dune: Part Two', year: '2024', rating: '8.6' },
@@ -12,13 +13,11 @@ const trendingMock = [
 
 const TrendingPreviewSection = () => {
   return (
-    <section className="py-24 px-4">
+    <section className="py-16 md:py-24 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-12">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">
-              Trending Now
-            </h2>
+            <ResponsiveH2>Trending Now</ResponsiveH2>
             <p className="text-gray-400">
               See what people are streaming and watching — updated daily with
               top movies and TV shows.

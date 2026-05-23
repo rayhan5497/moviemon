@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
 import { Bookmark, Heart, Clock } from 'lucide-react';
+import {ResponsiveH2} from '../components/LandingHeading';
 
 const WatchlistShowcaseSection = () => {
   return (
-    <section className="py-24 px-4">
+    <section className="py-16 md:py-24 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -13,12 +14,12 @@ const WatchlistShowcaseSection = () => {
             transition={{ duration: 0.6 }}
             className="order-2 lg:order-1"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+            <ResponsiveH2>
               Build Your{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
                 Streaming Library
               </span>
-            </h2>
+            </ResponsiveH2>
             <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8">
               Save titles to your personal collection and queue them to stream
               later. Track your watch history, favorite picks, and never lose a
