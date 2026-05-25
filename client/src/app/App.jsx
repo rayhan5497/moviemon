@@ -32,7 +32,10 @@ import LandingPage from '../pages/landing/LandingPage.jsx';
 
 import { ModalProvider } from '@/shared/context/ModalContext.jsx';
 import { SnackbarProvider } from '@/shared/context/SnackbarProvider.jsx';
-import { UserMoviesProvider } from '@/shared/context/UserMoviesContext.jsx';
+import {
+  UserMoviesProvider,
+  useUserMoviesContext,
+} from '@/shared/context/UserMoviesContext.jsx';
 import RequireAgreements from './guards/RequireAgreements.jsx';
 import RequireAdmin from './guards/RequireAdmin.jsx';
 import filters from '../shared/data/filters.json';
@@ -42,6 +45,11 @@ const queryClient = new QueryClient();
 const DevPanel = import.meta.env.DEV
   ? lazy(() => import('../dev/DevPanel'))
   : null;
+
+const LandingRedirect = () => {
+  const { isLoggedIn } = useUserMoviesContext();
+  return isLoggedIn ? <Navigate to="/home" replace /> : <LandingPage />;
+};
 
 const App = () => {
   const [showDevPanel, setShowDevPanel] = useState(false);
@@ -89,7 +97,7 @@ const App = () => {
                 </Suspense>
               )}
               <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<LandingRedirect />} />
 
                 <Route element={<Layout />}>
                   <Route path="/privacy" element={<PrivacyPage />} />
