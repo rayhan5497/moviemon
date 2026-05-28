@@ -15,7 +15,12 @@ import { saveSidebarState } from '@/shared/utils/userState';
 import SearchBox from '@/features/search/SearchBox';
 import ThemeToggle from '@/shared/components/ui/ThemeToggle';
 import { useIsMd } from '@/shared/hooks/useIsMd';
-import { AvatarComponent, GithubButton, ShareButton, Toast } from '@/shared/components/ui/MUI';
+import {
+  AvatarComponent,
+  GithubButton,
+  ShareButton,
+  Toast,
+} from '@/shared/components/ui/MUI';
 import { useModal } from '@/shared/context/ModalContext';
 import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
 import UserMenuModal from '@/features/user/UserProfileModal';
@@ -79,10 +84,7 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
           )}
 
           {isSidebarOpen && (
-            <Backdrop
-              onClick={handleSidebarClick}
-              className="md:hidden z-40"
-            />
+            <Backdrop onClick={handleSidebarClick} className="md:hidden z-40" />
           )}
 
           {isSearchOpen && (
@@ -94,7 +96,7 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
             </>
           )}
           <LinkWithScrollSave
-            to="/"
+            to="/home"
             className="site-name-and-log flex items-center gap-2 min-w-0"
           >
             <img src="/siteLogo.png" className="w-8 md:w-12" alt="" />
@@ -154,7 +156,10 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
                   }
                   style={{ border: '1px solid gray' }}
                 />
-                <UserMenuModal anchorRef={avatarRef} onLogout={handleLogoutToast} />
+                <UserMenuModal
+                  anchorRef={avatarRef}
+                  onLogout={handleLogoutToast}
+                />
               </div>
             </div>
           )}
@@ -171,5 +176,3 @@ const Header = ({ setIsSidebarOpen, isSidebarOpen }) => {
 };
 
 export default Header;
-
-

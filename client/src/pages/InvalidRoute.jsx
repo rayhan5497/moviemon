@@ -15,7 +15,7 @@ const InvalidRoute = () => {
       </p>
 
       <NavLink
-        to="/"
+        to="/home"
         className="mt-6 text-blue-400 underline hover:text-blue-300 transition"
       >
         Go back home

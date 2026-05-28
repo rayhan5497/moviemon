@@ -1,5 +1,13 @@
+import { useUserMoviesContext } from '@/shared/context/UserMoviesContext';
+
 import { lazy, Suspense, useEffect, useState, useMemo } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Layout from './layout/Layout.jsx';
@@ -37,6 +45,24 @@ import RequireAgreements from './guards/RequireAgreements.jsx';
 import RequireAdmin from './guards/RequireAdmin.jsx';
 import filters from '../shared/data/filters.json';
 
+export function LandingRouteClient() {
+  const { isLoggedIn } = useUserMoviesContext();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/home', { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
+
+  if (isLoggedIn) {
+    return null;
+  }
+
+  return <LandingPage />;
+}
+
 const queryClient = new QueryClient();
 
 const DevPanel = import.meta.env.DEV
@@ -44,6 +70,8 @@ const DevPanel = import.meta.env.DEV
   : null;
 
 const App = () => {
+  // const { isLoggedIn } = useUserMoviesContext();
+
   const [showDevPanel, setShowDevPanel] = useState(false);
 
   useEffect(() => {
@@ -89,7 +117,7 @@ const App = () => {
                 </Suspense>
               )}
               <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<LandingRouteClient />} />
 
                 <Route element={<Layout />}>
                   <Route path="/privacy" element={<PrivacyPage />} />
