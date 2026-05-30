@@ -8,8 +8,24 @@ import FallbackIframe from './FallbackIframe';
 import { useIsLg } from '@/shared/hooks/useIsLg';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { saveWatchProgress } from '@/features/MediaPlayer/utils/watchHistory';
+import { useMovies } from '@/shared/hooks/useMovies';
+import Message from '../../../shared/components/ui/Message';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
+
+// ----------------------
+// Episode details skeleton
+// ----------------------
+const EpisodeDetailsSkeleton = () => {
+  return (
+    <div className="absolute flex flex-col gap-2 w-70 h-30 items-start justify-center text-white text-lg font-semibold text-center top-5 right-5 shadow-lg shadow-black bg-black/70 p-3 rounded-2xl opacity-70">
+      <div className="w-full h-3 bg-gray-700 rounded skeleton-shimmer"></div>
+      <div className="w-4/5 h-2 bg-gray-700 rounded skeleton-shimmer"></div>
+      <div className="w-3/4 h-2 bg-gray-700 rounded skeleton-shimmer"></div>
+      <div className="w-2/4 h-2 bg-gray-700 rounded skeleton-shimmer"></div>
+    </div>
+  );
+};
 
 const Player = ({ media }) => {
   // console.log('media in Player:', media);
@@ -152,6 +168,21 @@ const Player = ({ media }) => {
   const isLg = useIsLg();
   const isMd = useIsMd();
 
+  //-----------------------------
+  // Get episode details
+  //-----------------------------
+  const queryString = `${
+    mediaType + '/' + id + '/season/' + season + '/episode/' + episode
+  }&append_to_response=videos,images,external_ids`;
+
+  const type = `player/${mediaType}`;
+
+  const { data, isError, error, isLoading } = useMovies(queryString, type, {
+    enabled: mediaType === 'tv',
+  });
+
+  const episodeData = data?.pages[0];
+
   return (
     <div className="player-container bg-black m-0 relative w-full aspect-video md:overflow-hidden grid rounded md:rouded-tl-lg md:rounded-bl-lg">
       <div
@@ -180,7 +211,7 @@ const Player = ({ media }) => {
           />
           <button
             onClick={handlePlayBtnClick}
-            className="play-btn cursor-pointer bg-orange-400 hover:scale-140 scale-125 transition-all duration-300 p-[0.5rem] rounded-full font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
+            className="play-btn cursor-pointer z-1 bg-orange-400/50 hover:bg-orange-400 hover:scale-140 scale-125 transition-all duration-300 p-[0.5rem] rounded-full font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -191,6 +222,31 @@ const Player = ({ media }) => {
               <path d="M8 5v14l11-7z" />
             </svg>
           </button>
+          {isLg && (
+            <div className="episode-info absolute top-5 right-5 shadow-lg shadow-black bg-black/70 p-3 rounded-2xl opacity-70 max-w-[40ch]">
+              {episodeData && !isLoading && !isError ? (
+                <>
+                  <p className="text-white text-lg font-semibold line-clamp-2">
+                    {'S' + season} {'E' + episode} - {episodeData?.name}
+                  </p>
+                  <p className="text-white text-xs">{episodeData?.air_date}</p>
+                  <p className="text-white text-xs line-clamp-5">
+                    {episodeData?.overview}
+                  </p>
+                </>
+              ) : isLoading && !isError ? (
+                <EpisodeDetailsSkeleton />
+              ) : (
+                !isLoading &&
+                isError && (
+                  <p className="text-red-400 text-xs line-clamp-5">
+                    Failed to load episode details <br /> Reason:{' '}
+                    {error?.message}
+                  </p>
+                )
+              )}
+            </div>
+          )}
         </>
       )}
       {playBtnClicked && !menifestLoaded && !showTurnstile && (
@@ -266,4 +322,3 @@ const Player = ({ media }) => {
 };
 
 export default Player;
-
