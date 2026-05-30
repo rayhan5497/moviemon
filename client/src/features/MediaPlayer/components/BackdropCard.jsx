@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 
 import { useIsXs } from '@/shared/hooks/useIsXs';
 const TMDB_BASE_URL = 'https://image.tmdb.org/t/p/';

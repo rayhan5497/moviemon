@@ -4,10 +4,11 @@ import { useIsMd } from '@/shared/hooks/useIsMd';
 import { Images } from 'lucide-react';
 import HorizontalCardCarousel from '@/shared/components/sections/HorizontalCardCarousel';
 import BackdropCard from './components/BackdropCard';
+import DownloadButton from './components/DownloadButton.jsx';
 
 const TMDB_BASE_URL = 'https://image.tmdb.org/t/p/';
 
-const BackdropGalleryWrapper = ({ backdrops = [] }) => {
+const BackdropGalleryWrapper = ({ title, backdrops = [] }) => {
   const isMd = useIsMd();
   const THUMB_SIZE = isMd ? 'w1280' : 'w780';
   // 1. CHUNKING PAGINATION STATE (20 items initially)
@@ -160,8 +161,16 @@ const BackdropGalleryWrapper = ({ backdrops = [] }) => {
             {!imgLoaded && (
               <div className="!absolute inset-0 skeleton-shimmer rounded-lg"></div>
             )}
-            <div className="absolute w-max -bottom-8 left-1/2 -translate-x-1/2 text-zinc-400 text-sm font-medium">
-              {activeIndex + 1} / {backdrops.length}
+            <div className="absolute inline-flex w-max items-center gap-2 -bottom-11 left-1/2 -translate-x-1/2 text-zinc-400 text-sm font-medium">
+              {activeIndex + 1 + ' / ' + backdrops.length}
+
+              {imgLoaded && (
+                <DownloadButton
+                  posterPath={backdrops[activeIndex]?.file_path}
+                  mediaTitle={title}
+                  count={activeIndex + 1}
+                />
+              )}
             </div>
           </div>
 

@@ -314,7 +314,10 @@ const MediaPlayer = () => {
               {!isHeavyLoading && !isHeavyError ? (
                 <div className="relevant-details m-2">
                   {media.images?.posters?.length > 0 && (
-                    <GallerySection backdrops={media?.images?.backdrops} />
+                    <GallerySection
+                      backdrops={media?.images?.backdrops}
+                      title={media?.title || media?.name}
+                    />
                   )}
                   <CastSection media={media} />
                   <SimilarAndRecommendationSection
