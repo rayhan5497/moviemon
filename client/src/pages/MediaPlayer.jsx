@@ -259,7 +259,7 @@ const MediaPlayer = () => {
                 open={openTrailer}
                 onClose={() => setOpenTrailer(false)}
                 videos={media?.videos?.results}
-                mediaTitle={media?.title}
+                mediaTitle={media?.title || media?.name}
               />
 
               {isMd ? (
