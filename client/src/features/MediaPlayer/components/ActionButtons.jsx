@@ -17,9 +17,9 @@ export default function ActionButtons({ media, setOpenTrailer }) {
       </button>
 
       {/* IMDb */}
-      {media?.external_ids?.imdb_id && (
+      {media?.imdb_id && (
         <a
-          href={`https://www.imdb.com/title/${media.external_ids.imdb_id}`}
+          href={`https://www.imdb.com/title/${media.imdb_id}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1 p-1 md:px-2 h-5 md:h-auto  rounded-full bg-secondary text-primary font-semibold text-sm hover:brightness-110 active:scale-95 transition-all duration-200 shadow-lg cursor-pointer"

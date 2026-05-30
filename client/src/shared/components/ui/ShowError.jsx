@@ -4,14 +4,14 @@ const TYPE_LABELS = {
   person: 'Person',
 };
 
-const ShowError = ({ message, code, type }) => {
+const ShowError = ({ message, code, type, className = '' }) => {
   console.warn('type', type, 'code', code, 'message', message)
   const getTypeLabel = (type) => TYPE_LABELS[type] ?? 'Item';
 
   const label = getTypeLabel(type);
 
   return (
-    <div className="flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded relative w-fit h-auto">
+    <div className={`flex items-center justify-center self-center gap-2 m-auto p-2 text-primary bg-accent-secondary rounded relative w-fit h-auto ${className}`}>
       {code === 34 || code === 404 ? (
         <>
           <>

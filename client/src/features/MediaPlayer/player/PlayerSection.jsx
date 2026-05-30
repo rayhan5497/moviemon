@@ -9,7 +9,6 @@ import { useIsLg } from '@/shared/hooks/useIsLg';
 import { useIsMd } from '@/shared/hooks/useIsMd';
 import { saveWatchProgress } from '@/features/MediaPlayer/utils/watchHistory';
 import { useMovies } from '@/shared/hooks/useMovies';
-import Message from '../../../shared/components/ui/Message';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 
