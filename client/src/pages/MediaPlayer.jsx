@@ -25,6 +25,7 @@ import MovieCard from '@/widgets/MovieCard';
 import SaveButtonsContainer from '@/features/user/SaveButtonsContainer';
 import TrailerModal from '../features/MediaPlayer/TrailerModal';
 import ActionButtons from '@/features/MediaPlayer/components/ActionButtons';
+import GallerySection from '@/features/MediaPlayer/GallerySection';
 
 //-------------------------
 // Details Skeleton
@@ -312,6 +313,9 @@ const MediaPlayer = () => {
               )}
               {!isHeavyLoading && !isHeavyError ? (
                 <div className="relevant-details m-2">
+                  {media.images?.posters?.length > 0 && (
+                    <GallerySection backdrops={media?.images?.backdrops} />
+                  )}
                   <CastSection media={media} />
                   <SimilarAndRecommendationSection
                     media={media}
