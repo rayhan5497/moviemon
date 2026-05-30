@@ -47,7 +47,7 @@ const MovieCardShell = ({ media, saveButtons, ratingSource}) => {
               )}
             </>
           ) : (
-            <span className="text-secondary">No Poster</span>
+            <span className="text-secondary">No Poster Available</span>
           )}
         </div>
 

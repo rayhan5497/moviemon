@@ -15,6 +15,8 @@ const HorizontalCardCarousel = ({
   className = '',
   type,
   CardComponent,
+  cardSize,
+  componentClassName = '',
 }) => {
   const {
     containerRef,
@@ -25,8 +27,8 @@ const HorizontalCardCarousel = ({
     scrollNext,
   } = useHorizontalScroll({
     defaultMin: 170,
-    mdMin: 140,
-    smMin: 110,
+    mdMin: cardSize?.mdWidth || 140,
+    smMin: cardSize?.smWidth || 110,
     isMd: useIsMd(),
     isLg: useIsLg(),
   });
@@ -85,9 +87,16 @@ const HorizontalCardCarousel = ({
           ref={containerRef}
         >
           {type === 'cast'
-            ? media?.map((c) => <CastCard key={c.credit_id} cast={c} />)
+            ? media?.map((c) => (
+                <div key={c.credit_id} className={`card-wrapper mr-2 md:mr-4`}>
+                  <CastCard cast={c} />
+                </div>
+              ))
             : media?.map((r) => (
-                <div key={r.id} className="card-wrapper md:mr-2">
+                <div
+                  key={r.id}
+                  className={`card-wrapper md:mr-2 ${componentClassName}`}
+                >
                   <CardComponent media={r} />
                 </div>
               ))}
@@ -98,4 +107,3 @@ const HorizontalCardCarousel = ({
 };
 
 export default HorizontalCardCarousel;
-

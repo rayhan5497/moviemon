@@ -14,7 +14,7 @@ export default function CastCard ({ cast }) {
     <NavLink
       to={`/person/${cast?.id}`}
       data-id={cast?.id}
-      className={`group card gap-1 md:snap-start relative cursor-pointer rounded-lg sm:rounded sm:p-1 hover:scale-105 transition-all duration-200 shadow-md shadow-accent w-full flex flex-col mb-1`}
+      className={`group card gap-1 md:snap-start relative cursor-pointer rounded-lg sm:rounded p-2 hover:scale-105 transition-all duration-200 shadow-md shadow-accent w-full flex flex-col mb-1`}
     >
       <div className="poster-container relative">
         <div
@@ -49,10 +49,10 @@ export default function CastCard ({ cast }) {
         </p>
       </div>
 
-      <h3 className="name text-white/80 text-sm/[1em] sm:text-[1rem] m-0 font-medium truncate">
+      <h3 className="name text-white/80 text-xs/[0.8rem]  sm:text-[0.9rem] m-0 font-medium truncate">
         {name}
       </h3>
-      <h3 className="name text-white/50 text-sm/[1em] sm:text-[1rem] m-0 font-medium truncate">
+      <h3 className="name text-white/50 text-xs/[0.8rem] sm:text-[0.9rem] m-0 font-medium truncate">
         {character}
       </h3>
     </NavLink>
