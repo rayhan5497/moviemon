@@ -210,7 +210,7 @@ const Player = ({ media }) => {
           />
           <button
             onClick={handlePlayBtnClick}
-            className="play-btn cursor-pointer z-1 bg-orange-400/50 hover:bg-orange-400 hover:scale-140 scale-125 transition-all duration-300 p-[0.5rem] rounded-full font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
+            className="play-btn cursor-pointer z-1 bg-orange-400/50 hover:bg-orange-400 md:hover:scale-140 md:scale-125 scale:100 transition-all duration-300 p-[0.5rem] rounded-full font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +271,7 @@ const Player = ({ media }) => {
           <p className="text-white text-lg">Request Timeout, Please Reload!</p>
           <button
             onClick={handlePlayBtnClick}
-            className="relative play-btn cursor-pointer bg-orange-400 hover:scale-140 scale-125 transition-all duration-300 p-[0.5rem] rounded-full font-semibold"
+            className="relative play-btn cursor-pointer bg-orange-400 md:hover:scale-140 md:scale-125 scale:100 transition-all duration-300 p-[0.5rem] rounded-full font-semibold"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
