@@ -1,7 +1,6 @@
 import HeadingDetailsSection from '@/shared/components/sections/HeadingDetails';
 
 const HeadingSection = ({ media, className }) => {
-  console.log('media', media)
   const name = media?.name || media?.title;
 
   return (

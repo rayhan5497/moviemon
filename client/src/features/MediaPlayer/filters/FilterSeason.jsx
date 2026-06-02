@@ -1,139 +1,20 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { useEffect, useState, useContext } from 'react';
-import { useSearchParams, useParams } from 'react-router-dom';
-
 import NowPlayingContext from '@/shared/context/NowPlayingContext';
-import { useMovies } from '@/shared/hooks/useMovies';
-import {
-  saveWatchProgress,
-  getWatchProgress,
-} from '../utils/watchHistory';
 
+import { useMediaSelection } from '@/features/MediaPlayer/hooks/useMediaSelection';
 const FilterSeason = ({ tv }) => {
   const {
-    setNowPlayingSNum,
     nowPlayingSNum,
-    setNowPlayingENum,
     nowPlayingENum,
-    setNowPlayingSId,
     nowPlayingSId,
-    setNowPlayingEId,
     nowPlayingEId,
-  } = useContext(NowPlayingContext);
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { mediaType, id } = useParams();
-
-  const urlSeason = searchParams.get('season');
-  const urlEpisode = searchParams.get('episode');
-
-  const [currentSeason, setCurrentSeason] = useState(
-    urlSeason ? parseInt(urlSeason) : 1
-  );
-  const [currentEpisode, setCurrentEpisode] = useState(
-    urlEpisode ? parseInt(urlEpisode) : 1
-  );
-
-  useEffect(() => {
-    if (mediaType === 'tv' && !urlSeason && !urlEpisode) {
-      const progress = getWatchProgress(id);
-      if (progress) {
-        setSearchParams(
-          {
-            season: progress.season,
-            episode: progress.episode,
-          },
-          { replace: true }
-        );
-      }
-    }
-  }, [id, mediaType, urlSeason, urlEpisode]);
-
-  useEffect(() => {
-    if (urlSeason) {
-      console.log('urlSeason', urlSeason);
-      setNowPlayingSNum(parseInt(urlSeason));
-    }
-    if (urlEpisode) {
-      console.log('urlEpisode', urlEpisode);
-      setNowPlayingENum(parseInt(urlEpisode));
-    }
-  }, [urlSeason, urlEpisode]);
-
-  const queryString =
-    `${mediaType}/${id}` +
-    (currentSeason !== undefined && currentSeason !== null
-      ? `/season/${currentSeason}`
-      : '');
-  const type = `player/tv`;
-  const { data, isLoading } = useMovies(queryString, type);
-  const season = data?.pages[0];
-
-  const handleSeasonClick = (sNum) => {
-    setCurrentSeason(sNum);
-  };
-
-  const handleEpisodeClick = (eNum, eId, sId) => {
-    if (
-      nowPlayingENum === eNum &&
-      nowPlayingEId === eId &&
-      nowPlayingSId === sId
-    )
-      return;
-
-    setSearchParams(
-      {
-        season: currentSeason,
-        episode: eNum,
-      },
-      { replace: true }
-    );
-    setNowPlayingENum(eNum);
-    setCurrentEpisode(eNum);
-    setNowPlayingSId(sId);
-    setNowPlayingEId(eId);
-
-    if (mediaType === 'tv') {
-      saveWatchProgress(id, currentSeason, eNum, sId, eId);
-    }
-  };
-
-  useEffect(() => {
-    if (mediaType === 'tv' && urlSeason && urlEpisode) {
-      saveWatchProgress(id, urlSeason, urlEpisode);
-    } else {
-      const progress = getWatchProgress(id);
-      if (progress) {
-        setSearchParams(
-          {
-            season: progress.season,
-            episode: progress.episode,
-          },
-          { replace: true }
-        );
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    const saved = getWatchProgress(tv.id);
-
-    if (saved) {
-      setNowPlayingSNum(saved.season);
-      setNowPlayingENum(saved.episode);
-      setNowPlayingSId(saved.seasonId);
-      setNowPlayingEId(saved.episodeId);
-    } else {
-      setNowPlayingSNum(1);
-      setNowPlayingENum(1);
-      setNowPlayingSId(null);
-      setNowPlayingEId(null);
-    }
-  }, [tv.id]);
-
-  console.log('currentSeason', currentSeason);
-  console.log('currentEpisode', currentEpisode);
+    clickedSeasonNum,
+    season,
+    isLoading,
+    handleSeasonClick,
+    handleEpisodeClick,
+  } = useMediaSelection(tv);
 
   return (
     <div id="filterSeason" className="season-and-episode-wrapper flex flex-col">
@@ -149,14 +30,8 @@ const FilterSeason = ({ tv }) => {
               <span
                 key={s.season_number}
                 onClick={() => handleSeasonClick(s.season_number)}
-                className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-white ${
-                  Number(nowPlayingSNum) === s.season_number
-                    ? 'bg-teal-600'
-                    : ''
-                } ${
-                  Number(currentSeason) === s.season_number
-                    ? 'bg-gray-600'
-                    : ''
+                className={`cursor-pointer hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
+                  clickedSeasonNum === s.season_number ? 'bg-teal-600' : ''
                 }`}
               >{`S${s.season_number}`}</span>
             ))}
@@ -200,18 +75,23 @@ const FilterSeason = ({ tv }) => {
               <>
                 {season?.episodes?.length <= 0 ? (
                   <span className="text-gray-400">
-                    No episode in <strong>season {currentSeason} </strong> !
+                    No episode in season {clickedSeasonNum}
                   </span>
                 ) : (
                   season?.episodes?.map((e) => (
                     <span
                       onClick={() =>
-                        handleEpisodeClick(e.episode_number, e.id, season.id)
+                        handleEpisodeClick(
+                          clickedSeasonNum,
+                          e.episode_number,
+                          season.id,
+                          e.id
+                        )
                       }
-                      className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-white ${
-                        Number(nowPlayingENum) === e.episode_number &&
-                        (Number(nowPlayingEId) === e.id ||
-                          nowPlayingEId === null)
+                      className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-gray-200 ${
+                        nowPlayingENum === e.episode_number &&
+                        nowPlayingEId === e.id &&
+                        nowPlayingSId === season.id
                           ? 'bg-teal-600'
                           : ''
                       }`}
@@ -229,4 +109,3 @@ const FilterSeason = ({ tv }) => {
 };
 
 export default FilterSeason;
-
