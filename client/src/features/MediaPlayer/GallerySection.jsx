@@ -110,7 +110,7 @@ const BackdropGalleryWrapper = ({ title, backdrops = [] }) => {
       <HorizontalCardCarousel
         title="Gallery"
         media={slicedBackdrops}
-        type="images"
+        type="gallery"
         CardComponent={CustomCardComponent}
         cardSize={{ smWidth: 210, mdWidth: 340 }}
         Icon={Images}

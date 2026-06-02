@@ -87,14 +87,26 @@ const HorizontalCardCarousel = ({
           ref={containerRef}
         >
           {type === 'cast'
-            ? media?.map((c) => (
-                <div key={c.credit_id} className={`card-wrapper mr-2 md:mr-4`}>
+            ? media?.map((c, index) => (
+                <div
+                  key={c.credit_id ? `${c.credit_id}-${index}` : index}
+                  className="card-wrapper mr-2 md:mr-4"
+                >
                   <CastCard cast={c} />
                 </div>
               ))
-            : media?.map((r) => (
+            : type === 'gallery'
+            ? media?.map((g, index) => (
                 <div
-                  key={r.id}
+                  key={g.file_path ? `${g.file_path}-${index}` : index}
+                  className={`card-wrapper md:mr-2 ${componentClassName}`}
+                >
+                  <CardComponent media={g} />
+                </div>
+              ))
+            : media?.map((r, index) => (
+                <div
+                  key={r.id ? `${r.id}-${index}` : index}
                   className={`card-wrapper md:mr-2 ${componentClassName}`}
                 >
                   <CardComponent media={r} />

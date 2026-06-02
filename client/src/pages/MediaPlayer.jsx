@@ -175,7 +175,7 @@ const MediaPlayer = () => {
   });
 
   useEffect(() => {
-    if (!isLoading && !hasNextPage && mainRef.current) {
+    if (!isLoading && !hasNextPage && mainRef.current && !(heavyData || isHeavyError)) {
       requestAnimationFrame(() => {
         mainRef.current.scrollTo({
           top: 0,
