@@ -31,7 +31,7 @@ const FilterSeason = ({ tv }) => {
           <span className="nowPlaying bg-black/20 flex items-center p-2 gap-1 shadow-[1px_0_1px] rounded-tr-[5px] rounded-br-[20px] border-r-1">
             Season
           </span>
-          <span className="season-wrapper gap-2 flex overflow-auto">
+          <span className="season-wrapper gap-2 h-fit flex overflow-auto">
             {tv.seasons
               ?.filter((s) => s.season_number !== 0)
               .map((s) => (
