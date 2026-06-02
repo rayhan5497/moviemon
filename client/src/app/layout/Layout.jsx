@@ -29,6 +29,7 @@ const Layout = () => {
   const [nowPlayingENum, setNowPlayingENum] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isPlayerPage, setIsPlayerPage] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const isLg = useIsLg();
 
@@ -50,6 +51,8 @@ const Layout = () => {
         value={{
           isPlayerPage,
           setIsPlayerPage,
+          isPlaying,
+          setIsPlaying,
           nowPlayingId,
           setNowPlayingId,
           nowPlayingSNum,
@@ -90,4 +93,3 @@ const Layout = () => {
 };
 
 export default Layout;
-

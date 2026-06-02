@@ -1,5 +1,5 @@
 import { useSearchParams, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import LoadingRipple from '@/shared/assets/animated-icon/loadingRipple.svg';
 
 import HlsPlayer from './HlsPlayer';
@@ -7,8 +7,8 @@ import FallbackIframe from './FallbackIframe';
 
 import { useIsLg } from '@/shared/hooks/useIsLg';
 import { useIsMd } from '@/shared/hooks/useIsMd';
-import { saveWatchProgress } from '@/features/MediaPlayer/utils/watchHistory';
 import { useMovies } from '@/shared/hooks/useMovies';
+import NowPlayingContext from '@/shared/context/NowPlayingContext';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 
@@ -27,8 +27,11 @@ const EpisodeDetailsSkeleton = () => {
 };
 
 const Player = ({ media }) => {
-  // console.log('media in Player:', media);
-  const imdbId = media?.imdb_id || media?.external_ids?.imdb_id || null;
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [menifestLoaded, setMenifestLoaded] = useState(false);
+  const [playBtnClicked, setPlayButtonClicked] = useState(false);
+
+  const { setIsPlaying } = useContext(NowPlayingContext);
 
   const [showTurnstile, setShowTurnstile] = useState(false);
 
@@ -39,6 +42,16 @@ const Player = ({ media }) => {
   const [timeout, setTimeout] = useState(false);
   const [statusCode, setStatusCode] = useState(true);
   const [subtitleSrc, setSubtitleSrc] = useState(null);
+
+  const imdbId = media?.imdb_id || media?.external_ids?.imdb_id || null;
+
+  useEffect(() => {
+    if (playBtnClicked) {
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(false);
+    }
+  }, [playBtnClicked]);
 
   // Read from URL for iframe src
   let season = null;
@@ -127,27 +140,8 @@ const Player = ({ media }) => {
 
   const handlePlayBtnClick = () => {
     setPlayButtonClicked(true);
-    const mediaId = media?.id ?? Number(id);
-    if (mediaId) {
-      if (mediaType === 'tv') {
-        saveWatchProgress(
-          mediaId,
-          Number(season),
-          Number(episode),
-          null,
-          null,
-          mediaType
-        );
-      } else {
-        saveWatchProgress(mediaId, null, null, null, null, mediaType);
-      }
-    }
     loadVideo();
   };
-
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [menifestLoaded, setMenifestLoaded] = useState(false);
-  const [playBtnClicked, setPlayButtonClicked] = useState(false);
 
   // Add a key that changes when episode changes to force full remount
   const playerKey = `${videoSrc}-${season}-${episode}`;

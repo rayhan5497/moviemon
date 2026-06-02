@@ -7,6 +7,8 @@ import { useState } from 'react';
 
 import NowPlayingContext from '@/shared/context/NowPlayingContext';
 import { useMediaSelection } from '@/features/MediaPlayer/hooks/useMediaSelection';
+import CurrentlyPlayingBadge from '@/features/MediaPlayer/components/CurrentlyPlayingBadge';
+import AudioVisualizer from '@/features/MediaPlayer/components/AudioVisualizer';
 
 const FilterSeason = ({ tv }) => {
   const [filterVisibility, setFilterVisibility] = useState(true);
@@ -43,28 +45,45 @@ const FilterSeason = ({ tv }) => {
           className="season-and-episode-wrapper flex flex-col md:shrink-3 md:overflow-auto md:w-full p-5 pl-6 gap-5 backdrop-grayscale-[1] backdrop-contrast-[1.1] rounded-tr-lg rounded-br-lg"
         >
           <div className="season-section flex items-center gap-1 md:flex-wrap">
+            <div className="badge-container w-full flex justify-center">
+              <CurrentlyPlayingBadge
+                nowPlayingSNum={nowPlayingSNum}
+                nowPlayingENum={nowPlayingENum}
+              />
+            </div>
             <span className="nowPlaying bg-teal-600 flex items-center p-2 gap-1 border-t-1 w-full justify-center rounded text-white">
-              <span>Season:</span>{' '}
-              <span>{String(nowPlayingSNum)?.padStart(2, '0')}</span>
+              Season
             </span>
             <div className="season-wrapper gap-2 flex overflow-auto md:flex-wrap">
               {tv.seasons
                 ?.filter((s) => s.season_number !== 0)
                 .map((s) => (
-                  <span
-                    key={s.season_number}
-                    onClick={() => handleSeasonClick(s.season_number)}
-                    className={`cursor-pointer hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
-                      clickedSeasonNum === s.season_number ? 'bg-teal-600' : ''
-                    }`}
-                  >{`S${s.season_number}`}</span>
+                  <>
+                    <span
+                      key={s.season_number}
+                      onClick={() => handleSeasonClick(s.season_number)}
+                      className={`cursor-pointer inline-block relative hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
+                        clickedSeasonNum === s.season_number
+                          ? 'bg-teal-600'
+                          : ''
+                      } ${
+                        nowPlayingSNum === s.season_number
+                          ? 'font-semibold'
+                          : ''
+                      }`}
+                    >
+                      {nowPlayingSNum === s.season_number && (
+                        <AudioVisualizer />
+                      )}
+                      {`S${s.season_number}`}
+                    </span>
+                  </>
                 ))}
             </div>
           </div>
           <div className="episode-section flex items-center gap-1 md:flex-wrap">
             <span className="nowPlaying bg-teal-600 flex items-center p-2 gap-1 border-t-1 w-full justify-center rounded text-white">
-              <span>Episode:</span>{' '}
-              <span>{String(nowPlayingENum)?.padStart(2, '0')}</span>
+              Episode
             </span>
             <AnimatePresence mode="wait">
               <motion.span
@@ -112,15 +131,22 @@ const FilterSeason = ({ tv }) => {
                               e.id
                             )
                           }
-                          className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-gray-200 ${
+                          className={`cursor-pointer relative hover:bg-gray-500/30 rounded p-1 px-2 text-gray-200 ${
                             nowPlayingENum === e.episode_number &&
                             nowPlayingEId === e.id &&
                             nowPlayingSId === season.id
                               ? 'bg-teal-600'
                               : ''
+                          } ${
+                            nowPlayingENum === e.episode_number
+                              ? 'font-semibold'
+                              : ''
                           }`}
                           key={e.episode_number}
                         >
+                          {nowPlayingENum === e.episode_number && (
+                            <AudioVisualizer />
+                          )}
                           {`E${e.episode_number}`}
                         </span>
                       ))
