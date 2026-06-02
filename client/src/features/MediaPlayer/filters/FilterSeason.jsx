@@ -72,7 +72,7 @@ const FilterSeason = ({ tv }) => {
               <span className="flex gap-2 items-center justify-center w-full">
                 {[0, 1, 2].map((i) => (
                   <motion.span
-                    key={i}
+                    key={`loading-dot-${i}`}
                     className="w-2 h-2 bg-teal-600 rounded-full"
                     animate={{ y: [0, -10, 0] }}
                     transition={{

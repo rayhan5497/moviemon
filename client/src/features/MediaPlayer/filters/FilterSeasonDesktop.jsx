@@ -58,26 +58,18 @@ const FilterSeason = ({ tv }) => {
               {tv.seasons
                 ?.filter((s) => s.season_number !== 0)
                 .map((s) => (
-                  <>
-                    <span
-                      key={s.season_number}
-                      onClick={() => handleSeasonClick(s.season_number)}
-                      className={`cursor-pointer inline-block relative hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
-                        clickedSeasonNum === s.season_number
-                          ? 'bg-teal-600'
-                          : ''
-                      } ${
-                        nowPlayingSNum === s.season_number
-                          ? 'font-semibold'
-                          : ''
-                      }`}
-                    >
-                      {nowPlayingSNum === s.season_number && (
-                        <AudioVisualizer />
-                      )}
-                      {`S${s.season_number}`}
-                    </span>
-                  </>
+                  <span
+                    key={s.season_number}
+                    onClick={() => handleSeasonClick(s.season_number)}
+                    className={`cursor-pointer inline-block relative hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
+                      clickedSeasonNum === s.season_number ? 'bg-teal-600' : ''
+                    } ${
+                      nowPlayingSNum === s.season_number ? 'font-semibold' : ''
+                    }`}
+                  >
+                    {nowPlayingSNum === s.season_number && <AudioVisualizer />}
+                    {`S${s.season_number}`}
+                  </span>
                 ))}
             </div>
           </div>
@@ -102,7 +94,7 @@ const FilterSeason = ({ tv }) => {
                   <span className="flex gap-2 items-center justify-center w-full">
                     {[0, 1, 2].map((i) => (
                       <motion.span
-                        key={i}
+                        key={`loading-dot-${i}`}
                         className="w-2 h-2 bg-accent rounded-full"
                         animate={{ y: [0, -10, 0] }}
                         transition={{
