@@ -172,7 +172,7 @@ const Player = ({ media }) => {
   //-----------------------------
   const queryString = `${
     mediaType + '/' + id + '/season/' + season + '/episode/' + episode
-  }&append_to_response=videos,images,external_ids`;
+  }`;
 
   const type = `player/${mediaType}`;
 

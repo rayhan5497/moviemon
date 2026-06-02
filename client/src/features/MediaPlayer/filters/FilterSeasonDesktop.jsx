@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { ChevronRight } from 'lucide-react';
 
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { useSearchParams, useParams } from 'react-router-dom';
 
 import NowPlayingContext from '@/shared/context/NowPlayingContext';
@@ -27,21 +27,30 @@ const FilterSeason = ({ tv }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { mediaType, id } = useParams();
 
-  // Read from URL first, fallback to saved progress
-  const urlSeason = searchParams.get('season');
-  const urlEpisode = searchParams.get('episode');
+  //-----------------------------------------------------------------------------
+  // Read season and episode number from URL first - fallback to saved progress.
+  // If no params, neither no saved progress, default to season 1 episode 1.
+  // If params, validate url params - fallback default to season 1 episode 1.
+  //-----------------------------------------------------------------------------
+  const urlSeason = parseInt(searchParams.get('season'));
+  const urlEpisode = parseInt(searchParams.get('episode'));
 
-  const [currentSeason, setCurrentSeason] = useState(
-    urlSeason ? parseInt(urlSeason) : 1
-  );
-  const [currentEpisode, setCurrentEpisode] = useState(
-    urlEpisode ? parseInt(urlEpisode) : 1
+  const validSeasonNum =
+    tv?.seasons?.find((s) => s.season_number === urlSeason)?.season_number || 1;
+
+  const [clickedSeasonNum, setClickedSeasonNum] = useState(
+    validSeasonNum ?? validSeasonNum
   );
 
+  //------------------------------------------------------
   // Load saved progress only if URL doesn't have params
+  // Fallback to season 1 episode 1 if no saved progress
+  //------------------------------------------------------
   useEffect(() => {
     if (mediaType === 'tv' && !urlSeason && !urlEpisode) {
       const progress = getWatchProgress(id);
+
+      console.log('progress-first: ', progress);
       if (progress) {
         // Update URL with saved progress
         setSearchParams(
@@ -51,26 +60,29 @@ const FilterSeason = ({ tv }) => {
           },
           { replace: true }
         );
+
+        // Update context with saved progress
+        setNowPlayingSNum(progress.season);
+        setNowPlayingENum(progress.episode);
+        setNowPlayingSId(progress.seasonId);
+        setNowPlayingEId(progress.episodeId);
+
+        // Trigger season fetch with saved season number
+        setClickedSeasonNum(progress.season);
+      } else {
+        // No params, no saved progress - default to season 1 episode 1
+        setSearchParams({ season: 1, episode: 1 }, { replace: true });
       }
     }
   }, [id, mediaType, urlSeason, urlEpisode]);
 
-  // Sync URL params with context
-  useEffect(() => {
-    if (urlSeason) {
-      console.log('urlSeason', urlSeason);
-      setNowPlayingSNum(parseInt(urlSeason));
-    }
-    if (urlEpisode) {
-      console.log('urlEpisode', urlEpisode);
-      setNowPlayingENum(parseInt(urlEpisode));
-    }
-  }, [urlSeason, urlEpisode]);
-
+  //--------------------
+  // fetch season data
+  //--------------------
   const queryString =
     `${mediaType}/${id}` +
-    (currentSeason !== undefined && currentSeason !== null
-      ? `/season/${currentSeason}`
+    (clickedSeasonNum !== null || clickedSeasonNum !== undefined
+      ? `/season/${clickedSeasonNum}`
       : '');
   const type = `player/tv`;
   const {
@@ -84,81 +96,91 @@ const FilterSeason = ({ tv }) => {
   } = useMovies(queryString, type);
   const season = data?.pages[0];
 
-  //--------------------------
-  // only select the season, do nothing else
-  //--------------------------
-  const handleSeasonClick = (sNum) => {
-    setCurrentSeason(sNum);
-  };
-
-  //------------------------
-  // use selected season and episode and save progress, only on episode click
-  //-------------------------
-  const handleEpisodeClick = (eNum, eId, sId) => {
-    if (
-      nowPlayingENum === eNum &&
-      nowPlayingEId === eId &&
-      nowPlayingSId === sId
-    )
-      return;
-
-    setSearchParams(
-      {
-        season: currentSeason,
-        episode: eNum,
-      },
-      { replace: true }
-    );
-    setNowPlayingENum(eNum);
-    setCurrentEpisode(eNum);
-    setNowPlayingSId(sId);
-    setNowPlayingEId(eId);
-
-    if (mediaType === 'tv') {
-      saveWatchProgress(id, currentSeason, eNum, sId, eId);
-    }
-  };
-
-  //--------------------
-  // On first mount
-  //--------------------
+  //--------------------------------------------------------------------------------------------------------------------
+  // If url params found, save in progress including ids if both url season and episode number is valid
+  // If url params found but invalid, after season data fetch - update url with fallback valid season and episode number without saving in progress
+  //--------------------------------------------------------------------------------------------------------------------
+  const seasonClick = useRef(false);
   useEffect(() => {
-    // If season and episode is found in URL then Save them in progress
+    // don't update anything with just season click
+    if (seasonClick.current) return;
+
     if (mediaType === 'tv' && urlSeason && urlEpisode) {
-      saveWatchProgress(id, urlSeason, urlEpisode);
-    } else {
-      // Else if progress is found then use saved season and episode in URL
-      const progress = getWatchProgress(id);
-      if (progress) {
+      const validEpisodeNum =
+        season?.episodes?.find((e) => e.episode_number === urlEpisode)
+          ?.episode_number || 1;
+
+      // if episode Id not found that means the episode number in url is invalid, fallback to episode 1, but if season id found that means season number in url is valid, so keep the season number in url and only fallback episode number to 1
+      const episodeId = season?.episodes?.find(
+        (e) => e.episode_number === urlEpisode
+      )?.id;
+
+      const seasonId = season?.id;
+
+      // if both season and episode number in url is valid, then save progress and update context with season and episode ids, otherwise just update url with valid season and episode number without saving in progress
+      if (episodeId && seasonId) {
+        saveWatchProgress(
+          id,
+          validSeasonNum,
+          validEpisodeNum,
+          seasonId,
+          episodeId
+        );
+
+        setNowPlayingSNum(validSeasonNum);
+        setNowPlayingENum(validEpisodeNum);
+        setNowPlayingSId(seasonId);
+        setNowPlayingEId(episodeId);
+
         setSearchParams(
           {
-            season: progress.season,
-            episode: progress.episode,
+            season: validSeasonNum,
+            episode: validEpisodeNum,
+          },
+          { replace: true }
+        );
+      } else if (
+        season &&
+        (validSeasonNum !== urlSeason || validEpisodeNum !== urlEpisode)
+      ) {
+        setSearchParams(
+          {
+            season: validSeasonNum,
+            episode: validEpisodeNum,
           },
           { replace: true }
         );
       }
     }
-  }, []);
+  }, [id, mediaType, season, urlSeason, urlEpisode]);
 
-  useEffect(() => {
-    const saved = getWatchProgress(tv.id);
+  //-------------------------------------------------------------
+  // only select the season to trigger selected season data fetch
+  //-------------------------------------------------------------
+  const handleSeasonClick = (sNum) => {
+    seasonClick.current = true;
+    setClickedSeasonNum(sNum);
+  };
 
-    if (saved) {
-      setNowPlayingSNum(saved.season);
-      setNowPlayingENum(saved.episode);
-      setNowPlayingSId(saved.seasonId);
-      setNowPlayingEId(saved.episodeId);
-    } else {
-      setNowPlayingSNum(1);
-      setNowPlayingENum(1);
-      setNowPlayingSId(null);
-      setNowPlayingEId(null);
-    }
-  }, [tv.id]);
+  //---------------------------------------------------------------
+  // save progress and update context and url only on episode click
+  //---------------------------------------------------------------
+  const handleEpisodeClick = (sNum, eNum, sId, eId) => {
+    seasonClick.current = false;
+    setSearchParams(
+      {
+        season: sNum,
+        episode: eNum,
+      },
+      { replace: true }
+    );
+    setNowPlayingSNum(sNum);
+    setNowPlayingENum(eNum);
+    setNowPlayingSId(sId);
+    setNowPlayingEId(eId);
 
-  console.log('currentSeason', currentSeason);
-  console.log('currentEpisode', currentEpisode);
+    saveWatchProgress(id, sNum, eNum, sId, eId);
+  };
 
   return (
     <>
@@ -192,13 +214,7 @@ const FilterSeason = ({ tv }) => {
                     key={s.season_number}
                     onClick={() => handleSeasonClick(s.season_number)}
                     className={`cursor-pointer hover:bg-gray-700 rounded p-1 px-2 text-gray-200 ${
-                      Number(nowPlayingSNum) === s.season_number
-                        ? 'bg-teal-600'
-                        : ''
-                    } ${
-                      Number(currentSeason) === s.season_number
-                        ? 'bg-gray-700'
-                        : ''
+                      clickedSeasonNum === s.season_number ? 'bg-teal-600' : ''
                     }`}
                   >{`S${s.season_number}`}</span>
                 ))}
@@ -242,27 +258,30 @@ const FilterSeason = ({ tv }) => {
                   <>
                     {season?.episodes?.length <= 0 ? (
                       <span className="text-secondary">
-                        No episode in season {currentSeason}
+                        No episode in season {clickedSeasonNum}
                       </span>
                     ) : (
                       season?.episodes?.map((e) => (
                         <span
                           onClick={() =>
                             handleEpisodeClick(
+                              clickedSeasonNum,
                               e.episode_number,
-                              e.id,
-                              season.id
+                              season.id,
+                              e.id
                             )
                           }
                           className={`cursor-pointer hover:bg-gray-500/30 rounded p-1 px-2 text-gray-200 ${
-                            Number(nowPlayingENum) === e.episode_number &&
-                            (Number(nowPlayingEId) === e.id ||
-                              nowPlayingEId === null)
+                            nowPlayingENum === e.episode_number &&
+                            nowPlayingEId === e.id &&
+                            nowPlayingSId === season.id
                               ? 'bg-teal-600'
                               : ''
                           }`}
                           key={e.episode_number}
-                        >{`E${e.episode_number}`}</span>
+                        >
+                          {`E${e.episode_number}`}
+                        </span>
                       ))
                     )}
                   </>

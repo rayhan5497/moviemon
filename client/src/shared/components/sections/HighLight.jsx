@@ -24,8 +24,7 @@ const HighLightSection = ({ media, className = '', SaveButtons }) => {
           <div className="h-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="auto"
-              height="auto"
+              className="w-full h-full"
               viewBox="0 0 64 32"
               version="1.1"
             >
