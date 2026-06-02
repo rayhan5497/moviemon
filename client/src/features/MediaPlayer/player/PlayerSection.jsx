@@ -156,7 +156,7 @@ const Player = ({ media }) => {
       setShowTurnstile(false);
       setStatusCode(200);
     }
-  }, [episode]);
+  }, [season, episode]);
 
   const isLg = useIsLg();
   const isMd = useIsMd();
