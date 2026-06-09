@@ -1,4 +1,8 @@
-﻿# MovieMon
+﻿> ⚠️ **ARCHIVED PROJECT:** This repository is no longer maintained. The application has been fully migrated to Next.js for improved performance, Server-Side Rendering (SSR), and modern architecture. 
+> 
+> **👉 View the active, updated version here: [moviemon-nextJS](https://github.com/rayhan5497/moviemon-nextJS)**
+
+# MovieMon
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-339933.svg)](https://nodejs.org/)
